@@ -1,0 +1,40 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+$students = random(20,35,1);
+
+$team = random(5,8);
+
+$ans =  C($students,$team);
+
+
+BEGIN_PGML
+A club has [$students] students and they need to create a team of [$team] to represent them at the College Club Competition. How many teams are possible?
+
+Answer: [_]{$ans}
+END_PGML
+
+ENDDOCUMENT();

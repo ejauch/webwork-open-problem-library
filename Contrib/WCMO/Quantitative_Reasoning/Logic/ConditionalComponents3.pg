@@ -1,0 +1,107 @@
+## DESCRIPTION
+## Quantitative Reasoning: Conditional pieces
+## ENDDESCRIPTION
+
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Truth tables')
+## Date('7/11/24')
+## Author('Erich Jauch')
+## Institution('WCMO')
+## KEYWORDS('logic', 'conditional','contrapositive')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "MathObjects.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context()->strings->add(T=>{},F=>{});
+
+@hyp = ("Paris is in France", "eagles can fly","Beijing is in China","cats can purr", "dogs can bark", "horses can gallop", "fish can swim", "rabbits can hop", "cows can moo", "lions can roar", "frogs can jump", "elephants can trumpet", "snakes can slither");
+
+@con = ("Berlin is in Germany", "eagles have wings","Toyko is in Japan","cats can meow", "dogs can walk", "horses can neigh", "fish live under water", "rabbits have legs", "cows make milk", "lions are large cats", "frogs have legs", "elephants have trunks", "snakes have no legs");
+
+@fhyp = ("Paris is in Germany", "eagles can gallop","Beijing is in the United States","cats can bark", "dogs can purr", "horses can fly", "fish can run", "rabbits can tap dance", "cows can sing", "lions can moo", "frogs can dance", "elephants can fly", "snakes can run");
+
+@fcon = ("Berlin is in France", "eagles have hooves","Toyko is in Canada","cats can moo", "dogs can fly", "horses can bark", "fish live in space", "rabbits have fins", "cows make coffee", "lions are canines", "frogs have wings", "elephants have five legs", "snakes have legs");
+
+@ans = ();
+$length = $#hyp;
+
+$par = random(0,$length,1);
+
+$ver = random(0,3,1);
+
+if ($ver == 0) {
+$probhyp = $hyp[$par];
+$probcon = $con[$par];
+$ans[0] = "T";
+$ans[1] = "T";
+$ans[2] = "T";
+}
+elsif ($ver == 1) {
+$probhyp = $hyp[$par];
+$probcon = $fcon[$par];
+$ans[0] = "T";
+$ans[1] = "F";
+$ans[2] = "F";
+}
+elsif ($ver == 2) {
+$probhyp = $fhyp[$par];
+$probcon = $con[$par];
+$ans[0] = "F";
+$ans[1] = "T";
+$ans[2] = "T";
+}
+else {
+$probhyp = $fhyp[$par];
+$probcon = $fcon[$par];
+$ans[0] = "F";
+$ans[1] = "F";
+$ans[2] = "T";
+}
+
+$hyppopup = DropDown([["$probhyp", "$probcon"]], "$probhyp", placeholder => "- Select from the following -");
+$conpopup = DropDown([["$probhyp", "$probcon"]], "$probcon", placeholder => "- Select from the following -");
+
+$conditional = ucfirst($probcon) . ' whenever '. $probhyp .'.';
+
+TEXT(beginproblem());
+BEGIN_PGML
+For each of the following conditionals state the hypothesis, [`p`], and the conclusion, [`q`]. Then fill out the truth table to determine the overall truth value of the conditional.
+
+>>``[$conditional]''<<
+
+Hypothesis is [`p=`] [_]{$hyppopup}
+
+Conclusion is [`q=`] [_]{$conpopup}
+
+[@
+DataTable(
+[
+['\(p\)', '\(q\)', 'If \(p\), then \(q\).'],
+[ans_rule(10), ans_rule(10), ans_rule(10)]
+],
+    caption => ' ',
+    midrules=>1,
+    align => '|c|c|c|'
+)
+@]***
+
+END_PGML
+
+for $i (0,1,2) {
+ANS(str_cmp($ans[$i]));
+}
+
+ENDDOCUMENT();

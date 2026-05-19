@@ -1,0 +1,72 @@
+## DESCRIPTION
+## Quantitative Reasoning: Conditional Restatements
+## ENDDESCRIPTION
+
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Truth tables')
+## Date('7/11/24')
+## Author('Erich Jauch')
+## Institution('WCMO')
+## KEYWORDS('logic', 'conditional','contrapositive')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "MathObjects.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context()->strings->add(T=>{},F=>{});
+
+$par = random(0,3,1);
+
+@hyp = ("a person lives in Phoenix","a person likes chocolate", "a creature is a whale","the patient is alive");
+@con = ("they like the heat","they like candy","they are a mammal","the patient is breathing");
+@nhyp = ("a person does not live in Phoenix", "a person does not like chocolate", "a creature is not a whale", "the patient is not alive");
+@ncon = ("they do not like the heat", "they do not like candy", "they are not a mammal", "the patient is not breathing");
+
+$probhyp = $hyp[$par];
+$probcon = $con[$par];
+$probnhyp = $nhyp[$par];
+$probncon = $ncon[$par];
+
+$conv = "If $probcon, then $probhyp.";
+$inv = "If $probnhyp, then $probncon.";
+$cont = "If $probncon, then $probnhyp.";
+
+$hyppopup = DropDown([["$probhyp", "$probcon"]], "$probhyp", placeholder => "- Select from the following -");
+$conpopup = DropDown([["$probhyp", "$probcon"]], "$probcon", placeholder => "- Select from the following -");
+$convpopup = DropDown([["$conv", "$inv","$cont"]], "$conv", placeholder => "- Select from the following -");
+$invpopup = DropDown([["$conv", "$inv","$cont"]], "$inv", placeholder => "- Select from the following -");
+$contpopup = DropDown([["$conv", "$inv","$cont"]], "$cont", placeholder => "- Select from the following -");
+
+$statement = ucfirst("$probcon whenever $probhyp.");
+
+TEXT(beginproblem());
+BEGIN_PGML
+For each of the following conditionals state the hypothesis, [`p`], and the conclusion, [`q`], and select the converse, inverse, and contrapositive.
+
+>>"[$statement]''<<
+
+Hypothesis: [_]{$hyppopup}
+
+Conclusion: [_]{$conpopup}
+
+Converse: [_]{$convpopup}
+
+inverse: [_]{$invpopup}
+
+Contrapositive: [_]{$contpopup}
+
+END_PGML
+
+ENDDOCUMENT();

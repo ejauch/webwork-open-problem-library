@@ -1,0 +1,39 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+$cand = random(10,18,1);
+
+$pos = random(3,5,1);
+
+$ans =  P($cand,$pos);
+
+BEGIN_PGML
+A city has [$cand] candidates running for [$pos] leadership positions, where the top vote-getter gets the first position, the second the second position, etc. How many outcomes are possible in this situation?
+
+Answer: [_]{$ans}
+END_PGML
+
+ENDDOCUMENT();

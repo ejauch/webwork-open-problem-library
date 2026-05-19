@@ -1,0 +1,96 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/27/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+SRAND(932);
+
+$num = random(150,250,10);
+
+@count = ();
+
+$count[0] = sprintf("%.0f",(random(12,19,1)/100*$num));
+$count[1] = sprintf("%.0f",(random(14,17,1)/100*$num));
+$count[2] = sprintf("%.0f",(random(12,15,1)/100*$num));
+$count[3] = sprintf("%.0f",(random(10,15,1)/100*$num));
+$count[4] = sprintf("%.0f",(random(15,18,1)/100*$num));
+$count[5] = $num - $count[0] - $count[1] - $count[2] - $count[3] - $count[4];
+
+Context('Fraction-NoDecimals');
+@answer = ();
+
+foreach my $i (0..5) {
+$answer[$i] = Compute("$count[$i] / $num");
+}
+
+BEGIN_PGML
+Suppose we roll a 6-sided die [$num] times and get the following results:
+- Rolling a 1 occurs [$count[0]] times;
+- Rolling a 2 occurs [$count[1]] times;
+- Rolling a 3 occurs [$count[2]] times;
+- Rolling a 4 occurs [$count[3]] times.
+- Rolling a 5 occurs [$count[4]] times.
+- Rolling a 6 occurs [$count[5]] times.
+
+Compute the relative frequency probabilities for each of those events (give each answers as a reduced fraction):
+- [`P(1)\approx`] [_]{$answer[0]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+- [`P(2)\approx`] [_]{$answer[1]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+- [`P(3)\approx`] [_]{$answer[2]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+- [`P(4)\approx`] [_]{$answer[3]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+- [`P(5)\approx`] [_]{$answer[4]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+- [`P(6)\approx`] [_]{$answer[5]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

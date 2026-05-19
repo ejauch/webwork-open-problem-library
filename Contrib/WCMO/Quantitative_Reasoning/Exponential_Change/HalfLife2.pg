@@ -1,0 +1,56 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$hlife = random(1.1,2.5,0.2);
+
+$amount = random(10,46,2);
+
+@time = ();
+
+$time[0] = 1;
+
+$time[1] = sprintf("%0.0f",random(1.1*$hlife,3*$hlife,0.1*$hlife));
+
+$time[2] = sprintf("%0.0f",random(3.1*$hlife,5*$hlife,0.1*$hlife));
+
+@ans = ();
+
+foreach my $i (0..2) {
+$ans[$i] = sprintf("%0.1f",$amount*2**(-1*$time[$i]/$hlife));
+}
+
+
+BEGIN_PGML
+A new medication has a half-life of [$hlife] hours in the human body. If a pill contains [$amount] grams of the medication, find the amount in grams for the following situations to the nearest tenth gram:
+
+- After [$time[0]] hour there are [_]{$ans[0]} grams.
+
+- After [$time[1]] hours there are [_]{$ans[1]} grams.
+
+- After [$time[2]] hours there are [_]{$ans[2]} grams.
+END_PGML
+
+ENDDOCUMENT();

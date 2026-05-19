@@ -1,0 +1,47 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('9/26/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+SRAND(628);
+
+$per = random(31,41,2);
+
+$pdec = random(11,15,1);
+
+$pof = (100-$pdec);
+
+$ans = sprintf("%0.0f",$per*$pof/100);
+
+
+BEGIN_PGML
+In 2018, [$per]% of students at a college were involved in athletics. In 2020, that
+number decreased by [$pdec]%. What percentage of students were involved in athletics in
+2020 (Round to the nearest whole percent).
+
+[_]{$ans}%
+END_PGML
+
+
+ENDDOCUMENT();

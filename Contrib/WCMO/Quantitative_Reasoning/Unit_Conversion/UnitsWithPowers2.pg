@@ -1,0 +1,42 @@
+## DESCRIPTION
+## Give a value for pi
+## ENDDESCRIPTION
+
+## KEYWORDS('template', 'pi')
+
+## DBsubject('Algebra')
+## DBchapter('Fundamentals')
+## DBsection('Real Numbers')
+## Date('')
+## Author('')
+## Institution('')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@fdim = ();
+@ydim = ();
+
+$fdim[0] = random(3,12,3); #length
+$fdim[1] = random(18,54,9); #width
+$fdim[2] = 1; #depth
+
+$fvol = $fdim[0]*$fdim[1]*$fdim[2];
+$yvol = $fvol/27;
+
+$ans = $yvol;
+
+BEGIN_PGML
+You have a rectangular flower bed is [$fdim[0]] feet long [$fdim[1]] feet wide, and [$fdim[2]] foot deep that you need to purchase soil for. Soil is typically sold in cubic yards, so you need [_]{$ans} cubic yards of soil for your flower bed.
+END_PGML
+
+ENDDOCUMENT();

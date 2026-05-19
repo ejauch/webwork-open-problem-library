@@ -1,0 +1,90 @@
+## DESCRIPTION
+## Quantitative Reasoning: Determining truth using truth table
+## ENDDESCRIPTION
+
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Truth tables')
+## Date('7/11/24')
+## Author('Erich Jauch')
+## Institution('WCMO')
+## KEYWORDS('logic', 'truth table')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "unionTables.pl",
+    "niceTables.pl",
+    "MathObjects.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context()->strings->add(T=>{},F=>{});
+
+@a = ();
+@b = ();
+@c = ();
+@d = ();
+
+@ans = ();
+
+foreach my $i (0..1) {
+$a[$i] = random(6,12,1);
+$b[$i] = $a[$i]-non_zero_random(-3,3);
+$c[$i] = $a[$i] + ($b[$i])*(-1)**$i+random(0,2,1);
+$d[$i] = $a[$i] + ($b[$i])*(-1)**$i;
+
+if ($c[$i]==$d[$i]) {
+$ans[$i] = "T";
+}
+else {
+$ans[$i] = "F";
+}
+}
+
+if ($ans[0] eq "T" && $ans[1] eq "F") {
+$ans[2] = "F";
+}
+else {
+$ans[2] = "T";
+}
+
+
+@props = ();
+
+$props[0] = "$a[0] + $b[0] = $c[0]";
+$props[1] = "$a[1] - $b[1] = $c[1]";
+$props[2] = "If $props[0], then $props[1].";
+
+TEXT(beginproblem());
+BEGIN_PGML
+
+Using the truth table below to determine the truth of the proposition:
+>> "If [`[$a[0]]+[$b[0]]=[$c[0]]`], then [`[$a[1]]-[$b[1]]=[$c[1]]`]." <<
+(Enter T for True and F for False)
+
+[@
+DataTable(
+[
+["$props[0]", "$props[1]", "$props[2]"],
+[ans_rule(10), ans_rule(10), ans_rule(10)]
+],
+    caption => ' ',
+    midrules=>1,
+    align => '|c|c|c|'
+)
+@]***
+END_PGML
+
+ANS(str_cmp($ans[0]));
+ANS(str_cmp($ans[1]));
+ANS(str_cmp($ans[2]));
+
+ENDDOCUMENT();

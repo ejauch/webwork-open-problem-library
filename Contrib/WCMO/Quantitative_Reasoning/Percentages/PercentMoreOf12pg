@@ -1,0 +1,56 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Calculations')
+## Date('9/24/24')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@names = ("Liam", "Sofia", "Akira", "Amara", "Sven", "Aisha", "Nikolai", "Leila", "Diego", "Mina", "Ravi", "Ines", "Yusuf", "Mei", "Omar", "Renée", "Dimitri", "Isla", "Mateo", "Hana", "Zane", "Saskia", "Ibrahim", "Talia", "Luciano", "Alina", "Kai", "Anastasia", "Levi", "Fatima");
+
+$len = $#names;
+
+@par = ();
+
+$par[0] = random(0,$len,1);
+$par[1] = random(0,$len,1);
+
+while ($par[1]==$par[0]) {
+$par[1] = random(0,$len,1);
+}
+
+@name = ();
+foreach my $i (0,1) {
+$name[$i] = $names[$par[$i]];
+}
+
+$perm = random(80,300,10);
+
+$pero = $perm + 100;
+
+BEGIN_PGML
+If [$name[0]] has a [$perm]% larger salary than [$name[1]], then [$name[0]]'s salary is [__]{$pero}% of [$name[1]]'s salary.
+
+(Give your answer rounded to the nearest tenth)
+
+END_PGML
+
+
+ENDDOCUMENT();

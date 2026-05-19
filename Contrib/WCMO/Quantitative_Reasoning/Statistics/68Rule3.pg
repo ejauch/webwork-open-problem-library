@@ -1,0 +1,64 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context("Currency");
+
+$mean = Currency(random(200,300,5)*100);
+$stddev = Currency(random(2000,5000,500));
+
+$steps = random(1,3,1);
+
+$par = random(0,1,1);
+$sample = random(10,20,1)*1000;
+
+if ($par == 0) {
+$value = $mean + $steps*$stddev;
+$text = "above";
+}
+else {
+$value = $mean - $steps*$stddev;
+$text = "below";
+}
+
+if ($steps == 1) {
+$ans = 16/100*$sample;
+}
+elsif ($steps == 2) {
+$ans = 2.5/100*$sample;
+}
+else {
+$ans = 0.15/100*$sample;
+}
+
+$course = $sub[random(0,$#sub,1)];
+
+BEGIN_PGML
+A car dealership find that the prices for a particular moddle of car are normally distributed with a mean price of [$mean] and a standard deviation of [$stddev]. If they sold [$sample] cars last year, how many would you suspect they sold [$text] a price of [$value]? 
+
+The answer is [_]{$ans}{5} cars.
+END_PGML
+
+ENDDOCUMENT();

@@ -1,0 +1,44 @@
+## DESCRIPTION
+## Give a value for pi
+## ENDDESCRIPTION
+
+## KEYWORDS('template', 'pi')
+
+## DBsubject('Algebra')
+## DBchapter('Fundamentals')
+## DBsection('Real Numbers')
+## Date('')
+## Author('')
+## Institution('')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@item = ("balls","toys","eggs","plants");
+
+$pitem = $item[random(0,$#item,1)];
+
+$number = random(9,21,3);
+
+$weight = random(14,26,4);
+
+$total = $number*$weight;
+
+$ans = $total;
+
+BEGIN_PGML
+What would the total weight of [$number] [$pitem] be if they weigh [$weight] ounces each?
+
+Total weight is [_]{$ans} ounces.
+END_PGML
+
+ENDDOCUMENT();

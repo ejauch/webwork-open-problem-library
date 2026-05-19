@@ -1,0 +1,75 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS('conditional','deductive argument')
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserMultipleChoice.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@fprem = ("If deforestation continues at the current rate, then wildlife habitats will be destroyed",
+        "If inflation rates rise, then the cost of living will increase.",
+        "If water conservation efforts improve, then water scarcity will be reduced.",
+        "If public health campaigns are effective, then vaccination rates will increase.",
+        "If urban areas are better planned, then access to green spaces will improve.",
+        "If renewable energy technology advances, then energy costs will decrease.",
+        "If education on financial literacy is expanded, then people will manage their money better.",
+        "If community policing initiatives are strengthened, then trust between law enforcement and communities will grow."
+        );
+@sprem = ("If wildlife habitats are destroyed, then many species will face extinction.",
+         "If the cost of living increases, then many families will struggle to afford basic necessities.",
+         "If water scarcity is reduced, then agricultural productivity will increase.",
+         "If vaccination rates increase, then the spread of preventable diseases will decline.",
+         "If access to green spaces improves, then residents' mental and physical health will benefit.",
+         "If energy costs decrease, then more businesses will adopt sustainable practices.",
+         "If people manage their money better, then personal debt levels will decrease.",
+         "If trust between law enforcement and communities grows, then crime rates may decrease."
+         );
+@con = ("If deforestation continues at the current rate, then many species will face extinction.",
+       "If inflation rates rise, then many families will struggle to afford basic necessities.",
+       "If water conservation efforts improve, then agricultural productivity will increase.",
+       "If public health campaigns are effective, then the spread of preventable diseases will decline.",
+       "If urban areas are better planned, then residents' mental and physical health will benefit.",
+       "If renewable energy technology advances, then more businesses will adopt sustainable practices.",
+       "If education on financial literacy is expanded, then personal debt levels will decrease.",
+       "If community policing initiatives are strengthened, then crime rates may decrease."
+       );
+       
+$length = $#fprem;
+
+$choice = random(0,$length,1);
+
+$ans = DropDown(
+                ["Valid", "Invalid"], "Valid", placeholder => "- Select one of the following -"
+                );
+
+BEGIN_PGML
+Determine the validity of the following:
+
+    *Premise:* [$fprem[$choice]]
+
+    *Premise:* [$sprem[$choice]]
+
+    *Conclusion:* [$con[$choice]]
+
+The argument is [_]{$ans}
+END_PGML
+
+ENDDOCUMENT();

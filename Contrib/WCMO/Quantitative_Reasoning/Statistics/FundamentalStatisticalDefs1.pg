@@ -1,0 +1,68 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Statistics')
+## DBchapter('Experimental design')
+## DBsection('Concepts')
+## Date('10/06/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@study = ("A study of 500,000 high school graduates found that 75% pursued higher education within 2 years.", "A study of 250,000 office workers found that 68% reported higher stress levels after the pandemic.", "A study of 1,200,000 smartphone users found that 82% spent more than 3 hours per day on social media.", "A study of 750,000 retirees found that 70% experienced improved mental health after retirement.", "A study of 900,000 married couples found that 73% reported increased satisfaction with their finances after 5 years of marriage.", "A study of 1,000,000 parents found that 78% believed their children benefited from extracurricular activities.", "A study of 400,000 car owners found that 65% preferred hybrid vehicles over fully electric models.", "A study of 600,000 small business owners found that 80% struggled with managing cash flow in the first 3 years.", "A study of 1,500,000 millennials found that 72% prioritized work-life balance over salary in choosing jobs.", "A study of 850,000 college students found that 81% used online resources to supplement their coursework.", "A study of 300,000 first-time homebuyers found that 67% underestimated the costs of home maintenance.", "A study of 2,000,000 social media influencers found that 76% believed that consistent posting was key to growing their audience.", "A study of 500,000 remote workers found that 70% felt more productive working from home than in an office.", "A study of 1,100,000 single parents found that 74% said they relied heavily on community support systems.", "A study of 1,800,000 smartphone users found that 69% were concerned about privacy issues with mobile apps.", "A study of 350,000 first-year college students found that 66% reported feeling homesick during their first semester.", "A study of 2,500,000 online shoppers found that 83% preferred free shipping when making purchasing decisions.", "A study of 700,000 fitness enthusiasts found that 77% believed that maintaining a regular workout routine improved their mental health.", "A study of 1,300,000 dog owners found that 85% felt their pets improved their emotional well-being.", "A study of 600,000 new parents found that 72% struggled with sleep deprivation in the first 6 months.", "A study of 1,700,000 homeowners found that 64% made significant home improvements within the first 5 years of ownership.", "A study of 400,000 online educators found that 80% felt student engagement increased with interactive tools.", "A study of 3,000,000 streaming service subscribers found that 79% binge-watch multiple episodes in a single sitting.", "A study of 450,000 freelancers found that 65% experienced income fluctuations that impacted their financial stability.", "A study of 2,200,000 podcast listeners found that 68% preferred educational content over entertainment.", "A study of 900,000 frequent travelers found that 71% prioritized eco-friendly accommodations when planning trips.", "A study of 1,600,000 digital nomads found that 75% cited flexibility as the main reason for choosing a remote lifestyle.", "A study of 500,000 vegans found that 82% believed a plant-based diet significantly improved their overall health.", "A study of 1,400,000 retail employees found that 66% reported job dissatisfaction due to long hours and low pay.", "A study of 2,000,000 YouTube content creators found that 78% reported burnout after producing content for over a year.");
+
+@num = ("500,000", "250,000", "1,200,000", "750,000", "900,000", "1,000,000", "400,000", "600,000", "1,500,000", "850,000", "300,000", "2,000,000", "500,000", "1,100,000", "1,800,000", "350,000", "2,500,000", "700,000", "1,300,000", "600,000", "1,700,000", "400,000", "3,000,000", "450,000", "2,200,000", "900,000", "1,600,000", "500,000", "1,400,000", "2,000,000"
+);
+
+@group = ("high school graduates", "office workers", "smartphone users", "retirees", "married couples", "parents", "car owners", "small business owners", "millennials", "college students", "first-time homebuyers", "social media influencers", "remote workers", "single parents", "smartphone users", "first-year college students", "online shoppers", "fitness enthusiasts", "dog owners", "new parents", "homeowners", "online educators", "streaming service subscribers", "freelancers", "podcast listeners", "frequent travelers", "digital nomads", "vegans", "retail employees", "YouTube content creators"
+);
+
+@per = ("75%", "68%", "82%", "70%", "73%", "78%", "65%", "80%", "72%", "81%", "67%", "76%", "70%", "74%", "69%", "66%", "83%", "77%", "85%", "72%", "64%", "80%", "79%", "65%", "68%", "71%", "75%", "82%", "66%", "78%"
+);
+
+@prop = ("pursued higher education within 2 years", "reported higher stress levels after the pandemic", "spent more than 3 hours per day on social media", "experienced improved mental health after retirement", "reported increased satisfaction with their finances after 5 years of marriage", "believed their children benefited from extracurricular activities", "preferred hybrid vehicles over fully electric models", "struggled with managing cash flow in the first 3 years", "prioritized work-life balance over salary in choosing jobs", "used online resources to supplement their coursework", "underestimated the costs of home maintenance", "believed that consistent posting was key to growing their audience", "felt more productive working from home than in an office", "said they relied heavily on community support systems", "were concerned about privacy issues with mobile apps", "reported feeling homesick during their first semester", "preferred free shipping when making purchasing decisions", "believed that maintaining a regular workout routine improved their mental health", "felt their pets improved their emotional well-being", "struggled with sleep deprivation in the first 6 months", "made significant home improvements within the first 5 years of ownership", "felt student engagement increased with interactive tools", "binge-watch multiple episodes in a single sitting", "experienced income fluctuations that impacted their financial stability", "preferred educational content over entertainment", "prioritized eco-friendly accommodations when planning trips", "cited flexibility as the main reason for choosing a remote lifestyle", "believed a plant-based diet significantly improved their overall health", "reported job dissatisfaction due to long hours and low pay", "reported burnout after producing content for over a year");
+
+$l = $#study;
+
+$par = random(0,$l,1);
+
+$pop = "All $group[$par].";
+
+$sample = "The $num[$par] $group[$par] in the study.";
+
+$poppar = "The percent of all $group[$par] that $prop[$par].";
+
+$stat = "The $per[$par] of the $num[$par] $group[$par] that $prop[$par].";
+
+$popdrop = DropDown([[$pop, $sample]],$pop, placeholder => '- Select One -');
+$samdrop = DropDown([[$pop, $sample]],$sample, placeholder => '- Select One -');
+$ppdrop = DropDown([[$poppar, $stat]],$poppar, placeholder => '- Select One -');
+$ssdrop = DropDown([[$poppar, $stat]],$stat, placeholder => '- Select One -');
+BEGIN_PGML
+Answer the following questions based on the following statistical study:
+
+"[$study[$par]]"
+
+- The population for this study is [_]{$popdrop}
+- The sample for this study is [_]{$samdrop}
+- The population parameter for this study is [_]{$ppdrop}
+- The sample statistic for this study is [_]{$ssdrop}
+END_PGML
+
+
+ENDDOCUMENT();

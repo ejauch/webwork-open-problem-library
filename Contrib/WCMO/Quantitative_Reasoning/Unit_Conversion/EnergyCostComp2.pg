@@ -1,0 +1,56 @@
+## DESCRIPTION
+## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Unit Conversions)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('unit conversion', 'units')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  'contextCurrency.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$hours = random(5,10,1);
+ 
+$hwatt = random(1600,1900,100);
+$lwatt = $hwatt - random(125,325,50);
+$cost = random(22,31,3)/100;
+
+
+$hcost = Compute("$hwatt*$hours/1000*$cost");
+$lcost = Compute("$lwatt*$hours/1000*$cost");
+
+$rhcost = sprintf("%0.2f",$hcost);
+$rlcost = sprintf("%0.2f",$lcost);
+
+$costdif = $rhcost - $rlcost;
+
+Context("Currency");
+
+$ans = Currency("$costdif");
+
+
+BEGIN_PGML
+You are looking at two different computers for your dorm the higher end system uses [$hwatt] watts of power for [$hours] hours of use and the smaller system [$lwatt] watts for the same amount of time. If your energy costs [`\$[$cost]`] a kilowatt-hour, what is the difference in cost over the [$hours] hours?
+
+The difference in cost is [____]{$ans} (Enter the $ with your answer)
+
+END_PGML
+
+
+ENDDOCUMENT();

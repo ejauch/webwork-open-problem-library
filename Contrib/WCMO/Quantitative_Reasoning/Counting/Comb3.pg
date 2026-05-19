@@ -1,0 +1,42 @@
+## DESCRIPTION
+## Combinatorics: Simple combinations problem invovling picking a subset of a larger set.
+## ENDDESCRIPTION
+
+## KEYWORDS('couting','combinations')
+
+## DBsubject('Combinatorics')
+## DBchapter('Counting')
+## DBsection('Combinations')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+SRAND(192);
+
+$total = random(10,25,1);
+
+$num = random(3,5,1);
+
+$ans =  C($total,$num);
+
+
+BEGIN_PGML
+A famous cosplayer has [$total] different cosplays to pick [$num] to take to an upcoming convention. How many possible sets of [$num] can they pack?
+
+Answer: [_]{$ans}
+END_PGML
+
+ENDDOCUMENT();

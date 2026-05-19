@@ -1,0 +1,67 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$rate = random(2,5,1);
+
+$amount = $rate * random(15,30,3) + random(10,30,5);
+
+$interval = 1;
+
+@time = ();
+
+$time[0] = $interval;
+
+$time[1] = random(2*$interval,4*$interval,$interval);
+
+$time[2] = random(5*$interval,7*$interval,$interval);
+
+@ans = ();
+
+$dropgd = DropDown([ 'Growth', 'Decay'],
+    'Decay', placeholder => '- Select one -');
+    
+$droptype = DropDown([ 'Exponential', 'Linear'],
+    'Linear', placeholder => '- Select one -');
+
+foreach my $i (0..2) {
+$ans[$i] = $amount - $rate*$time[$i]/$interval;
+}
+
+BEGIN_PGML
+The layer of topsoil erodes at a constant rate of [$rate] mm each year. If the soil is originally [$amount] mm thick, answer the following:
+
+- Is this growth or decay? [_]{$dropgd}
+
+- Is this exponential or linear change? [_]{$droptype}
+
+- How thick is the topsoil after [$time[0]] year? [_]{$ans[0]}{5}
+
+- How thick is the topsoil after [$time[1]] years? [_]{$ans[1]}{5}
+
+- How thick is the topsoil after [$time[2]] years? [_]{$ans[2]}{5}
+END_PGML
+
+ENDDOCUMENT();

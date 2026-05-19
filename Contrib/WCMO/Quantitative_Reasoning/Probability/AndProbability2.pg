@@ -1,0 +1,52 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+@sides = (4,6,8,10,12,20);
+
+$die = $sides[random(0,$#sides,1)];
+
+$side = random(1,$die[$i],1);
+
+$num = random(3,6,1);
+
+Context('Fraction-NoDecimals');
+
+$ans = Compute("1/($die)**$num")->reduce();
+
+
+BEGIN_PGML
+Imagine you are rolling a [$die]-sided die [$num] times in row. What is probabilty that each time it results in a [$side]?
+
+[`P(\text{each result is a [$side]})=`] [_]{$ans->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

@@ -1,0 +1,55 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+$num = random(1,3,1);
+$den = $num+random(3,5,1);
+
+$weeks = random(1,2,1);
+
+if ($weeks>1) {
+$text = "$weeks weeks";
+}
+else {
+$text = "$weeks week";
+}
+
+$days = $weeks*7;
+
+$prob = Compute("1-(1-$num/$den)**$days");
+
+$ans = sprintf("%.3f",$prob);
+
+
+
+BEGIN_PGML
+Imagine you play an online game in which you have a [$num] in [$den] chance of unlocking a special character every day. If you place the game for [$text], what is the probability that you unlock a special character at least once?
+
+[`P(\text{unlocking at least once})=`] [_]{$ans} (Round your answer to 3 decimal places)
+
+
+END_PGML
+
+ENDDOCUMENT();

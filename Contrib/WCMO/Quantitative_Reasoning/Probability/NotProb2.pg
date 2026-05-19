@@ -1,0 +1,51 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/27/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+
+Context('Fraction-NoDecimals');
+
+$den = random(15,25,2);
+$num = random(2,$den-2,2);
+
+$opnum = $den-$num;
+
+$prob = Compute("$num / $den");
+
+@ans = ();
+
+$ans[0] = Compute("$opnum / $den");
+
+BEGIN_PGML
+Imagine an event [`A`] has the following probability [`P(A)=[$prob]`]. The probability that [`A`] does not occur is [`P(\sim A)=`] [_]{$ans[0]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

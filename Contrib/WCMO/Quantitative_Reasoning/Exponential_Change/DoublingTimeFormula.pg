@@ -1,0 +1,39 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$rate = random(1.1,5.5,0.2);
+
+@ans = ();
+
+$ans[0] = sprintf("%0.0f",70/$rate);
+
+
+BEGIN_PGML
+After years of intervention, a certain endangered animal population has an approximate growth rate of about [$rate]% per year. If this is the case, then the doubling time would be approximately [_]{$ans[0]} years (rounded to the nearest whole number).
+
+END_PGML
+
+ENDDOCUMENT();

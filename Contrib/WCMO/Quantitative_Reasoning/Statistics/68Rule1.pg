@@ -1,0 +1,54 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$mean = random(65,75,1);
+$stddev = random(3,7,1);
+
+$steps = random(1,3,1);
+
+$bottom = $mean - $steps*$stddev;
+$top = $mean + $steps*$stddev;
+
+if ($steps == 1) {
+$ans = 68;
+}
+elsif ($steps == 2) {
+$ans = 95;
+}
+else {
+$ans = 99.7;
+}
+
+@sub = ("Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Economics", "Psychology", "Sociology", "Philosophy", "Literature", "History", "Political Science", "Engineering", "Art History", "Music Theory", "Environmental Science", "Geology", "Statistics", "Business Administration", "Accounting");
+
+$course = $sub[random(0,$#sub,1)];
+
+BEGIN_PGML
+The scores on the midterm exam for a [$course] course at a large university are uniformly distributed with a mean score of [$mean] points and a standard deviation of [$stddev] points. What percentage of scores fall between the scores of [$bottom] points and [$top] points?
+
+The answer is [_]{$ans}{5} %
+END_PGML
+
+ENDDOCUMENT();

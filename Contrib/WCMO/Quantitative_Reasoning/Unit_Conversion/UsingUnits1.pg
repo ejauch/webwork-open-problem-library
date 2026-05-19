@@ -1,0 +1,46 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS('units')
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('9/05/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@fruit = ("apples", "strawberries", "oranges","pineapples","bananas");
+
+$pfruit = $fruit[random(0,$#fruit,1)];
+
+$price = 1 + random(16,68,4)/100;
+
+$weight = random(12,28,4)/10;
+
+$total = round($price*$weight*100)/100;
+
+$ans = $total;
+
+BEGIN_PGML
+
+How much would you pay for [$weight] pounds of [$pfruit] if it costs $[$price] per pound?
+
+Total ammount paid is $ [_]{$ans}
+END_PGML
+
+ENDDOCUMENT();

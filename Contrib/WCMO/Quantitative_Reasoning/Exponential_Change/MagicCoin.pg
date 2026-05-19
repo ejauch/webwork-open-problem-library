@@ -1,0 +1,62 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+
+Context("Currency");
+
+@coins = ("penny","nickle","dime","quarter");
+@values = (0.01,0.05,0.10,0.25);
+$choice = random(0,$#coins,1);
+
+$coin = $coins[$choice];
+$value = Currency($values[$choice]);
+
+@time = ();
+
+$time[0] = random(5,10,1);
+
+$time[1] = $time[0] + random(10,20,2);
+
+$time[2] = $time[1] + random(10,20,2);
+
+@ans = ();
+
+foreach my $i (0..2) {
+$ans[$i] = Currency($value * (2)**($time[$i]));
+}
+
+BEGIN_PGML
+Imagine you have a magic [$coin] that doubles into two coins at the start of every day.
+
+- How much money would you have after [$time[0]] days? [_]{$ans[0]}{5}
+
+- How much money would you have after [$time[1]] days? [_]{$ans[1]}{5} 
+
+- How much money would you have after [$time[2]] days? [_]{$ans[2]}{5}
+END_PGML
+
+ENDDOCUMENT();

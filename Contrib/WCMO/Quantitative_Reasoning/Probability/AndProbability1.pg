@@ -1,0 +1,62 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+@sides = (4,6,8,10,12,20);
+
+@die = ($sides[random(0,$#sides,1)],$sides[random(0,$#sides,1)],$sides[random(0,$#sides,1)]);
+
+while ($die[1] == $die[0]) {
+$die[1] = $sides[random(0,$#sides,1)];
+}
+
+while ($die[2] == $die[0] || $die[2] == $die[1]) {
+$die[2] = $sides[random(0,$#sides,1)];
+}
+
+@side = ();
+
+foreach my $i (0..2) {
+$side[$i] = random(1,$die[$i],1);
+}
+
+Context('Fraction-NoDecimals');
+
+$ans = Compute("1/($die[0]*$die[1]*$die[2])")->reduce();
+
+
+BEGIN_PGML
+Imagine you are rolling a [$die[0]]-sided die, a [$die[1]]-sided die, and a [$die[2]]-sided die in order. What are the chances that you get a [$side[0]] followed by [$side[1]] and lastly a [$side[2]]?
+
+[`P([$side[0]],[$side[1]],[$side[2]])=`] [_]{$ans->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

@@ -1,0 +1,66 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+SRAND(932);
+
+
+
+$mean = random(45,55,2);
+$stddev = random(3,6,1);
+
+$steps = random(1,3,1);
+
+$par = random(0,1,1);
+$sample = random(10,20,1)*1000;
+
+if ($par == 0) {
+$value = $mean + $steps*$stddev;
+$text = "more than";
+}
+else {
+$value = $mean - $steps*$stddev;
+$text = "less than";
+}
+
+if ($steps == 1) {
+$ans = 16/100*$sample;
+}
+elsif ($steps == 2) {
+$ans = 2.5/100*$sample;
+}
+else {
+$ans = 0.15/100*$sample;
+}
+
+$course = $sub[random(0,$#sub,1)];
+
+BEGIN_PGML
+A certain candy factory creates candy bars with a mean mass of [$mean] grams and a standard deviation of [$stddev] grams. If they produce [$sample] bars in a normal day of production, how many would you suspect would be [$text] [$value] grams? 
+
+The answer is [_]{$ans}{5} bars.
+END_PGML
+
+ENDDOCUMENT();

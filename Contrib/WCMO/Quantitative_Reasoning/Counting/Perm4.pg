@@ -1,0 +1,40 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+SRAND(932);
+
+$part = random(10,16,1);
+$num = random(3,5,1);
+
+$ans =  P($part,$num);
+
+BEGIN_PGML
+Imagine a competition has [$part] participants and they give awards to the top [$num] players. How many different possible outcomes of top [$num] players can occur?
+
+Answer: [_]{$ans}
+END_PGML
+
+ENDDOCUMENT();

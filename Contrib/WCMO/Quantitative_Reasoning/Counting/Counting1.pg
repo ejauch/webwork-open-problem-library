@@ -1,0 +1,89 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+$char = random(6,8,1);
+
+$text = "lowercase letters";
+$total = 26;
+
+$upPar = random(0,1,1);
+
+if ($upPar == 1) {
+$total = $total + 26;
+$text = join(", ",$text,"uppercase letters");
+}
+
+$numPar = random(0,1,1);
+
+if ($numPar == 1) {
+$total = $total + 10;
+$text = join(", ",$text,"numerals");
+}
+
+$text = join(", ",$text,"and the characters: @");
+$total = $total + 1;
+
+$exPar = random(0,1,1);
+
+if ($exPar == 1) {
+$total = $total + 1;
+$text = join(", ",$text,"!");
+}
+
+
+$astPar = random(0,1,1);
+
+if ($astPar == 1) {
+$total = $total + 1;
+$text = join(", ",$text,"*");
+}
+
+$text = join(", ",$text,"and &");
+$total = $total + 1;
+
+
+
+Context("ScientificNotation");
+
+Context()->flags->set(
+    snDigits => 3,
+    snTrimZeros => 0,
+    snMinDigits => 3,
+    snMaxDigits => 3,
+);
+Context()->flags->set(tolType => 'digits', tolerance => 1, tolTruncation => 1);
+
+$ans =  ScientificNotation($total**$char);
+
+BEGIN_PGML
+How many [$char]-character passwords can be made by combining [$text] (with repetition)?
+
+Answer: [_]{$ans} (Round answer to four significant digits)
+
+
+END_PGML
+
+ENDDOCUMENT();

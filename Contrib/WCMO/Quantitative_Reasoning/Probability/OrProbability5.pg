@@ -1,0 +1,71 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+@pics = ("jack","queen","king","ace");
+@suits = ("heart","diamond","spade","club");
+
+$par = random(0,2,1);
+if ($par == 0) {
+$cardl = "number card (2 through 10)";
+$cards = "number card";
+}
+elsif ($par == 1) {
+$cardl = "picture card (jack, queen, king, ace)";
+$cards = "picture card";
+}
+else {
+$cardl = "face card (jack, queen, king)";
+$cards = "face card";
+}
+
+$suit = $suits[random(0,3,1)];
+
+
+Context('Fraction-NoDecimals');
+
+if ($par == 0) {
+$ans = Compute("(36+13-9)/52");
+}
+elsif ($par == 1) {
+$ans = Compute("(16+13-4)/52");
+}
+else {
+$ans = Compute("(12+13-3)/52");
+}
+
+BEGIN_PGML
+Imagine you have a standard deck of 52 cards. What is the probality that you draw a [$suit] or a [$cardl]?
+
+[`P(\text{a [$cards] or a [$suit]})=`] [_]{$ans->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

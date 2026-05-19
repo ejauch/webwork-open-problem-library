@@ -1,0 +1,48 @@
+## DESCRIPTION
+## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Unit Conversions)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('unit conversion', 'units')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$w = random(16,32,4);
+$d = random(8,12,2);
+$h = random(10,18,1);
+
+$vol = Compute("$w*$d*$h*2.540**3*0.01**3");
+
+$rvol = sprintf("%0.3f",$vol);
+
+$ans = Compute("$rvol");
+
+
+BEGIN_PGML
+If a rectangular fish tank is [$w] in wide, [$d] in deep, and [$h] in tall is filled to the brim with water, how many cubic meters of water would be in the tank (rounded to the nearest thousandth)?
+
+The tank contains [____]{$ans->cmp(
+    tolType   => 'absolute',
+    tolerance => .00001)} cubic meters of water.
+
+END_PGML
+
+
+ENDDOCUMENT();

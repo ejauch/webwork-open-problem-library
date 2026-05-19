@@ -1,0 +1,40 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('9/26/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context("Currency");
+
+$post = Currency(random(55,85,5)+random(15,95,15)/100);
+$disc = random(12,27,3);
+
+$pre = Currency($post/((100-$disc)/100));
+
+
+BEGIN_PGML
+You get a [$disc]% discount as a frequent shopper at your local game store. If total after the discount is [$post] than your total before the discount was [_]{$pre}{5}.
+END_PGML
+
+
+ENDDOCUMENT();

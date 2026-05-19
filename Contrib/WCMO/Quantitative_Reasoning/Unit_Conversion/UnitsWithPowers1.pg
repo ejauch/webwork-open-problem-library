@@ -1,0 +1,47 @@
+## DESCRIPTION
+## Give a value for pi
+## ENDDESCRIPTION
+
+## KEYWORDS('template', 'pi')
+
+## DBsubject('Algebra')
+## DBchapter('Fundamentals')
+## DBsection('Real Numbers')
+## Date('')
+## Author('')
+## Institution('')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@fdim = ();
+@ydim = ();
+
+foreach my $i (0,1) {
+$j=$i+3;
+$k=$j+8;
+$ydim[$i] = random($j,$k,2);
+$fdim[$i] = $ydim*3;
+}
+$yarea = $ydim[0]*$ydim[1];
+$farea = $yarea*9;
+
+
+$ans = $farea;
+
+BEGIN_PGML
+You purchased a rug that is [$yarea] square yards. How large of area does the rug cover is square feet?
+
+The rug covers [__]{$ans} square feet.
+END_PGML
+
+ENDDOCUMENT();

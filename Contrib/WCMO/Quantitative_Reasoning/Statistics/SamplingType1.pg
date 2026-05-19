@@ -1,0 +1,104 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Statistics')
+## DBchapter('Experimental design')
+## DBsection('Concepts')
+## Date('10/06/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@ran = ("A group of 1,000 adults will be randomly selected to assess the average time spent on social media platforms daily.", "We will randomly select 500 participants to examine the correlation between exercise habits and cardiovascular health.", "200 customers will be randomly chosen to gauge satisfaction with the company's new product line.", "300 high school teachers will be randomly selected to share their experiences with remote learning.", "1,500 registered voters will be randomly selected to predict support for candidates in the upcoming election.", "250 product testers will be randomly chosen to evaluate the performance of a new cleaning product.", "1,000 employees from various industries will be randomly chosen to assess job satisfaction and work-life balance.", "500 residents will be randomly selected to express their opinions about climate change and environmental policy.", "700 college students will be randomly chosen to provide data on stress levels during final exams.", "1,200 households will be randomly selected to explore their experiences with health insurance providers.", "800 city commuters will be randomly chosen to evaluate the efficiency of public transportation.", "300 consumers will be randomly selected to measure brand loyalty in the smartphone industry.", "400 adults will be randomly chosen to investigate dietary habits and preferences.", "1,000 rural households will be randomly selected to assess the availability and speed of internet access.", "600 participants will be randomly chosen to analyze the prevalence of anxiety and depression in young adults.", "500 companies will be randomly selected to evaluate their diversity and inclusion practices.", "800 teenagers will be randomly selected to explore patterns of smartphone usage and screen time.", "1,200 registered voters will be randomly chosen to analyze voting behavior and turnout in recent elections.", "400 gym members will be randomly selected to study exercise routines and fitness goals.", "1,500 individuals will be randomly chosen to understand vaccination rates and attitudes toward immunization.", "500 homeowners will be randomly selected to examine factors influencing the housing market.", "300 tourists will be randomly chosen to gather data on travel preferences and destinations.", "600 small business owners will be randomly selected to assess the economic impact of recent policy changes.", "400 retail customers will be randomly chosen to assess their overall shopping experience.", "1,000 citizens will be randomly selected to provide their views regarding a proposed new law.", "500 parents will be randomly chosen to assess their attitudes toward standardized testing in schools.", "300 businesses will be randomly selected to explore their sustainability practices and green initiatives.", "700 children will be randomly chosen to evaluate participation rates in organized sports.", "500 music streaming users will be randomly selected to understand preferences for different music genres.", "1,000 employees will be randomly chosen to study the impact of remote work on productivity and well-being.");
+
+@sys = ("A survey will be conducted by selecting every 10th person from a list of 5,000 adults to assess the average time spent on social media platforms daily.", "We will systematically select every 20th participant from a registry to examine the correlation between exercise habits and cardiovascular health.", "Every 5th customer from a database will be selected to gauge satisfaction with the company's new product line.", "Every 10th high school teacher from a district roster will be selected to share their experiences with remote learning.", "Every 15th registered voter from a pool of 10,000 will be selected to predict support for candidates in the upcoming election.", "We will systematically select every 8th product tester from a group to evaluate the performance of a new cleaning product.", "Every 25th employee from a company directory will be selected to assess job satisfaction and work-life balance.", "Every 12th household from a list of residents will be selected to express their opinions about climate change and environmental policy.", "Every 6th college student from a class roster will be selected to provide data on stress levels during final exams.", "Every 10th household from a database will be selected to explore their experiences with health insurance providers.", "Every 5th city commuter at a station will be selected to evaluate the efficiency of public transportation.", "Every 10th consumer from a subscription list will be selected to measure brand loyalty in the smartphone industry.", "Every 7th adult from a population list will be selected to investigate dietary habits and preferences.", "Every 50th rural household from a registry will be selected to assess the availability and speed of internet access.", "Every 10th participant from a mental health clinic will be selected to analyze the prevalence of anxiety and depression in young adults.", "Every 5th company from a business directory will be selected to evaluate diversity and inclusion practices.", "Every 20th teenager from a high school list will be selected to explore patterns of smartphone usage and screen time.", "Every 30th registered voter from a voter database will be selected to analyze voting behavior and turnout in recent elections.", "Every 12th gym member from a club roster will be selected to study exercise routines and fitness goals.", "Every 40th individual from a health database will be selected to understand vaccination rates and attitudes toward immunization.", "Every 15th homeowner from a property registry will be selected to examine factors influencing the housing market.", "Every 10th tourist from a flight booking list will be selected to gather data on travel preferences and destinations.", "Every 8th small business owner from a state registry will be selected to assess the economic impact of recent policy changes.", "Every 10th retail customer from a loyalty program will be selected to assess their overall shopping experience.", "Every 50th citizen from a city population registry will be selected to provide their views regarding a proposed new law.", "Every 20th parent from a school district registry will be selected to assess their attitudes toward standardized testing in schools.", "Every 10th business from an industry database will be selected to explore their sustainability practices and green initiatives.", "Every 5th child from a sports registration list will be selected to evaluate participation rates in organized sports.", "Every 15th music streaming user from a subscriber list will be selected to understand preferences for different music genres.", "Every 20th employee from a corporate directory will be selected to study the impact of remote work on productivity and well-being.");
+
+@conv = ("I will survey individuals at a local coffee shop to assess their average daily time spent on social media.", "Participants will be recruited from a fitness class to examine the correlation between exercise habits and cardiovascular health.", "I will gauge customer satisfaction by surveying people who enter a specific retail store during the weekend.", "300 high school teachers will be surveyed at an education conference to share their experiences with remote learning.", "A convenience sample of registered voters will be surveyed during a town hall meeting to predict support for candidates in the upcoming election.", "250 product testers will be recruited from a local community event to evaluate a new cleaning product.", "Employees from a nearby office building will be surveyed to assess job satisfaction and work-life balance.", "Residents at a community center will be asked to express their opinions about climate change and environmental policy.", "700 college students will be surveyed in the campus library to provide data on stress levels during final exams.", "Households near a hospital will be approached to explore their experiences with health insurance providers.", "City commuters at a bus stop will be surveyed to evaluate the efficiency of public transportation.", "Consumers shopping at a mall will be asked about brand loyalty in the smartphone industry.", "Adults in a local grocery store will be surveyed to investigate dietary habits and preferences.", "Rural households attending a local fair will be approached to assess the availability and speed of internet access.", "Participants in a mental health awareness event will be surveyed to analyze the prevalence of anxiety and depression in young adults.", "Companies in a business park will be approached to evaluate their diversity and inclusion practices.", "Teenagers at a local high school will be surveyed to explore patterns of smartphone usage and screen time.", "Registered voters attending a political rally will be surveyed to analyze voting behavior and turnout in recent elections.", "Gym members at a local fitness center will be surveyed to study exercise routines and fitness goals.", "Individuals at a public health fair will be surveyed to understand vaccination rates and attitudes toward immunization.", "Homeowners in a neighborhood will be approached to examine factors influencing the housing market.", "Tourists at a popular attraction will be surveyed to gather data on travel preferences and destinations.", "Small business owners attending a networking event will be surveyed to assess the economic impact of recent policy changes.", "Retail customers at a busy shopping district will be surveyed to assess their overall shopping experience.", "Citizens at a community forum will be approached to provide their views regarding a proposed new law.", "Parents at a school open house will be surveyed to assess their attitudes toward standardized testing in schools.", "Businesses located in a specific commercial area will be approached to explore their sustainability practices and green initiatives.", "Children attending a summer camp will be surveyed to evaluate participation rates in organized sports.", "Music streaming users recruited from a social media group will be surveyed to understand preferences for different music genres.", "Employees at a corporate event will be surveyed to study the impact of remote work on productivity and well-being.");
+
+@strat = ("A survey will be conducted among different age groups by randomly selecting individuals from each age category to assess their average daily time spent on social media.", "Participants will be grouped by exercise frequency, and individuals will be randomly selected from each group to examine the correlation between exercise habits and cardiovascular health.", "Customer satisfaction will be gauged by organizing customers into demographics and randomly selecting respondents from each demographic group.", "300 high school teachers will be categorized by years of experience, with random selections made from each experience group to share their experiences with remote learning.", "A convenience sample of registered voters will be grouped by political affiliation, with random selections made from each group to predict support for candidates in the upcoming election.", "250 product testers will be grouped by gender and randomly selected from each gender group to evaluate a new cleaning product.", "Employees will be organized by department, with random sampling conducted within each department to assess job satisfaction and work-life balance.", "Residents will be divided by neighborhood and randomly selected from each neighborhood to express their opinions about climate change and environmental policy.", "700 college students will be organized by year of study and randomly selected from each year to provide data on stress levels during final exams.", "Households will be categorized by income level, and random selections will be made from each income group to explore their experiences with health insurance providers.", "City commuters will be grouped by transportation method and randomly selected from each method to evaluate the efficiency of public transportation.", "Consumers will be categorized by age group, with random selections made from each age group to measure brand loyalty in the smartphone industry.", "Adults will be organized by dietary preference, and random selections will be made from each preference group to investigate dietary habits.", "Rural households will be divided by location (urban vs. rural) and randomly selected from each group to assess the availability and speed of internet access.", "Participants will be grouped by mental health status, with random selections made from each status group to analyze the prevalence of anxiety and depression in young adults.", "Companies will be organized by industry, and random selections will be made from each industry to evaluate their diversity and inclusion practices.", "Teenagers will be categorized by school grade, and random selections will be made from each grade to explore patterns of smartphone usage and screen time.", "Registered voters will be grouped by demographic characteristics (age, gender, and education level), with random selections made from each demographic group to analyze voting behavior.", "Gym members will be organized by fitness level, and random selections will be made from each fitness level group to study exercise routines and fitness goals.", "Individuals will be divided by vaccination status and randomly selected from each status group to understand vaccination rates and attitudes toward immunization.", "Homeowners will be categorized by property type (single-family, multi-family, etc.), with random selections made from each property type to examine factors influencing the housing market.", "Tourists will be grouped by travel type (business vs. leisure), with random selections made from each group to gather data on travel preferences and destinations.", "Small business owners will be organized by business size (small, medium, large) and randomly selected from each size category to assess the economic impact of recent policy changes.", "Retail customers will be divided by shopping frequency, with random selections made from each frequency group to assess their overall shopping experience.", "Citizens will be organized by geographic region, with random selections made from each region to provide their views regarding a proposed new law.", "Parents will be categorized by the number of children and randomly selected from each group to assess their attitudes toward standardized testing in schools.", "Businesses will be grouped by sector (retail, service, manufacturing) and randomly selected from each sector to explore their sustainability practices and green initiatives.", "Children will be organized by age group in sports participation and randomly selected from each age group to evaluate participation rates in organized sports.", "Music streaming users will be categorized by subscription type (free vs. paid) and randomly selected from each type to understand preferences for different music genres.", "Employees will be grouped by job role and randomly selected from each role to study the impact of remote work on productivity and well-being.");
+
+@l = ($#ran,$#sys,$#conv,$#strat);
+
+@par = (random(0,$l[0],1),random(0,$l[1],1),random(0,$l[2],1),random(0,$l[3],1));
+
+$ver = random(0,3,1);
+
+@state = ();
+@drop = ();
+
+if ($ver==0) {
+$state[0] = $ran[$par[0]];
+$state[1] = $sys[$par[1]];
+$state[2] = $conv[$par[2]];
+$state[3] = $strat[$par[3]];
+
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+
+}
+elsif ($ver==1) {
+$state[0] = $sys[$par[1]];
+$state[1] = $ran[$par[0]];
+$state[2] = $strat[$par[3]];
+$state[3] = $conv[$par[2]];
+
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+}
+elsif ($ver==2) {
+$state[0] = $ran[$par[0]];
+$state[1] = $strat[$par[3]];
+$state[2] = $conv[$par[2]];
+$state[3] = $sys[$par[1]];
+
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+}
+else {
+$state[0] = $strat[$par[3]];
+$state[1] = $conv[$par[2]];
+$state[2] = $sys[$par[1]];
+$state[3] = $ran[$par[0]];
+
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+}
+
+
+BEGIN_PGML
+Indentify the type of sampling used in each of the following cases.
+
+*(a)* [$state[0]] [_]{$drop[0]}
+
+*(b)* [$state[1]] [_]{$drop[1]}
+
+*(c)* [$state[2]] [_]{$drop[2]}
+
+*(d)* [$state[3]] [_]{$drop[3]}
+END_PGML
+
+
+ENDDOCUMENT();

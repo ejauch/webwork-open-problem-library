@@ -1,0 +1,50 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$mean = random(651,751,16)/10;
+$stddev = random(31,71,8)/10;
+
+$steps = random(1,3,1);
+
+$bottom = $mean - $steps*$stddev;
+$top = $mean + $steps*$stddev;
+
+if ($steps == 1) {
+$ans = 32;
+}
+elsif ($steps == 2) {
+$ans = 5;
+}
+else {
+$ans = 0.3;
+}
+
+BEGIN_PGML
+A manufacture that makes packages of cookies has a uniform distribution of the weights of the packages of cookies with a mean weight of [$mean] grams and a standard deviation of [$stddev] grams. What percentage of package weights fall outside of the range [$bottom] grams and [$top] grams?
+
+The answer is [_]{$ans}{5} %
+END_PGML
+
+ENDDOCUMENT();

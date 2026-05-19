@@ -1,0 +1,57 @@
+## DESCRIPTION
+## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Unit Conversions)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('unit conversion', 'units')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  'contextCurrency.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+SRAND(314);
+
+Context("Numeric");
+
+$bulbs = random(3,5,1);
+
+$days = random(5,10,1);
+ 
+$hwatt = random(60,80,5);
+$lwatt = random(10,15,1);
+$cost = random(22,31,3)/100;
+
+
+$hcost = Compute("$bulbs*$hwatt*$days*24/1000*$cost");
+$lcost = Compute("$bulbs*$lwatt*$days*24/1000*$cost");
+
+$costdif = $hcost - $lcost;
+
+Context("Currency");
+
+$ans = Currency("$costdif");
+
+
+BEGIN_PGML
+What is the difference in cost to power a [$bulbs]-bulb lamp with [$hwatt]-watt bults vs [$lwatt]-watt bulbs for [$days] days if your energy costs [`\$[$cost]`] a kilowatt-hour?
+
+The difference in cost is [____]{$ans} (Enter the $ with your answer)
+
+END_PGML
+
+
+ENDDOCUMENT();

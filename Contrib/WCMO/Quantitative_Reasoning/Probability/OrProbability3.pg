@@ -1,0 +1,66 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+@pics = ("jack","queen","king","ace");
+@suits = ("heart","diamond","spade","club");
+
+$numcard = random(2,10,1);
+$piccard = $pics[random(0,$#pics,1)];
+
+@schoices = (random(0,3,1),random(0,3,1));
+
+while ($schoices[1] == $schoices[0]) {
+$schoices[1] = random(0,3,1);
+}
+
+$suit1 = $suits[$schoices[0]];
+$suit2 = $suits[$schoices[1]];
+
+Context('Fraction-NoDecimals');
+
+@ans = ();
+$ans[0] = Compute("(4+4)/52")->reduce();
+$ans[1] = Compute("26/52")->reduce();
+
+
+BEGIN_PGML
+Imagine you have a standard deck of 52 cards. Find the following probabilities?
+
+- [`P(\text{a [$numcard] or a [$piccard]})=`] [_]{$ans[0]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+- [`P(\text{a [$suit1] or a [$suit2]})=`] [_]{$ans[1]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

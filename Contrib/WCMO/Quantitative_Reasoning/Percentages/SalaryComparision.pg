@@ -1,0 +1,66 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('9/24/24')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@sal = ();
+
+Context("Currency");
+$sal[0] = Currency(random(33,72,3)*1000);
+$sal[1] = Currency($sal[0] + random(5,15,2)*1000);
+
+Context("Numeric");
+$perm = sprintf("%0.0f",Compute(($sal[1]-$sal[0])/$sal[0]*100));
+$perl = sprintf("%0.0f",Compute(($sal[1]-$sal[0])/$sal[1]*100));
+
+@names = ("Liam", "Sofia", "Akira", "Amara", "Sven", "Aisha", "Nikolai", "Leila", "Diego", "Mina", "Ravi", "Ines", "Yusuf", "Mei", "Omar", "Renée", "Dimitri", "Isla", "Mateo", "Hana", "Zane", "Saskia", "Ibrahim", "Talia", "Luciano", "Alina", "Kai", "Anastasia", "Levi", "Fatima");
+
+$len = $#names;
+
+@par = ();
+
+$par[0] = random(0,$len,1);
+$par[1] = random(0,$len,1);
+
+while ($par[1]==$par[0]) {
+$par[1] = random(0,$len,1);
+}
+
+@name = ();
+foreach my $i (0,1) {
+$name[$i] = $names[$par[$i]];
+}
+
+BEGIN_PGML
+If [$name[0]] has a salary of [$sal[0]] and [$name[1]] has a salary of [$sal[1]], then
+
+[$name[0]]'s salary is [___]{$perl}% less than [$name[1]]'s.
+
+[$name[1]]'s salary is [___]{$perm}% more than [$name[0]]'s.
+
+(Give your answers rounded to the nearest whole percent)
+
+END_PGML
+
+
+ENDDOCUMENT();

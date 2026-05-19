@@ -1,0 +1,46 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+$num = random(2,8,2);
+$den = $num+random(9,15,2);
+
+$cardnum = random(10,15,1);
+
+$prob = Compute("1-(1-$num/$den)**$cardnum");
+
+$ans = sprintf("%.3f",$prob);
+
+
+
+BEGIN_PGML
+You purchase [$cardnum] scratch cards for which the probability of winning at least some amount of money on a single card is [$num] in [$den]. What is the probabiliy that you will have at least one winning card amoungst all your cards?
+
+[`P(\text{at least one winner})=`] [_]{$ans} (Round your answer to 3 decimal places)
+
+
+END_PGML
+
+ENDDOCUMENT();

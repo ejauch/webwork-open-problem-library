@@ -1,0 +1,101 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS('conditional','deductive argument')
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserMultipleChoice.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@prem1 = ("If interest rates rise, then borrowing costs will increase.",
+         "If education funding is cut, then schools will have fewer resources.",
+         "If pollution levels continue to rise, then air quality will worsen.",
+         "If companies automate more jobs, then many workers will lose their jobs.",
+         "If renewable energy adoption increases, then reliance on fossil fuels will decrease.",
+         "If the minimum wage is increased, then workers will have more disposable income.",
+         "If cybersecurity measures are improved, then data breaches will become less frequent.",
+         "If public transportation is expanded, then traffic congestion will decrease."
+         );
+@prem2 = ("If borrowing costs increase, then fewer people will take out loans.",
+         "If schools have fewer resources, then students will receive a lower quality education.",
+         "If air quality worsens, then public health will decline.",
+         "If many workers lose their jobs, then unemployment rates will rise.",
+         "If reliance on fossil fuels decreases, then greenhouse gas emissions will reduce.",
+         "If workers have more disposable income, then consumer demand will rise.",
+         "If data breaches become less frequent, then consumer trust in online services will increase.",
+         "If traffic congestion decreases, then commute times will be shorter."
+         );
+@prem3 = ("If fewer people take out loans, then the housing market will slow down.",
+          "If students receive a lower quality education, then the workforce will be less skilled.",
+         "If public health declines, then healthcare costs will increase.",
+         "If unemployment rates rise, then consumer spending will decrease.",
+         "If greenhouse gas emissions reduce, then climate change effects may slow.",
+         "If consumer demand rises, then businesses may expand and hire more employees.",
+         "If consumer trust in online services increases, then e-commerce sales will grow.",
+         "If commute times are shorter, then productivity and quality of life will improve."
+         );
+$par = random(0,1,1);
+if ($par == 0) {
+@con = ("If interest rates rise, then the housing market will slow down.",
+        "If education funding is cut, then the workforce will be less skilled.",
+        "If pollution levels continue to rise, then healthcare costs will increase.",
+        "If companies automate more jobs, then consumer spending will decrease.",
+        "If renewable energy adoption increases, then climate change effects may slow.",
+        "If the minimum wage is increased, then businesses may expand and hire more employees.",
+        "If cybersecurity measures are improved, then e-commerce sales will grow.",
+        "If public transportation is expanded, then productivity and quality of life will improve."
+       );
+$ans = DropDown(
+                ["Valid", "Invalid"], "Valid", placeholder => "- Select one of the following -"
+                );
+}
+else {
+@con = ("If the housing market slows down, then interest rates have risen.",
+        "If the workforce becomes less skilled, then education funding has been cut.",
+        "If healthcare costs increase, then pollution levels have continued to rise.",
+        "If consumer spending decreases, then companies have automated more jobs.",
+        "If climate change effects slow, then renewable energy adoption has increased.",
+        "If businesses expand and hire more employees, then the minimum wage has been increased.",
+        "If e-commerce sales grow, then cybersecurity measures have been improved.",
+        "If productivity and quality of life improve, then public transportation has been expanded."
+       );
+$ans = DropDown(
+                ["Valid", "Invalid"], "Invalid", placeholder => "- Select one of the following -"
+                );
+}
+$length = $#prem1;
+
+$choice = random(0,$length,1);
+
+BEGIN_PGML
+Determine the validity of the following:
+
+    *Premise:* [$prem1[$choice]]
+
+    *Premise:* [$prem2[$choice]]
+    
+     *Premise:* [$prem3[$choice]]
+
+    *Conclusion:* [$con[$choice]]
+
+The argument is [_]{$ans}
+END_PGML
+
+ENDDOCUMENT();

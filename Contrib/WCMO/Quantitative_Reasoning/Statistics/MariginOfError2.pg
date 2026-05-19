@@ -1,0 +1,47 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Statistics')
+## DBchapter('Confidence intervals')
+## DBsection('Concepts')
+## Date('10/06/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@names = ("Johnson", "Martinez", "Brown", "Patel", "Smith", "Garcia", "Williams", "Lee", "Wilson", "Davis", "Nguyen", "Robinson", "Clark", "Walker", "Hernandez");
+
+$name = $names[random(0,$#names,1)];
+
+$err = random(2,5,1);
+$per = random(51,53,1) + $err;
+
+$CIb = $per - $err;
+$CIt = $per + $err;
+
+$win = DropDown(['Yes','No'],'Yes', placeholder => '- Select on of the following -');
+
+BEGIN_PGML
+A survey of voters finds that [$per]% of voters plan to vote for candidate [$name]. The margin of error in the survey is [$err] percentage points.
+
+The confidence interval for this situation is [_]{$CIb}% to [_]{$CIt}%.
+
+If they need a majority to win, does our confidence interval suggest they will win? [_]{$win}
+END_PGML
+
+ENDDOCUMENT();

@@ -1,0 +1,44 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@animals = ("cats", "dogs", "elephants", "giraffes", "lions", "tigers", "bears", "wolves", "zebras", "rabbits");
+
+$animal = $animals[random(0,$#animals,1)];
+
+$rate = random(25,85,2);
+
+$time = Compute("log(2)/log(1+$rate/100)")->reduce();
+
+@ans = ();
+
+$ans[0] = sprintf("%0.2f",$time);
+
+
+BEGIN_PGML
+A population of [$animal] is growing at a rate of [$rate]% per month. The exact doubling time would be [_]{$ans[0]} months (rounded to the nearest hundredth).
+END_PGML
+
+ENDDOCUMENT();

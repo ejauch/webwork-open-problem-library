@@ -1,0 +1,46 @@
+## DESCRIPTION
+## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection('Unit Conversions')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('unit conversion', 'units')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$d = random(12,16,1);
+
+$dens = Compute("$d*2.540**3/453.6");
+
+$rdens = sprintf("%0.3f",$dens);
+
+$ans = Compute("$rdens");
+
+
+BEGIN_PGML
+Convert [$d] grams per cubic centimeter to pounds per cubic inch (rounded to the nearest thousandth).
+
+Answer: [____]{$ans->cmp(
+    tolType   => 'absolute',
+    tolerance => .00001)} pounds per cubic inch.
+
+END_PGML
+
+
+ENDDOCUMENT();

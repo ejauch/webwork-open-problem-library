@@ -1,0 +1,42 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('9/26/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context("Currency");
+
+$pre = Currency(random(12,42,3));
+$tax = random(7,13,2);
+
+$post = Currency($pre*(100+$tax)/100);
+
+
+BEGIN_PGML
+If the pre-tax total for your purchase is [$pre] and the local sales tax is [$tax]%, what is the after-tax cost of your purchase?
+
+After tax cost is [_]{$post}{5}
+END_PGML
+
+
+ENDDOCUMENT();

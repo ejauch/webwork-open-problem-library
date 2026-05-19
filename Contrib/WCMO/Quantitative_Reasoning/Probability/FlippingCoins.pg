@@ -1,0 +1,68 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+SRAND(932);
+
+$numcoins = random(3,5,1);
+
+$outcomes = 2**$numcoins;
+
+$events = $numcoins + 1;
+
+@side = ("heads","tails");
+
+$choice = $side[random(0,1,1)];
+
+$numside = random(3,$numcoins,1)-1;
+
+$numerator = C($numcoins,$numside);
+
+@ans = ();
+
+$ans[0] = $outcomes;
+$ans[1] = $events;
+
+Context('Fraction-NoDecimals');
+
+$ans[2] = Compute("$numerator/$outcomes");
+
+
+BEGIN_PGML
+Answer the following based on flipping [$numcoins] coins:
+
+- How many possible outcomes are there for flipping [$numcoins]? [_]{$ans[0]}
+
+- If all we are interested in is the total number of [$choice], how many possible events are there? [_]{$ans[1]}
+
+- What is the probability of getting exactly [$numside] [$choice]? [_]{$ans[2]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+END_PGML
+
+ENDDOCUMENT();

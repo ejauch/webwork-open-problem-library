@@ -1,0 +1,40 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('9/26/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context("Currency");
+
+$post = Currency(random(925,1400,25)+random(15,95,15)/100);
+$tax = random(7,13,2);
+
+$pre = Currency($post/((100+$tax)/100));
+
+
+BEGIN_PGML
+You go on a late night shopping spree an notice on your bank account that you after-tax total was [$post]. If the tax rate is [$tax]%, then your pre-tax total was [_]{$pre}{5}.
+END_PGML
+
+
+ENDDOCUMENT();

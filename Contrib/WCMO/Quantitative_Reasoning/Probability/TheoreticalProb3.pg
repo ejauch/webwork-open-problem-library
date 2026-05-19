@@ -1,0 +1,52 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/27/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+@choices = ("number card (2 through 10)","picture card (jack, queen, king, ace)");
+
+$par = random(0,$#choices,1);
+
+Context('Fraction-NoDecimals');
+if ($par == 0) {
+$ans = Compute('36/52');
+}
+else {
+$ans = Compute('16/52');
+}
+
+
+BEGIN_PGML
+What is the probability of drawing a [$choices[$par]] from a standard deck of 52 cards?
+
+[`P(\text{draw a [$choices[$par]]})=`] [_]{$ans->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

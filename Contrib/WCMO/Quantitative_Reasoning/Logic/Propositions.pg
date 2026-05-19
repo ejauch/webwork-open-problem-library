@@ -1,0 +1,85 @@
+## DESCRIPTION
+## Give a value for pi
+## ENDDESCRIPTION
+
+## KEYWORDS('propositions')
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('8/23/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserMultipleChoice.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@props = ("Jack is the fastest runner.","Jill likes to eat brownies.", "The grass is green.", "The sky is blue.","The cake is a lie.","
+Juan is the strongest front tackle.", "Lylla is the best dancer.");
+@notprops = ("Go for a run.", "To be or not to be.", "Back to the future.", "Eat your dinner.", "Swim in the pool.");
+
+$proplength = $#props;
+$notproplength = $#notprops;
+
+@p= (random(0,$proplength,1),random(0,$proplength,1),random(0,$proplength,1));
+
+while ($p[0] == $p[1]) {
+$p[1] = random(0,$proplength,1);
+}
+
+while ($p[0] == $p[2] || $p[1] == $p[2]) {
+$p[2] = random(0,$proplength,1);
+}
+
+@notp= (random(0,$notproplength,1),random(0,$notproplength,1),random(0,$notproplength,1));
+
+while ($notp[0] == $notp[1]) {
+$notp[1] = random(0,$notproplength,1);
+}
+
+while ($notp[2] == $notp[0] || $notp[2] == $notp[1]) {
+$notp[2] = random(0,$notproplength,1);
+}
+
+@choices = ();
+
+foreach my $i (0..2) {
+$j = 2*$i;
+$k = 2*$i+1;
+$choice[$j] = $props[$p[$i]];
+$choice[$k] = $notprops[$notp[$i]];
+}
+
+$checkbox = CheckboxList(
+    [
+        [
+        "$choice[0]",
+        "$choice[1]",
+        "$choice[2]",
+        "$choice[3]",
+        "$choice[4]",
+        "$choice[5]"
+        ],
+        'None of the above'
+    ],
+    [ $choice[0], $choice[2],$choice[4] ]
+);
+
+
+BEGIN_PGML
+For the list below, choose the option(s) that is/are a proposition, or choose "None of the above".
+
+[_]{$checkbox}{5}
+END_PGML
+
+ENDDOCUMENT();

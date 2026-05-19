@@ -1,0 +1,182 @@
+## DESCRIPTION
+## Quantitative Reasoning: Venn Diagram
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Venn Diagrams)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('Venn Diagrams')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  'parserRadioButtons.pl',
+  'parserPopUp.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+$graph1 = createTikZImage();
+$graph2 = createTikZImage();
+$graph3 = createTikZImage();
+$graph4 = createTikZImage();
+$graph1->tikzLibraries("arrows.meta");
+$graph2->tikzLibraries("arrows.meta");
+$graph3->tikzLibraries("arrows.meta");
+$graph4->tikzLibraries("arrows.meta");
+
+
+$par = 0;
+
+# the options for subsets and supsets (and their negations) for the Venn diagrams. It is important that these two arrays be the same size and the positions match
+
+@supset = ("lives in Missouri", "likes the mountians","likes the beach","likes the cold");
+@nsupset = ("does not live in Missouri", "does not like the mountains", "does not like the beach", "does not like the cold");
+
+@subset = ("lives in Fulton","lives in Colorado","lives in Miami","lives in Alaska");
+@nsubset = ("does not live in Fulton", "does not live in Colorado", "does not live in Miami", "does not live in Alaska");
+
+# the conditional statement for the first proposition based on the sub/supsets above must be the same size and position as the arrays above.
+
+@conditional = ("If a person lives in Fulton, then they live in Missouiri.","If a person lives in Colorado, then they like the mountians.", "If a person lives in Miami, then they like the beach.", "If a person lives in Alaska, then they like the cold.");
+
+# grabs the last index to then randomly select which option for the problem.
+$length = $#supset;
+
+$l = random(0,$length,1);
+
+$sup = $supset[$l];
+$sub = $subset[$l];
+
+@names = ("Ashley", "Omar", "Nguyen", "Jackson");
+
+$name = $names[random(0,$#names,1)];
+
+$prop1 = $conditional[$l];
+
+if ($par == 0) {
+$prop2 = "$name $subset[$l].";
+$con = "$name $supset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Valid', placeholder=>"- Select One -");
+$ans = 'A';
+}
+elsif ($par == 1) {
+$prop2 = "$name $supset[$l].";
+$con = "$name $subset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Invalid', placeholder=>"- Select One -");
+$ans = 'B';
+}
+elsif ($par == 2) {
+$prop2 = "$name $nsubset[$l].";
+$con = "$name $nsupset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Invalid', placeholder=>"- Select One -");
+$ans = 'C';
+}
+else {
+$prop2 = "$name $nsupset[$l].";
+$con = "$name $nsubset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Valid', placeholder=>"- Select One -");
+$ans = 'D';
+}
+
+$graph1->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+    \node at (-10,4) {\Huge\textbf{A}};
+\begin{scope} [fill opacity = .4]
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+\end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (0.25,-1.5) {\Huge\textbf{X}};
+END_TIKZ
+
+$graph2->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+    \node at (-10,4) {\Huge\textbf{B}};
+  \begin{scope} [fill opacity = .4]
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+  \end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (1,-1.5) {\Huge\textbf{X}};
+END_TIKZ
+
+$graph3->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+  \node at (-10,4) {\Huge\textbf{C}};
+  \begin{scope} [fill opacity = .4]    
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+  \end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (3,0) {\Huge\textbf{X}};
+END_TIKZ
+$graph4->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+    \node at (-10,4) {\Huge\textbf{D}};
+  \begin{scope} [fill opacity = .4]
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+  \end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (4,0) {\Huge\textbf{X}};
+END_TIKZ
+
+$radio1 = RadioButtons(
+    [ 'A', 'B', 'C', 'D' ],
+    $ans,    # correct answer
+     separator => $SPACE x 4
+);
+
+$refreshCachedImages = 1;
+
+BEGIN_PGML
+Consider the following deductive argument:
+
+*Proposition:* [$prop1]
+
+*Proposition:* [$prop2]
+
+*Conclusion:* [$con]
+
+
+The Venn diagram below that matches the argument at the beginning of this problem is
+
+>>[__]{$radio1}<<
+
+[@ LayoutTable(
+  [  [ image(insertGraph($graph1), width=>300, tex_size=>1000), image(insertGraph($graph2), width=>300, tex_size=>1000) ],
+    [ image(insertGraph($graph3), width=>300, tex_size=>1000), image(insertGraph($graph4), width=>300, tex_size=>1000) ] ] ) @]*
+
+>>(_Click to see a larger image_)<<
+
+Based on Venn diagram, is the argument is [__]{$dropdown1}.
+
+END_PGML
+
+
+ENDDOCUMENT();

@@ -1,0 +1,78 @@
+## DESCRIPTION
+## Quantitative Reasoning: Determining truth using truth table
+## ENDDESCRIPTION
+
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Truth tables')
+## Date('7/11/24')
+## Author('Erich Jauch')
+## Institution('WCMO')
+## KEYWORDS('logic', 'truth table')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "unionTables.pl",
+    "niceTables.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context()->strings->add(T=>{},F=>{});
+
+@props = ();
+
+@tprops = ("Birds fly", "Dogs run", "Fish swim", "Bees buzz", "Cats sleep", "Frogs hop");
+
+@fprops = ("Whales fly", "Fish walk", "Eagles talk");
+
+$k = random(0,5,1);
+$r = $k + random(1,5,1);
+
+if ($r > 5)
+{
+$r = $r - 6;
+}
+
+$j = random(0,2,1);
+
+$props[0] = $tprops[$k];
+$props[1] = $fprops[$j];
+$props[2] = $tprops[$r];
+$props[3] = "$props[0] and $props[1] and $props[2]";
+
+@ans = ("T", "F", "T", "F");
+
+
+BEGIN_PGML
+
+Using the truth table below to determine the truth of the proposition:
+>>"[$props[3]]"<<
+(Enter T for True and F for False)
+
+[@
+DataTable(
+[
+["$props[0]", "$props[1]", "$props[2]", "$props[3]"],
+[ans_rule(10), ans_rule(10), ans_rule(10), ans_rule(10)]
+],
+    caption => ' ',
+    midrules=>1,
+    align => '|c|c|c|c|'
+)
+@]***
+END_PGML
+
+ANS(str_cmp($ans[0]));
+ANS(str_cmp($ans[1]));
+ANS(str_cmp($ans[2]));
+ANS(str_cmp($ans[3]));
+
+ENDDOCUMENT();

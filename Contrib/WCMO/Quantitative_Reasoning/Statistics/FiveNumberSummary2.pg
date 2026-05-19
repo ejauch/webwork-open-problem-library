@@ -1,0 +1,112 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/20/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "niceTables.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@price = ();
+
+my $i = 0;
+
+$nval = random(8,14,2); # number of values in data set less 1.
+
+$val[0] = random(3.1,3.9,0.1);
+
+while ($i<$nval) {
+
+$j = $i + 1;
+
+$val[$j]=$val[$i] + random(0.3,1.3,0.4);
+
+$i++;
+}
+
+if ($nval % 2 == 0) {
+$index = $nval/2;
+$median = $val[$index];
+if ($index % 2 == 0) {
+$lqindexr = $index/2;
+$lqindexl = $index/2-1;
+$lq = sprintf("%0.1f",($val[$lqindexl]+$val[$lqindexr])/2);
+$uqindexr = $nval-$lqindexl;
+$uqindexl = $uqindexr-1;
+$uq = sprintf("%0.1f",($val[$uqindexl]+$val[$uqindexr])/2);
+}
+else {
+$lqindex = ($index-1)/2;
+$lq = $val[$lqindex];
+$uqindex = $nval-$lqindex;
+$uq = $val[$uqindex];
+}
+}
+else {
+$indexl = ($nval-1)/2;
+$indexr = ($nval+1)/2;
+$median = sprintf("%0.1f",($val[$indexl]+$val[$indexr])/2);
+if ($indexl % 2 == 0) {
+$lqindex = $indexl/2;
+$lq = $val[$lqindex];
+$uqindex = $nval-$lqindex;
+$uq = $val[$uqindex];
+}
+else {
+$lqindexl = ($indexl-1)/2;
+$lqindexr = ($indexl+1)/2;
+$lq = sprintf("%0.1f",($val[$lqindexl]+$val[$lqindexr])/2);
+$uqindexr = $nval-$lqindexl;
+$uqindexl = $uqindexr-1;
+$uq = sprintf("%0.1f",($val[$uqindexl]+$val[$uqindexr])/2);
+}
+}
+
+
+$min = $val[0];
+$max = $val[$nval];
+
+
+#@shuffled_val = @val;
+
+#for (my $i = @shuffled_price - 1; $i > 0; $i--) {
+#    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
+    # Swap elements at index $i and $j
+#    my $temp = $shuffled_price[$i];
+#    $shuffled_price[$i] = $shuffled_price[$j];
+#    $shuffled_price[$j] = $temp;
+#}
+
+#$display_string = join(' ', @shuffled_price);
+$display_string = join(' | ',@val);
+
+
+
+BEGIN_PGML
+
+Find the five-number summary for the values below.
+
+>>| [$display_string] |<<
+
+Five-number summary: [_]{$min}, [_]{$lq}, [_]{$median},[_]{$uq},[_]{$max}
+
+Round all answers to 1 decimal place.
+END_PGML
+
+ENDDOCUMENT();

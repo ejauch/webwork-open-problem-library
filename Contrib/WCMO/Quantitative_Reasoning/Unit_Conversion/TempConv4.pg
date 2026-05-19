@@ -1,0 +1,50 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS('unit conversion','temperature')
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$k = random(150,255,15);
+
+$c = Compute("$k-273.15");
+
+$f = Compute("$c*9/5+32");
+
+$rc = sprintf("%0.2f",$c);
+
+$ans = Compute("$rc");
+
+
+BEGIN_PGML
+Convert [$k] K to Celsius (rounded to the nearest hundredth).
+
+Answer: [____]{$ans->cmp(
+    tolType   => 'absolute',
+    tolerance => .0001)}[`{}^\circ`] C
+
+END_PGML
+
+
+ENDDOCUMENT();

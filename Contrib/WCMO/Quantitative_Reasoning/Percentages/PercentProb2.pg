@@ -1,0 +1,49 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+SRAND(628);
+
+@colors = ("red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "white");
+
+$color = $colors[random(0,$#colors,1)];
+
+
+$total = random(744,912,13);
+
+#$num = $total - random(323,454,11);
+
+$num = 314;
+
+$frac = Compute($num/$total*100);
+
+$ans = sprintf("%0.1f",$frac);
+
+BEGIN_PGML
+A car dealership sold [$total] cars last month, and they noticed that [$num] of cars sold were [$color]. Express the number of [$color] cars sold as a percentage of the total number of cars sold. (Round to the nearest tenth of a percent)
+
+[_]{$ans}%
+END_PGML
+
+ENDDOCUMENT();

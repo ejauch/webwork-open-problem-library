@@ -1,0 +1,76 @@
+## DESCRIPTION
+## Quantitative Reasoning: Venn Diagram
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Venn Diagrams)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('Venn Diagrams')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'parserPopUp.pl',
+  'PGtikz.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+$graph_image = createTikZImage();
+$graph_image->tikzLibraries("arrows.meta");
+
+
+$graph_image->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=3]}}
+\draw[ultra thick,fill=white] (-6,4) rectangle (6,-4);
+ \begin{scope} [fill opacity = .4]
+    \draw[draw = black, ultra thick,fill=blue] (-3,0) circle (2);
+    \draw[draw = black, ultra thick,fill=red] (3,0) circle(2);
+  \end{scope}
+END_TIKZ
+
+@overlaps = (
+            "The set of animals that can fly and the set of insects.",
+           "The set of animals that can climb and the set of mammals.",
+            "The set of animals that can swim and the set of animals that can fly.",
+            "The set of students at Westminster College (Missouri) and the set of all college freshmen."
+            );
+@subsets = (
+            "The set of mammals and the set of lions.",
+            "The set of animals that can swim and the set of fish.",
+            "The set of birds and the set of ducks.",
+            "The set of students at Westminster College (Missouri) and the set of students in Westminster Seminar."
+            );
+@disjoints = (
+             "The set of fish and the set of birds.",
+             "The set of mammals and the set of reptiles.",
+             "The set of ducks and the set of parrots.",
+             "The set of students at Westminster College (Missouri) and the set of graduates of Westminster College (Missouri)."
+             );
+$length = $#overlaps;
+
+$par = random(0,$length,1);
+
+$dropdown = DropDown(
+                    [[$overlaps[$par],$subsets[$par],$disjoints[$par]]],
+                    $disjoints[$par],
+                    placeholder => ' - Select one of the following -'
+                    );
+
+BEGIN_PGML
+
+>> [@ image($graph_image, width => 400, tex_size => 600) @]* <<
+
+Select which of the following set relations can be visuallized using the Venn diagram above. [__]{$dropdown}
+
+END_PGML
+
+
+ENDDOCUMENT();

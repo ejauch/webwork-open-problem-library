@@ -1,0 +1,39 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$hlife = random(10,30,2);
+
+@ans = ();
+
+$ans[0] = sprintf("%0.1f",70/$hlife);
+
+
+BEGIN_PGML
+After introducing a disinfectent to a surface in a lab a population of bacteria has a half-life of around [$hlife] minutes. If this is the case, then the decay rate would be approximately [_]{$ans[0]}% per minute (rounded to the nearest tenth).
+
+END_PGML
+
+ENDDOCUMENT();

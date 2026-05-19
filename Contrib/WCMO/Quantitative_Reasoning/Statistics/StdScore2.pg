@@ -1,0 +1,65 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/26/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+$mean = random(35,45,2);
+$stddev = random(1.5,3.5,0.2);
+
+$bottom = $mean - 3 * $stddev;
+$top = $mean + 3 * $stddev;
+
+@vals = ();
+@z = ();
+
+foreach my $i (0...2) {
+$vals[$i] = sprintf("%0.0f",random($bottom,$top,1));
+}
+
+
+while ($vals[1] == $vals[0]) {
+$vals[1] = sprintf("%0.0f",random($bottom,$top,1));
+}
+
+while ($vals[2] == $vals[0] || $vals[2] == $vals[1]) {
+$vals[2] = sprintf("%0.0f",random($bottom,$top,1));
+}
+
+foreach my $i (0...2) {
+$z[$i] = sprintf("%0.2f",($vals[$i]-$mean)/$stddev);
+}
+
+
+
+BEGIN_PGML
+The age of members of a club are normally distributed with a mean age of [$mean] years with a standard deviation of [$stddev] years. Find the standard scores associated with the following ages (rounded to 2 decimal places).
+
+- The standard score for [$vals[0]] years is [`z=`][_]{$z[0]} ;
+- The standard score for [$vals[1]] years is [`z=`][_]{$z[1]} ;
+- The standard score for [$vals[2]] years is [`z=`][_]{$z[2]} .
+
+
+END_PGML
+
+ENDDOCUMENT();

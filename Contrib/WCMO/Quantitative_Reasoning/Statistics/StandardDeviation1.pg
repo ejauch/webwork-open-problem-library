@@ -1,0 +1,104 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/20/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "niceTables.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@price = ();
+
+my $i = 0;
+
+$nval = random(8,12,1); # number of values in data set less 1.
+
+$val[0] = random(2,4,1);
+
+while ($i<$nval) {
+
+$j = $i + 1;
+
+$val[$j]=$val[$i] + random(0,3,1);
+
+$i++;
+}
+
+$sum = 0;
+my $k = 0;
+
+while ($k<$nval + 1) {
+$sum = $sum + $val[$k];
+
+$k++;
+}
+
+$mean = sprintf("%0.1f",$sum/($nval+1));
+
+@dev = ();
+@devsq = ();
+
+foreach $r (0 .. $nval) {
+$dev[$r] = $val[$r] - $mean;
+$devsq[$r] = $dev[$r]**2;
+}
+
+$devsum = 0;
+my $s = 0;
+
+while($s < $nval+1) {
+$devsum = $devsum + $devsq[$s];
+$s++;
+}
+
+$std = sprintf("%0.2f",Compute(sqrt($devsum/$nval)));
+
+#@shuffled_val = @val;
+
+#for (my $i = @shuffled_price - 1; $i > 0; $i--) {
+#    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
+    # Swap elements at index $i and $j
+#    my $temp = $shuffled_price[$i];
+#    $shuffled_price[$i] = $shuffled_price[$j];
+#    $shuffled_price[$j] = $temp;
+#}
+
+#$display_string = join(' ', @shuffled_price);
+$display_string = join(' | ',@val);
+
+$total = $nval + 1;
+
+$colors = ("red","green","blue","yellow");
+
+$color = $colors[random(0,$#colors,1)];
+
+BEGIN_PGML
+
+A collection of [$total] kids all have packages of jelly beans and they have the following counts of [$color] jelly beans:
+
+>>| [$display_string] |<<
+
+The mean of this set is [_]{$mean} (rounded to 1 decimal place)
+
+The standard deviation of this set is [_]{$std} (rounded to two decimal places)
+
+END_PGML
+
+
+ENDDOCUMENT();

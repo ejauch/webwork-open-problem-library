@@ -1,0 +1,44 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Statistics')
+## DBchapter('Confidence intervals')
+## DBsection('Concepts')
+## Date('10/06/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+
+$err = random(2,5,1);
+$per = random(40,84,4);
+
+$CIb = $per - $err;
+$CIt = $per + $err;
+
+@statements = ("A consumer survey finds that $per% of respondents prefer online shopping. If the survey has a $err percentage points margin of error, what is the confidence interval?", "A political poll finds that $per% of voters support the new policy. If the poll has a $err percentage points margin of error, what is the confidence interval?", "A workplace survey finds that $per% of employees are satisfied with their work-life balance. If the survey has a $err percentage points margin of error, what is the confidence interval?", "An environmental survey finds that $per% of participants favor renewable energy sources. If the survey has a $err percentage points margin of error, what is the confidence interval?", "A student health survey finds that $per% of students reported feeling stressed. If the survey has a $err percentage points margin of error, what is the confidence interval?", "A customer satisfaction survey finds that $per% of customers rated the service as excellent. If the survey has a $err percentage points margin of error, what is the confidence interval?", "A fitness survey finds that $per% of people regularly exercise. If the survey has a $err percentage points margin of error, what is the confidence interval?", "A community survey finds that $per% of residents believe the city needs more parks. If the survey has a $err percentage points margin of error, what is the confidence interval?", "A tech user survey finds that $per% of users say they are likely to upgrade their device. If the survey has a $err percentage points margin of error, what is the confidence interval?", "A travel survey finds that $per% of travelers prefer booking online. If the survey has a $err percentage points margin of error, what is the confidence interval?");
+
+$statement = $statements[random(0,$#statements,1)];
+
+BEGIN_PGML
+[$statement]
+
+The confidence interval is [_]{$CIb}% to [_]{$CIt}%.
+END_PGML
+
+ENDDOCUMENT();

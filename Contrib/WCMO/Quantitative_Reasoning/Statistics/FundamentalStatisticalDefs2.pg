@@ -1,0 +1,66 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('Statistics')
+## DBchapter('Experimental design')
+## DBsection('Concepts')
+## Date('10/06/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@study = ("A study of 850,000 healthcare workers found that 74% reported higher job satisfaction after receiving additional training.", "A study of 1,100,000 college graduates found that 79% secured jobs in their field of study within 6 months.", "A study of 600,000 freelancers found that 70% preferred project-based work over full-time employment.", "A study of 2,500,000 online shoppers found that 82% were influenced by customer reviews before purchasing.", "A study of 1,300,000 single parents found that 65% struggled with balancing work and family responsibilities.", "A study of 450,000 middle school students found that 73% felt more engaged in online classes than in-person.", "A study of 3,500,000 social media users found that 78% were concerned about the impact of misinformation on public discourse.", "A study of 700,000 recent college graduates found that 72% felt unprepared for managing their personal finances.", "A study of 1,800,000 high school teachers found that 68% believed that remote learning negatively affected student performance.", "A study of 900,000 retail workers found that 81% experienced burnout after holiday seasons.", "A study of 500,000 people aged 65 and older found that 67% used technology to stay connected with family during the pandemic.", "A study of 1,400,000 professional athletes found that 80% believed mental health was as important as physical fitness.", "A study of 2,000,000 elementary school students found that 76% performed better academically in smaller classes.", "A study of 1,200,000 digital content creators found that 71% relied on multiple platforms for income.", "A study of 400,000 urban residents found that 70% preferred using public transportation over driving.", "A study of 1,600,000 remote employees found that 69% felt isolated due to limited social interaction at work.", "A study of 950,000 mobile app developers found that 83% prioritized user experience in designing their products.", "A study of 500,000 new business owners found that 66% underestimated the challenges of marketing their products.", "A study of 1,000,000 gamers found that 77% preferred multiplayer games for social interaction.", "A study of 1,700,000 recent retirees found that 75% took up new hobbies after retiring.", "A study of 650,000 podcast creators found that 72% struggled with growing their audience in the first year.", "A study of 2,300,000 online course participants found that 79% preferred self-paced learning to scheduled classes.", "A study of 1,200,000 investors found that 80% believed real estate was a more stable investment than stocks.", "A study of 900,000 part-time workers found that 65% preferred flexible hours over fixed schedules.", "A study of 600,000 public sector employees found that 70% felt they contributed positively to their community through their work.", "A study of 1,100,000 pet owners found that 81% said their pets helped reduce stress during challenging times.", "A study of 1,500,000 people aged 55 and over found that 67% planned to delay retirement for financial reasons.", "A study of 400,000 university professors found that 78% believed that student engagement increased with interactive teaching methods.", "A study of 2,800,000 mobile phone users found that 73% preferred brands with strong data privacy policies.", "A study of 1,300,000 nonprofit volunteers found that 84% felt a greater sense of purpose from their volunteer work."
+);
+
+@num = ("850,000", "1,100,000", "600,000", "2,500,000", "1,300,000", "450,000", "3,500,000", "700,000", "1,800,000", "900,000", "500,000", "1,400,000", "2,000,000", "1,200,000", "400,000", "1,600,000", "950,000", "500,000", "1,000,000", "1,700,000", "650,000", "2,300,000", "1,200,000", "900,000", "600,000", "1,100,000", "1,500,000", "400,000", "2,800,000", "1,300,000");
+
+@group = ("healthcare workers", "college graduates", "freelancers", "online shoppers", "single parents", "middle school students", "social media users", "recent college graduates", "high school teachers", "retail workers", "people aged 65 and older", "professional athletes", "elementary school students", "digital content creators", "urban residents", "remote employees", "mobile app developers", "new business owners", "gamers", "recent retirees", "podcast creators", "online course participants", "investors", "part-time workers", "public sector employees", "pet owners", "people aged 55 and over", "university professors", "mobile phone users", "nonprofit volunteers");
+
+@per = ("74%", "79%", "70%", "82%", "65%", "73%", "78%", "72%", "68%", "81%", "67%", "80%", "76%", "71%", "70%", "69%", "83%", "66%", "77%", "75%", "72%", "79%", "80%", "65%", "70%", "81%", "67%", "78%", "73%", "84%");
+
+@prop = ("reported higher job satisfaction after receiving additional training", "secured jobs in their field of study within 6 months", "preferred project-based work over full-time employment", "were influenced by customer reviews before purchasing", "struggled with balancing work and family responsibilities", "felt more engaged in online classes than in-person", "were concerned about the impact of misinformation on public discourse", "felt unprepared for managing their personal finances", "believed that remote learning negatively affected student performance", "experienced burnout after holiday seasons", "used technology to stay connected with family during the pandemic", "believed mental health was as important as physical fitness", "performed better academically in smaller classes", "relied on multiple platforms for income", "preferred using public transportation over driving", "felt isolated due to limited social interaction at work", "prioritized user experience in designing their products", "underestimated the challenges of marketing their products", "preferred multiplayer games for social interaction", "took up new hobbies after retiring", "struggled with growing their audience in the first year", "preferred self-paced learning to scheduled classes", "believed real estate was a more stable investment than stocks", "preferred flexible hours over fixed schedules", "felt they contributed positively to their community through their work", "said their pets helped reduce stress during challenging times", "planned to delay retirement for financial reasons", "believed that student engagement increased with interactive teaching methods", "preferred brands with strong data privacy policies", "felt a greater sense of purpose from their volunteer work");
+
+$l = $#study;
+
+$par = random(0,$l,1);
+
+$pop = "All $group[$par].";
+
+$sample = "The $num[$par] $group[$par] in the study.";
+
+$poppar = "The percent of all $group[$par] that $prop[$par].";
+
+$stat = "The $per[$par] of the $num[$par] $group[$par] that $prop[$par].";
+
+$popdrop = DropDown([[$pop, $sample]],$pop, placeholder => '- Select One -');
+$samdrop = DropDown([[$pop, $sample]],$sample, placeholder => '- Select One -');
+$ppdrop = DropDown([[$poppar, $stat]],$poppar, placeholder => '- Select One -');
+$ssdrop = DropDown([[$poppar, $stat]],$stat, placeholder => '- Select One -');
+BEGIN_PGML
+Answer the following questions based on the following statistical study:
+
+"[$study[$par]]"
+
+- The population for this study is [_]{$popdrop}
+- The sample for this study is [_]{$samdrop}
+- The population parameter for this study is [_]{$ppdrop}
+- The sample statistic parameter for this study is [_]{$ssdrop}
+END_PGML
+
+
+ENDDOCUMENT();

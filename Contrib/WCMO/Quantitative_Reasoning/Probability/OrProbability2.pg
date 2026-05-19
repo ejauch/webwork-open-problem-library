@@ -1,0 +1,71 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/02/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+@colors = ("red","blue","green","yellow");
+
+@choice = (random(0,$#colors,1),random(0,$#colors,1),random(0,$#colors,1));
+
+while ($choice[1] == $choice[0]) {
+$choice[1] = random(0,$#colors,1);
+}
+
+while ($choice[2] == $choice[0] || $choice[2] == $choice[1]) {
+$choice[2] = random(0,$#colors,1);
+}
+
+@marbles = ();
+@num = ();
+
+foreach my $i (0..2) {
+$marbles[$i] = $colors[$choice[$i]];
+$num[$i] = random(3,10,1);
+}
+$total = $num[0] + $num[1] + $num[2];
+
+@pull = (random(0,2,1),random(0,2,1));
+
+while ($pull[1] == $pull[0]) {
+$pull[1] = random(0,2,1);
+}
+
+Context('Fraction-NoDecimals');
+
+$ans = Compute("($num[$pull[0]]+$num[$pull[1]])/$total")->reduce();
+
+
+BEGIN_PGML
+Imagine you have a bag of [$total] marbles of three different colors: [$num[0]] [$marbles[0]] marbles, [$num[1]] [$marbles[1]] marbles, and [$num[2]] [$marbles[2]] marbles. What is the probability that you pull a [$marbles[$pull[0]]] or [$marbles[$pull[1]]] marble?
+
+[`P(\text{[$marbles[$pull[0]]] or [$marbles[$pull[1]]]})=`] [_]{$ans->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

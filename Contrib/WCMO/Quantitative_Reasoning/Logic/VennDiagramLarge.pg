@@ -1,0 +1,122 @@
+## DESCRIPTION
+## Quantitative Reasoning: Venn Diagram
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Venn Diagrams)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('Venn Diagrams')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+$graph_image = createTikZImage();
+$graph_image->tikzLibraries("arrows.meta");
+
+
+$left = random(16,32,4);
+$right = random(9,18,4);
+$bottom = random(10,30,5);
+$lr = random(10,22,2);
+$lb = random(8,18,2);
+$rb = random(12,24,3);
+$center = random(7,19,2);
+$out = random(15,30,5);
+
+$sum = $left + $right + $center + $out + $bottom + $lr + $lb + $rb;
+
+$fullleft = $left + $center + $lb + $lr;
+$fullright = $right + $center + $rb + $lr;
+$fullbottom = $bottom + $center + $rb + $lb;
+
+@labels = ("college graduates", "under 30", "pet owners", "parents","currently employed","women");
+@nlabels = ("not college graduates", "over 30", "not pet owners", "not parents","not currently employed","not women");
+
+$length = $#labels;
+
+$l = random(0,$length,1);
+
+$r = random(0,$length,1);
+
+$b = random(0,$length,1);
+
+while ($r == $l) {
+$r = random(0,$length,1);
+}
+
+while ($r == $b || $l == $b)
+{
+$b = random(0,$length,1);
+}
+
+$leftlabel = ucfirst($labels[$l]);
+$rightlabel = ucfirst($labels[$r]);
+$bottomlabel = ucfirst($labels[$b]);
+
+@ans = ();
+
+$ans[0] = Compute("$sum");
+$ans[1] = Compute($fullright);
+$ans[2] = Compute($center);
+$ans[3] = Compute($sum-$fullbottom);
+$ans[4] = Compute($lb);
+
+$graph_image->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=3]}}
+    \draw[ultra thick,fill=white] (-8,5) rectangle (8,-5);
+    \draw[ultra thick,fill=white] (-6,3.5) rectangle (6,-4.5);
+  \begin{scope} [fill opacity = .4]
+    \draw[draw = black, ultra thick,fill=blue] (-1.25,0) circle (1.75);
+    \draw[draw = black, ultra thick, fill=red] (1.25,0) circle(1.75);
+    \draw[draw = black, ultra thick,fill=green] (0,-1.5) circle (1.75);
+  \end{scope}
+    \draw[<-,>=stealth,thick,black] (-1.75,0.75) -- (-4,2);
+    \draw[<-,>=stealth,thick,black] (1.75,0.75) -- (4,2);
+    \draw[<-,>=stealth,thick,black] (-0.75,-2.5) -- (-4,-3);
+    \node at (-4,2.25) {\bf $leftlabel};
+    \node at (4,2.25) {\bf $rightlabel};
+    \node at (-4,-3.25) {\bf $bottomlabel};
+    \node at (-2.25,0.25) {\Large $left};
+    \node at (2.25,0.25) {\Large $right};
+    \node at (0,0.6) {\Large $lr};
+    \node at (-1,-1) {\Large $lb};
+    \node at (1,-1) {\Large $rb};
+    \node at (0,-0.25) {\Large $center};
+    \node at (0,-2.25) {\Large $bottom};
+    \node at (4,-3) {\Large $out};
+    \node at (0,4.25) {\bf People at a};
+    \node at (0,3.75) {\bf conference};
+END_TIKZ
+
+
+BEGIN_PGML
+Use the following Venn diagram to answer the following:
+
+>> [@ image($graph_image, width => 400, tex_size => 600) @]* <<
+
+(a) How many people attended the conference in total? [____]{$ans[0]}
+
+(b) How many people at the conference are [$labels[$r]]? [___]{$ans[1]}
+
+(c) How many people are [$labels[$r]], [$labels[$l]], and [$labels[$b]]? [___]{$ans[2]}
+
+(d) How many people who are [$nlabels[$b]] attended? [___]{$ans[3]}
+
+(e) How many people are [$labels[$l]] and [$labels[$b]], but are [$nlabels[$r]]? [___]{$ans[4]}
+
+END_PGML
+
+
+ENDDOCUMENT();

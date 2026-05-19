@@ -1,0 +1,114 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/20/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@amount = ();
+
+my $i = 0;
+
+$nval = random(9,13,2); # number of values in data set less 1.
+
+$amount[0] = random(2,6,1);
+
+while ($i<$nval) {
+
+$j = $i + 1;
+
+$amount[$j]=$amount[$i] + random(3,7,1);
+
+$i++;
+}
+
+$modeexist = random(0,1,1);
+
+if ($modeexist == 1) {
+
+$r = $nval - random(1,3,1);
+
+$amount[$r] = random($amount[$r],$amount[$nval],1);
+
+my $s = $r;
+
+while ($s < $nval + 1) {
+
+$amount[$s] = $amount[$r];
+
+$s++;
+}
+$mode = $amount[$r];
+}
+else {
+$mode = "None";
+}
+
+$sum = 0;
+
+foreach $k (0..$nval) {
+
+$sum = $sum + $amount[$k];
+
+}
+
+$mean = sprintf("%0.1f",$sum/($nval+1));
+
+if ($nval % 2 == 0) {
+$index = $nval/2;
+$median = $amount[$index];
+}
+else {
+$indexl = ($nval-1)/2;
+$indexr = ($nval+1)/2;
+$median = ($amount[$indexl]+$amount[$indexr])/2;
+}
+
+@shuffled_amount = @amount;
+
+for (my $i = @shuffled_amount - 1; $i > 0; $i--) {
+    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
+    # Swap elements at index $i and $j
+    my $temp = $shuffled_amount[$i];
+    $shuffled_amount[$i] = $shuffled_amount[$j];
+    $shuffled_amount[$j] = $temp;
+}
+
+$display_string = join(' ', @shuffled_amount);
+
+$kidnum = $nval + 1;
+
+BEGIN_PGML
+
+A group of [$kidnum] children collected the following amounts of candy during the fall festivities:
+
+>>[$display_string]<<
+
+Find the following values associated to the data above:
+
+- Mean: [_]{$mean}
+- Median: [_]{$median}
+- Mode: [_]{$mode}
+
+If a value does not exist enter *None* in the blank. Round any answers to 1 decimal place.
+END_PGML
+
+
+ENDDOCUMENT();

@@ -1,0 +1,63 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@isos = ("Hydrogen-3","Carbon-14","Cobolt-60","Cesium-137");
+
+@hlifes = (12,5700,5,30);
+
+$choice = random(0,$#isos,1);
+
+$iso = $isos[$choice];
+$hlife = $hlifes[$choice];
+
+$amount = random(100,460,12);
+
+@time = ();
+
+$time[0] = sprintf("%0.0f",random(0.1*$hlife,0.9*$hlife,0.1*$hlife));
+
+$time[1] = sprintf("%0.0f",random(1.1*$hlife,3*$hlife,0.1*$hlife));
+
+$time[2] = sprintf("%0.0f",random(3.1*$hlife,5*$hlife,0.1*$hlife));
+
+@ans = ();
+
+foreach my $i (0..2) {
+$ans[$i] = sprintf("%0.0f",$amount*2**(-1*$time[$i]/$hlife));
+}
+
+
+BEGIN_PGML
+Radioactive [$iso] has a half-life of about [$hlife] years. If a sample in a lab is around [$amount] grams, find the amount in grams for the following situations to the nearest whole gram:
+
+- After [$time[0]] year(s) there are [_]{$ans[0]} grams.
+
+- After [$time[1]] years there are [_]{$ans[1]} grams.
+
+- After [$time[2]] years there are [_]{$ans[2]} grams.
+END_PGML
+
+ENDDOCUMENT();

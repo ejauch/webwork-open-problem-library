@@ -1,0 +1,156 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "niceTables.pl",
+    "PGtikz.pl",
+    "parserCheckboxList.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@graph = (createTikZImage(),createTikZImage(),createTikZImage(),createTikZImage());
+
+@x = ((),(),(),());
+@y = ((),(),(),());
+
+foreach my $i (0..3) {
+$graph[$i]->tikzLibraries("arrows.meta");
+$graph[$i]->texPackages(["pgfplots"]);
+$x[$i][0] = random(25,33,1);
+foreach my $j (0..14) {
+$k = $j+1;
+$x[$i][$k] = $x[$i][$j]+1;
+}
+if ($i % 2 == 0) {
+$y[$i][0] = random(3,13,2);
+$y[$i][1] = random(20,50,5);
+$y[$i][2] = random(75,150,10);
+$y[$i][3] = random(200,400,25);
+$y[$i][4] = random(450,700,25);
+$y[$i][5] = random(800,950,10);
+$y[$i][6] = random(1000,1100,10);
+$y[$i][7] = random(1200,1400,50);
+$y[$i][8] = random(1100,1300,50);
+$y[$i][9] = random(1020,1120,10);
+$y[$i][10] = random(825,975,10);
+$y[$i][11] = random(475,725,25);
+$y[$i][12] = random(215,415,25);
+$y[$i][13] = random(50,125,10);
+$y[$i][14] = random(20,40,5);
+$y[$i][15] = random(3,15,2);
+}
+elsif ($i==1) {
+$y[$i][0] = random(3,13,2);
+foreach my $j (0..14) {
+$k = $j+1;
+$y[$i][$k] = $y[$i][$j]+random(10,40,5)*$k;
+}
+}
+else {
+$y[$i][0] = random(3,13,2);
+$y[$i][1] = random(20,50,5);
+$y[$i][2] = random(215,415,25);
+$y[$i][3] = random(450,700,25);
+$y[$i][4] = random(200,400,25);
+$y[$i][5] = random(50,125,10);
+$y[$i][6] = random(20,50,5);
+$y[$i][7] = random(3,13,2);
+$y[$i][8] = random(5,17,2);
+$y[$i][9] = random(20,50,5);
+$y[$i][10] = random(215,415,25);
+$y[$i][11] = random(450,700,25);
+$y[$i][12] = random(215,415,25);
+$y[$i][13] = random(50,125,10);
+$y[$i][14] = random(20,40,5);
+$y[$i][15] = random(3,15,2);
+}
+}
+
+foreach my $i (0..3) {
+$graph[$i]->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+\begin{axis}[ybar,ymajorgrids, xmajorgrids]
+\addplot [fill=blue!50!cyan,draw=none] coordinates {($x[$i][0],$y[$i][0]) ($x[$i][1],$y[$i][1]) ($x[$i][2],$y[$i][2]) ($x[$i][3],$y[$i][3]) ($x[$i][4],$y[$i][4]) ($x[$i][5],$y[$i][5]) ($x[$i][6],$y[$i][6]) ($x[$i][7],$y[$i][7]) ($x[$i][8],$y[$i][8]) ($x[$i][9],$y[$i][9]) ($x[$i][10],$y[$i][10]) ($x[$i][11],$y[$i][11]) ($x[$i][12],$y[$i][12]) ($x[$i][13],$y[$i][13]) ($x[$i][14],$y[$i][14]) ($x[$i][15],$y[$i][15])}; 
+\end{axis}
+END_TIKZ
+}
+
+$par = random(0,3,1);
+
+if ($par == 0 ) {
+$table = LayoutTable(
+  [["A","B"],[ image(insertGraph($graph[0]), width=>300, tex_size=>1000), image(insertGraph($graph[1]), width=>300, tex_size=>1000) ], ["C","D"],
+    [ image(insertGraph($graph[2]), width=>300, tex_size=>1000), image(insertGraph($graph[3]), width=>300, tex_size=>1000) ] ] );
+
+$checks = CheckboxList(
+    [
+       'A','B','C','D','None of the above'
+    ],
+    [ 'A', 'C' ]
+);
+}
+elsif ($par == 1) {
+$table = LayoutTable(
+  [["A","B"],[ image(insertGraph($graph[1]), width=>300, tex_size=>1000), image(insertGraph($graph[0]), width=>300, tex_size=>1000) ], ["C","D"],
+    [ image(insertGraph($graph[2]), width=>300, tex_size=>1000), image(insertGraph($graph[3]), width=>300, tex_size=>1000) ] ] );
+
+$checks = CheckboxList(
+    [
+       'A','B','C','D','None of the above'
+    ],
+    [ 'B', 'C' ]
+);
+}
+elsif ($par == 2) {
+$table = LayoutTable(
+  [["A","B"],[ image(insertGraph($graph[0]), width=>300, tex_size=>1000), image(insertGraph($graph[2]), width=>300, tex_size=>1000) ], ["C","D"],
+    [ image(insertGraph($graph[3]), width=>300, tex_size=>1000), image(insertGraph($graph[1]), width=>300, tex_size=>1000) ] ] );
+
+$checks = CheckboxList(
+    [
+       'A','B','C','D','None of the above'
+    ],
+    [ 'A', 'B' ]
+);
+}
+else {
+$table = LayoutTable(
+  [["A","B"],[ image(insertGraph($graph[0]), width=>300, tex_size=>1000), image(insertGraph($graph[1]), width=>300, tex_size=>1000) ], ["C","D"],
+    [ image(insertGraph($graph[3]), width=>300, tex_size=>1000), image(insertGraph($graph[2]), width=>300, tex_size=>1000) ] ] );
+
+$checks = CheckboxList(
+    [
+       'A','B','C','D','None of the above'
+    ],
+    [ 'A', 'D' ]
+);
+}
+
+BEGIN_PGML
+Select all of the following distributions that would you describe as a normal distribution.
+
+[@ $table @]*
+
+[_]{$checks}{5}
+END_PGML
+
+
+ENDDOCUMENT();

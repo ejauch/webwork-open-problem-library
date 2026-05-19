@@ -1,0 +1,121 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/20/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context("Currency");
+
+@price = ();
+
+my $i = 0;
+
+$nval = random(7,11,2); # number of values in data set less 1.
+
+$price[0] = Currency(random(1.01,1.15,0.02));
+
+while ($i<$nval) {
+
+$j = $i + 1;
+
+$price[$j]=$price[$i] + random(0.03,0.11,0.02);
+
+$i++;
+}
+
+$modeexist = random(0,1,1);
+
+if ($modeexist == 1) {
+
+$r = $nval - random(1,3,1);
+
+$price[$r] = random($price[$r],$price[$nval],0.01);
+
+my $s = $r;
+
+while ($s < $nval + 1) {
+
+$price[$s] = $price[$r];
+
+$s++;
+}
+$mode = $price[$r];
+}
+else {
+$mode = "None";
+}
+
+$sum = 0;
+
+foreach $k (0..$nval) {
+
+$sum = $sum + $price[$k];
+
+}
+
+$mean = $sum/($nval+1);
+
+if ($nval % 2 == 0) {
+$index = $nval/2;
+$median = $price[$index];
+}
+else {
+$indexl = ($nval-1)/2;
+$indexr = ($nval+1)/2;
+$median = ($price[$indexl]+$price[$indexr])/2;
+}
+
+@shuffled_price = @price;
+
+for (my $i = @shuffled_price - 1; $i > 0; $i--) {
+    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
+    # Swap elements at index $i and $j
+    my $temp = $shuffled_price[$i];
+    $shuffled_price[$i] = $shuffled_price[$j];
+    $shuffled_price[$j] = $temp;
+}
+
+$display_string = join(' ', @shuffled_price);
+
+@products = ("Zappy Cola", "Crunchy Clouds Chips", "FizzBuzz Energy Drink", "ChocoBliss Bars", "MunchieMoo Cookies", "PopTwist Pretzels", "JellyJoy Gummies", "SizzlePuff Popcorn", "NuttyBites Trail Mix", "ZapZap Instant Noodles", "FrostyBreeze Ice Cream Sandwich", "PowerMelt Protein Bars", "GlowFizz Sparkling Water", "SnackWhirl Cheese Puffs", "BerryBurst Fruit Chews", "ZapSnacks Energy Bites", "ChillChug Iced Coffee", "TurboMints Breath Fresheners", "ToastyNugget Granola Bars", "ZapZap Sour Gummies");
+
+$prod = $products[random(0,$#products,1)];
+
+$storenum = $nval + 1;
+
+BEGIN_PGML
+
+A company is trying to determine the best price for a new product, [$prod], at [$storenum] stores. The different prices are listed below:
+
+>>[$display_string]<<
+
+Find the following values associated to the above set of prices:
+
+- Mean: [_]{$mean}
+- Median: [_]{$median}
+- Mode: [_]{$mode}
+
+If a value does not exist enter *None* in the blank.
+END_PGML
+
+
+ENDDOCUMENT();

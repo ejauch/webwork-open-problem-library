@@ -1,0 +1,59 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('10/27/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextFraction.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0
+
+@sides = (4,6,8,10,12,20);
+
+$size = $sides[random(0,$#sides,1)];
+
+$sizeless1 = $size - 1;
+
+$side = random(1,$size,1);
+
+Context('Fraction-NoDecimals');
+
+@ans = ();
+
+$ans[0] = Compute("1 / $size");
+$ans[1] = Compute("$sizeless1/$size");
+
+BEGIN_PGML
+Find the following probabilties corresponding to a [$size]-sided die:
+
+- [`P(\text{rolling a }[$side])=`] [_]{$ans[0]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+- [`P(\text{Not rolling a }[$side])=`] [_]{$ans[1]->cmp(
+    studentsMustReduceFractions => 1,
+    reduceFractions => 1,
+    allowMixedNumbers => 0
+)}{15}
+
+
+END_PGML
+
+ENDDOCUMENT();

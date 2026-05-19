@@ -1,0 +1,46 @@
+## DESCRIPTION
+## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Unit Conversions)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('unit conversion', 'units')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$c = random(75,95,5);
+
+$f = Compute("$c*9/5+32");
+
+$rf = sprintf("%0.2f",$f);
+
+$ans = Compute("$rf");
+
+
+BEGIN_PGML
+Convert [`[$c]^\circ`]C to Fahrenheit (rounded to the nearest hundredth).
+
+Answer: [____]{$ans->cmp(
+    tolType   => 'absolute',
+    tolerance => .0001)}[`{}^\circ`] F
+
+END_PGML
+
+
+ENDDOCUMENT();

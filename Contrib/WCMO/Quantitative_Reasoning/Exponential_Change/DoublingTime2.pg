@@ -1,0 +1,43 @@
+## DESCRIPTION
+## 
+## ENDDESCRIPTION
+
+## KEYWORDS()
+
+## DBsubject('')
+## DBchapter('')
+## DBsection('')
+## Date('11/15/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$pop = random(9,15,1)*1000;
+
+$time = random(12,34,2);
+
+$check = random($time,4*$time,1);
+
+@ans = ();
+
+$ans[0] = $pop*2**($check/$time);
+
+
+BEGIN_PGML
+In a sci-fi film the evil nanobots double in numbers every [$time] minutes. If there are [$pop] nanobots to start with, there would be [_]{$ans[0]} nanobots after [$check] minutes (rounded to the nearest whole number).
+
+END_PGML
+
+ENDDOCUMENT();

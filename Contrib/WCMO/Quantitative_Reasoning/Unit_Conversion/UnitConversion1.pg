@@ -1,0 +1,47 @@
+## DESCRIPTION
+## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## ENDDESCRIPTION
+
+## DBsubject()
+## DBchapter()
+## DBsection(Unit Conversions)
+## Author: Erich Jauch
+## Institution(WCMO)
+## KEYWORDS('unit conversion', 'units')
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$d = random(11,19,2);
+$t = random(2,6,2);
+
+$speed = Compute("$d/$t*0.001*0.6214*3600");
+
+$rspeed = sprintf("%0.2f",$speed);
+
+$ans = Compute("$rspeed");
+
+
+BEGIN_PGML
+A certain bird was measured to travel a distance of [$d] meters in [$t] seconds. How fast was it moving in miles per hour (rounded to the nearest hundredth)?
+
+It was moving [____]{$ans->cmp(
+    tolType   => 'absolute',
+    tolerance => .0001)} miles per hour.
+
+END_PGML
+
+
+ENDDOCUMENT();
