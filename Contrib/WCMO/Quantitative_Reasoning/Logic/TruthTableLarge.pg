@@ -2,11 +2,11 @@
 ## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
 ## ENDDESCRIPTION
 
-## DBsubject(Set theory and logic)
-## DBchapter(Propositional logic)
-## DBsection(Truth tables)
-## Author: Erich Jauch
-## Institution(WCMO)
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Truth tables')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
 ## KEYWORDS('logic', 'truth table')
 
 DOCUMENT();        # This should be the first executable line in the problem.
@@ -22,7 +22,7 @@ loadMacros(
 TEXT(beginproblem());
 $showPartialCorrectAnswers = 1;
 
-$paramater = random(1,3,1);
+$parameter = random(1,3,1); # parameter for choosing one of 3 possible versions.
 
 if ($parameter==1) {
 

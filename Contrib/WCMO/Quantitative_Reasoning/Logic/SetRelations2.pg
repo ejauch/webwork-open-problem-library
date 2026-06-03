@@ -1,12 +1,12 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Venn Diagram
+## Quantitative Reasoning: Venn diagram of set relations
 ## ENDDESCRIPTION
 
-## DBsubject()
-## DBchapter()
-## DBsection(Venn Diagrams)
-## Author: Erich Jauch
-## Institution(WCMO)
+## DBsubject('Set theory and logic')
+## DBchapter('Operations on sets')
+## DBsection('Venn diagrams')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
 ## KEYWORDS('Venn Diagrams')
 
 DOCUMENT();        # This should be the first executable line in the problem.
