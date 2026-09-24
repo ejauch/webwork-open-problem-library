@@ -1,0 +1,79 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Problema que pregunta por la ecuación de una
+#  recta horizontal o vertical dada su grafica.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_lineales_2_variables_parte_2/rectas_verticales.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Ecuaciones lineales)
+## DBsection(Verticales o Horizontales)
+## Level(1)
+## KEYWORDS('grafica', 'lineal','horizontal','vertical')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl', 'PGML.pl',
+    'plots.pl',      'parserAssignment.pl',
+    'PGcourse.pl'
+);
+
+Context("Numeric")->variables->add(y => 'Real');
+parser::Assignment->Allow;
+
+$a    = random(-9, 9);
+$rand = random( 0, 1);
+
+$plot = Plot(
+    xmin => -10,
+    xmax =>  10,
+    ymin => -10,
+    ymax => 10
+);
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+#Context()->noreduce('(-x)-y','(-x)+y','-n');
+
+if ($rand == 0) {
+    $eq   = Formula("y = $a");
+    $eje1 = "y";
+    $eje2 = "x";
+    $plot->add_dataset([ -10, $a ], [ 10, $a ], color => 'blue');
+} else {
+    $eq   = Formula("x = $a");
+    $eje1 = "x";
+    $eje2 = "y";
+
+    #Dibujando la línea vertical
+    $plot->add_dataset([ $a, -10 ], [ $a, 10 ], color => 'blue');
+}
+
+BEGIN_PGML
+¿Cuál es la ecuación de la recta que aparece en la siguiente gráfica?
+
+>> [!!]{$plot}{250}<<
+
+>>(Click en la gráfica para agrandar)<<
+
+Constentación: [_]{$eq} 
+
+[@  helpLink('formulas')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+La recta interseca al eje [`[$eje1]`] y es paralela al eje [`[$eje2]`], entonces la ecuación de la recta es [`[$eje1] = [$a]`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

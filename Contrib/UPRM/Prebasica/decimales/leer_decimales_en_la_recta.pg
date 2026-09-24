@@ -1,0 +1,70 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Encontrar decimal entre dos dados
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/decimales/leer_decimales_en_la_recta.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Arithmetic)
+## DBchapter(Decimals)
+## DBsection(Estimation)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('decimales','recta')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',       'PGML.pl', 'plots.pl',
+     'PGcourse.pl'
+);
+
+
+#  Setup
+
+Context("Numeric");
+$a = random(6, 7, .1);
+$b = random(8, 9, .1);
+
+$puntoRojo = Compute(random($a, $b, 0.1));
+
+$plot = Plot(
+    xmin            => 5,
+    xmax            => 10,
+    xtick_delta     =>  1,
+    xminor => 10,
+    yvisible        =>  0,
+    ymin            => -2,
+    ymax            =>  2,
+    show_grid       =>  0,
+    aspect_ratio    =>  0.2,
+    rounded_corners => 1
+);
+$plot->add_point($puntoRojo,0, color => 'red');
+$plot->add_label([$a, -0.1, 'a', v_align => 'top'],[$b, -0.1, 'b', v_align => 'top']);
+
+
+BEGIN_PGML
+>> [!!]{$plot}{450} <<
+
+Sea [`a = [$a]`] y [`b = [$b]`]. ¿Cuál es el valor en la recta numérica del punto rojo en la imagen de arriba?
+
+Contestación: [_]{$puntoRojo} 
+
+[@  helpLink('numbers')  @]*
+END_PGML
+
+
+BEGIN_PGML_SOLUTION
+Como el punto rojo está a la derecha de [`a=[$a]`] y/o a la izquierda de [`b=[$b]`] y las marcas mas pequeñas y abundantes están cada [`0.1`], su valor en la recta numérica es [$puntoRojo].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

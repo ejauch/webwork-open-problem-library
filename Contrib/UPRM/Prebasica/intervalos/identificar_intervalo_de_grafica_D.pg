@@ -1,0 +1,161 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada la representación gráfica de una parte de la línea recta,
+#  escribirla en forma de desigualdad.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  parece de este: pedro_prebasica/intervalos/identificar_intervalo_de_grafica.db
+#  pero en realidad está en este: pedro_prebasica/intervalos//identificar_numeros_en_intervalos.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Algebra of real numbers and simplifying expressions)
+## DBsection(Inequalities and intervals)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('desigualdades','intervalo','grafica','desigualdad')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl', 'PGML.pl',
+    'plots.pl',      'contextInequalities.pl',
+    'PGcourse.pl'
+);
+
+Context("Inequalities-Only");
+Context()->flags->set(formatStudentAnswer => 'parsed');
+
+#Haciendo la gráfica
+$plot = Plot(
+    xmin         => -10,
+    xmax         =>  10,
+    xtick_delta  =>  1,
+    xminor       =>  1,
+    ymin         => -1.5,
+    ymax         =>  1.5,
+    xvisible     =>  1,
+    yvisible     =>  0,
+    show_grid    =>  0,
+    aspect_ratio => 1
+);
+%options = (
+    color => 'blue',
+    width => 3
+);
+
+#la desigualdad
+$a = random(-8, -2, .5);
+$b = random( 2,  8, .5);
+
+#Eligiendo (a,b) o (a,b] o [a,b) o [a,b]
+$prob = random(0, 3);
+
+if ($prob == 0) {
+    $answer = Compute("$a < x < $b");
+
+    #Dibujando el intervalo (a,b)
+    $plot->add_dataset(
+        [ $a, 0 ], [ $b, 0 ],
+        start_mark => 'open_circle',
+        end_mark   => 'open_circle',
+        %options
+    );
+    $tipo1    = "abierto";
+    $tipo2    = "abierto";
+    $accion1  = "excluimos";
+    $accion2  = "excluimos";
+    $sol_text = "($a,$b)";
+
+} elsif ($prob == 1) {
+
+    $answer = Compute("$a < x <= $b");
+
+    #Dibujando el intervalo (a,b]
+    $plot->add_dataset(
+        [ $a, 0 ], [ $b, 0 ],
+        start_mark => 'open_circle',
+        end_mark   => 'circle',
+        %options
+    );
+    $tipo1    = "abierto";
+    $tipo2    = "cerrado";
+    $accion1  = "excluimos";
+    $accion2  = "incluimos";
+    $sol_text = "($a,$b]";
+
+} elsif ($prob == 2) {
+
+    $answer = Compute("$a <= x < $b");
+
+    #Dibujando el intervalo [a,b)
+    $plot->add_dataset(
+        [ $a, 0 ], [ $b, 0 ],
+        start_mark => 'circle',
+        end_mark   => 'open_circle',
+        %options
+    );
+    $tipo1    = "cerrado";
+    $tipo2    = "abierto";
+    $accion1  = "incluimos";
+    $accion2  = "excluimos";
+    $sol_text = "[$a,$b)";
+
+} else {
+
+    $answer = Compute("$a <= x <= $b");
+
+    #Dibujando el intervalo [a,b]
+    $plot->add_dataset(
+        [ $a, 0 ], [ $b, 0 ],
+        start_mark => 'circle',
+        end_mark   => 'circle',
+        %options
+    );
+    $tipo1    = "cerrado";
+    $tipo2    = "cerrado";
+    $accion1  = "incluimos";
+    $accion2  = "incluimos";
+    $sol_text = "[$a,$b]";
+}
+
+BEGIN_PGML
+Escriba en notación de *desigualdad* el conjunto azul que se representa en la siguiente figura.
+
+>>[!!]{$plot}{600}<<
+
+[_]{$answer}{20}
+
+[@  helpLink('inequalities')  @]*
+END_PGML
+
+#$showHint = 3;
+#BEGIN_HINT
+#From the picture find the fixed endpoint.  If the arrow goes to the right then x
+#can be larger.  If the arrow goes to the left, then x can be smaller.
+#END_HINT
+
+#$showHint = 5;
+#BEGIN_HINT
+#Look at the endpoint.  If it is a solid point, then the endpoint should be
+#included and you will need either \( \le \) or \( \ge \).  If it is an open point, then
+#the endpoint should not be included and you will need either \( < \) or \( > \).
+#END_HINT
+
+BEGIN_PGML_SOLUTION
+Identificar el tipo de intervalo. El punto azul de la izquierda en la recta se encuentra *[$tipo1]****, significa que *[$accion1]**** el valor [`x=[$a]`]. El de la derecha está *[$tipo2]****, significa que *[$accion2]**** el punto [`x=[$b]`].
+
+Por lo tanto el intervalo es:
+[```
+[$answer]
+```]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

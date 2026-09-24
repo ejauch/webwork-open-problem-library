@@ -1,0 +1,72 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada una situación, encontrar el intervalo solución.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/desigualdades_lineales_una_variable/aplicaciones_desigualdades.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Linear inequalities)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('desigualdades','aplicaciones','intervalos')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+# Show which answers are correct and which ones are incorrect
+$showPartialCorrectAnswers = 0;
+
+#  Setup
+
+Context("Interval");
+
+@nombre = ("Juan", "Ana", "Gloria", "Daniel", "Mario", "Luisa");
+$index  = random(0, 5);
+
+$porHora = random(4, 18);
+$x       = random(5, 20);
+$sueldo  = $porHora * $x;
+
+$maxHoras = random(25, 40);
+
+$answer = Interval([ $sueldo / $porHora, $maxHoras ]);
+
+#  Text
+
+BEGIN_PGML
+[$nombre[$index]] necesita ganar por lo menos [$sueldo] dólares, gana [$porHora] por hora y puede trabajar un máximo de [$maxHoras] horas por semana. Sea [`x`] la cantidad de horas que [$nombre[$index]] trabaja, determinar el intervalo asociado con [`x`]. *(Escriba el resultado en notación de intervalos)*.
+
+[_]{$answer}
+
+[@  helpLink('intervals')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* [$nombre[$index]] necesita ganar por lo menos [$sueldo] dólares, gana [$porHora] por hora, entonces:
+[```
+\begin{aligned}
+[$porHora] x & \geq [$sueldo] \\
+                  x & \geq [$x]
+\end{aligned}
+```]
+
+*Paso 2:* Puede trabajar un máximo de [$maxHoras] por semana, esto significa que 
+[```
+x \leq [$maxHoras]
+```]
+
+*Paso 3:* [$nombre[$index]] debe trabajar un mínimo de [`[$x]`] horas y un máximo de [`[$maxHoras]`]; en notación de intervalo se tiene [`[$answer]`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

@@ -1,0 +1,84 @@
+#  DESCRIPTION
+
+#  Tipo: Falso/Cierto
+#  propiedades de inecuaciones
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/inecuacioness/inecuaciones_propiedades.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Inecuaciones)
+## DBsection(Propiedades)
+## Level(1)
+## KEYWORDS('inecuacions','propiedades')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+$a = non_zero_random(-20, 20);
+do {
+    $b = non_zero_random(-20, 20);
+} until ($b != $a);
+
+#variable a usar
+$var = list_random(
+    "a", "b", "c", "p", "q", "r", "s", "v", "y", "g",
+    "h", "i", "d", "e", "f", "t", "w", "z"
+);
+
+@list_sim            = (">", "<", ">=",    "<=");
+@list_sim_tex        = (">", "<", "\geq", "\leq");
+@list_sim_tex_contra = ("<", ">", "\leq", "\geq");
+@list_vv             = ($a > $b, $a < $b, $a >= $b, $a <= $b);
+$index               = random(0, 3);
+
+if ($list_vv[$index]) {
+    $answer  = "cierto";
+    $simbolo = $list_sim_tex[$index];
+    $texto   = "CIERTO";
+} else {
+    $answer  = "falso";
+    $simbolo = $list_sim_tex_contra[$index];
+    $texto   = "FALSO";
+}
+
+$dd = DropDown([ 'cierto', 'falso' ], $answer);
+
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa. 
+
+Sean [`[$a]`], [`[$b]`], y [`[$var]`] un número real positivo, entonces
+
+[```[$a] [$var] [$list_sim_tex[$index]] [$b] [$var] ```]
+
+[_]{$dd}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Relacionar los números [$a] y [$b]:
+[```
+[$a] [$simbolo] [$b]
+```]
+
+*Paso 2:* Identificar propiedad.
+
+*Propiedad de multiplicación:* Si [`j [$list_sim_tex[$index]] k `] y [`m`] un n úmero real positivo, entonces
+[```
+  jm [$list_sim_tex[$index]] km
+```]
+
+Luego el enunciado es [$texto].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

@@ -1,0 +1,109 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Variacion directa: Buscar la relacion a=kl, a y l dados. Y calcular a o l dado uno de ellos.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/variacion_directa/variacion_directa_calcular_valor.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Relaciones)
+## DBsection(Variacion directa)
+## Level(1)
+## KEYWORDS('relaciones','variacion','directa')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',             'PGML.pl',
+    'parserImplicitEquation.pl', 'PGcourse.pl'
+);
+
+Context("ImplicitEquation");
+
+@frase = (
+    "varía directamente con",
+    "es directamente proporcional a",
+    "es proporcional a"
+);
+$indice = random(0, $#frase);
+
+#posibles variables a usar
+@vars = ('a' .. 'i', 'l' .. 'z');
+
+#eligiendo dos variables
+($index1, $index2) = random_subset(2, 0 .. $#vars);
+
+#creando la relación a=kb
+$b = random(5, 50);
+$k = random(2, 9);
+$a = $k * $b;
+
+Context()->variables->are($vars[$index1] => 'Real', $vars[$index2] => 'Real');
+
+$prob = random(0, 1);
+if ($prob == 0) {
+    $preg =
+        " escriba la fórmula para la relación entre \($vars[$index1]\) y \( $vars[$index2] \).";
+    $answer = ImplicitEquation("$vars[$index1] = $k $vars[$index2]");
+} else {
+    $preg   = "determine el valor de la constante de proporcionalidad.";
+    $answer = Compute($k);
+}
+
+#  Text
+
+BEGIN_PGML
+[```[$vars[$index1]]\text{ [$frase[$indice]] }[$vars[$index2]] ```]
+
+Si [` [$vars[$index1]] = [$a]`] cuando [` [$vars[$index2]] = [$b] `], [$preg]
+END_PGML
+
+if ($prob) {
+BEGIN_PGML
+
+[`k=`] [_]{$answer}{20}
+
+END_PGML
+} else {
+BEGIN_PGML
+
+Fórmula: [_]{$answer}{20}
+
+END_PGML
+}
+
+BEGIN_PGML
+[@  helpLink('formula')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Traducir el enunciado a una fórmula de variación directa
+>>
+  
+[```[$vars[$index1]]\text{ [$frase[$indice]] }[$vars[$index2]] \text{ entonces } [$vars[$index1]] = k\cdot [$vars[$index2]], ```]
+
+donde [` k `] es la constante de proporcionalidad.
+
+*Paso 2:* Sustituir valores conocidos para encontrar [` k `]
+[```
+ [$a] = k\cdot  [$b] \quad \Rightarrow\quad k = \frac{[$a]}{[$b]} = [$k]
+```]
+
+*Paso 3:* Sustituir el valor de [` k `] y escribir la fórmula
+[```
+ [$vars[$index1]] = [$k] [$vars[$index2]].
+```]
+
+Por lo tanto la solución es [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

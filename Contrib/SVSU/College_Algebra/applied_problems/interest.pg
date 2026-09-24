@@ -1,0 +1,165 @@
+## DESCRIPTION
+## Algebra: Solve mixing problems with interest rates
+# written by Jan Hlavacek (jhlavace@svsu.edu)
+## ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Applications and models)
+## Level(5)
+## KEYWORDS('algebra', 'application problems', 'mixing problems')
+
+###########################
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl', 'PGML.pl', 'randomPerson.pl', 'scaffold.pl',
+    'PGcourse.pl'
+);
+
+###########################
+#  Setup
+
+Context("Numeric")->variables->are(x => "Real");
+
+## names and pronouns:
+
+$person = randomPerson();
+
+# $sex = list_random("he","she");
+
+# if ($sex eq "he") {
+#     $name = list_random("John", "Darquese", "Sven", "Deleon", "Khulai", "Timbo", "Gerain");
+# } else {
+#     $name = list_random("Tawni", "Monisha", "Angelique", "Samantha", "Grauni", "Khianna");
+# }
+
+$p1 = random(4, 16);
+do { $p2 = random(4, 16); } until (abs($p2 - $p1) > 1);
+
+$pm = min($p1, $p2);
+$pM = max($p1, $p2);
+
+$pdiff = $pM - $pm;
+
+$k = random(3, 20, 1);
+
+$total = 100 * $k * $pdiff;
+
+$f = random($pm * $k + 1, $pM * $k - 1, 1);
+
+$interest = $f * $pdiff;
+
+$x = Compute("($interest*100 - $p2*$total)/($p1 - $p2)");
+
+$answer1 = Compute("$p1/100");
+$answer2 = Compute("x");
+$answer3 = Compute("$p1/100*x");
+$answer4 = Compute("$p2/100");
+$answer5 = Compute("$total - x");
+$answer6 = Compute("$p2/100*($total - x)");
+$answer7 = Compute("$total");
+$answer8 = Compute("$interest");
+
+###########################
+#  Main text
+
+BEGIN_PGML
+[$person] wants to invest $[$total].  There are two different accounts in which 
+[$person->they] can invest: first one pays [$p1]% simple
+interest, while the second one pays [$p2]% simple interest.  How much should
+[$person->they] invest into each account so that
+the resulting annual interest will be exactly $[$interest]?
+
+END_PGML
+
+Scaffold::Begin(
+    can_open => "when_previous_correct",
+    is_open  => "correct_or_first_incorrect"
+);
+
+Section::Begin("Part 1: Set up the table");
+
+BEGIN_PGML
+First, fill in the following table, using [`x`] for the amount invested in the first account.
+
+[# 
+    [.Account .]
+    [.Interest rate .]
+    [.Amount invested .]
+    [.Interest .]{headerrow=>1}*
+    [.First .]
+    [.[_]{$answer1}{10} .]
+    [.[_]{$answer2}{10} .]
+    [.[_]{$answer3}{10} .]*
+    [.Second .]
+    [.[_]{$answer4}{10} .]
+    [.[_]{$answer5}{10} .]
+    [.[_]{$answer6}{10} .]*
+    [.Total (given) .]
+    [. .]
+    [.[_]{$answer7}{10} .]
+    [.[_]{$answer8}{10} .]*
+#]{horizontalrules => 1, texalignment => '|c|c|c|c|', padding=> 0.3}
+
+
+
+[$table1]*
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The first column of the table is easy to fill in, just put down the rate of
+the adult tickets and the rate of the child tickets. 
+
+In the second column, the number of child tickets will be [`x`], and since the
+total number must be [$total], the number of adult tickets will be [$answer5].
+
+To get the last column, simply multiply the first and second column (revenue =
+rate times quantity).
+
+The table will look like this:
+
+[#
+    [.Account .] [.Interest rate.] [.Amount invested.] [.Interest.]{headerrow=>1}*
+    [.First .] [.[$answer1] .] [.[$answer2] .] [.[$answer3] .]*
+    [.Second .] [.[$answer4] .] [.[$answer5] .] [.[$answer6] .]*
+    [.Total (given) .] [.  .] [.[$answer7] .] [.[$answer8] .]*
+#]{horizontalrules => 1, texalignment => '|c|c|c|c|', padding=> 0.3}
+
+
+[$table2]*
+
+END_PGML_SOLUTION
+
+Section::End();
+
+Section::Begin("Part 2: Solve the equation");
+
+BEGIN_PGML
+
+Using the table, set up the equation, solve it and find the answer.
+
+The amount invested into the first account is [__________]{$x} while 
+the amount invested in the second account is [__________]{$total-$x}.
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+In the last column of the table, the interest from the first account plus the interest from the second account 
+must be equal to the total interest, which is given.  From this we get the equation
+
+[``[$answer3] + [$answer6] = [$answer8]``]
+
+Solving the equation will give us [`x = [$x]`], which will be invested in the
+first account.  Then we subtract that from [$total] to get [$total - $x] to get the amount
+invested in the second account.
+END_PGML_SOLUTION
+
+Section::End();
+
+Scaffold::End();
+
+ENDDOCUMENT();

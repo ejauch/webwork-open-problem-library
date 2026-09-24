@@ -1,0 +1,122 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Porcientos: problemas lineales de aplicación (geometría)
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/problemas_verbales_ecuaciones_lineales/problemas_verbales_geometria.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Applications and models)
+## Level(1)
+## KEYWORDS('ecuaciones','lineal','aplicacion')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+$k1 = random(2, 9);
+$k2 = random(2, 9);
+$k3 = random(2, 9);
+
+$lado = random(5, 30);
+
+$k1l = $k1 * $lado;
+$k2l = $k2 * $lado;
+$k3l = $k3 * $lado;
+
+$p = $lado * ($k1 + $k2 + $k3);
+
+@pregunta = ("mayor", "menor");
+$index    = random(0, 1);
+
+if ($index == 0) {
+    if ($k1 > $k2 && $k1 > $k3) {
+        $answer = Compute("$k1l");
+    } elsif ($k2 > $k1 && $k2 > $k3) {
+        $answer = Compute("$k2l");
+    } elsif ($k3 > $k1 && $k3 > $k2) {
+        $answer = Compute("$k3l");
+    } else {
+        $answer = Compute("$k1l");
+    }
+} else {
+    if ($k1 < $k2 && $k1 < $k3) {
+        $answer = Compute("$k1l");
+    } elsif ($k2 < $k1 && $k2 < $k3) {
+        $answer = Compute("$k2l");
+    } elsif ($k3 < $k1 && $k3 < $k2) {
+        $answer = Compute("$k3l");
+    } else {
+        $answer = Compute("$k1l");
+    }
+}
+
+#  Text
+
+BEGIN_PGML
+Las proporciones de los lados de un triángulo son ([$k1],[$k2],[$k3]). Si el perímetro del triángulo es [$p] cm, calcular el lado de [$pregunta[$index]] medida. (Escribir sólo el número, SIN incluir las unidades cm)
+
+Lado de [$pregunta[$index]] medida = [_]{$answer}{20}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Ordenar la información del problema en una tabla:
+
+[# 
+[. Data .]
+[. Ecuación .]{headerrow=>1}*
+[.El perímetro de un triángulo es [$p] .]
+[.[`\text{lado 1} + \text{lado 2} + \text{lado 3}= [$p]`] .]*
+[.[`\text{lado 1} = [$k1]\cdot\text{cantidad}`] .]*
+[.[`\text{lado 2} = [$k2]\cdot\text{cantidad}`] .]*
+[.[`\text{lado 3} = [$k3]\cdot\text{cantidad}`] .]*
+#]{horizontalrules => 1, texalignment => '|c|c|', padding=> 0.3}
+
+*Paso 2:* Sea [`l`] la cantidad desconocida.
+
+*Paso 3:* Llevar a cabo la sustitución necesaria con las igualdades en el Paso 1 para obtener una ecuación lineal:
+
+[# 
+[. Ecuación .]
+[. Sustitución .]{headerrow=>1}*
+[.[`\text{lado 1}=[$k1]\cdot\text{cantidad}`] .]
+[.[`\text{lado 1}=[$k1] l`] .]*
+[.[`\text{lado 2}=[$k2]\cdot\text{cantidad}`] .]
+[.[`\text{lado 2}=[$k2] l`] .]*
+[.[`\text{lado 3}=[$k3]\cdot\text{cantidad}`] .]
+[.[`\text{lado 3}=[$k3] l`] .]*
+#]{horizontalrules => 1, texalignment => '|c|c|', padding=> 0.3}
+
+
+*Paso 4:* Resolver la ecuación lineal para obtener el valor de [`l`]:
+[```
+[$k1] l +  [$k2] l + [$k3] l  = [$p] \quad \text{entonces}\quad  l = [$lado]
+```]
+*Paso 5:*
+Usar el valor de [`l`] para obtener la información del problema verbal:
+[```
+\begin{aligned}
+ \text{Lado 1: } & [$k1] l = [$k1l] \\
+ \text{Lado 2: } & [$k2] l = [$k2l] \\
+ \text{Lado 3: } & [$k3] l = [$k3l] 
+\end{aligned}
+```]
+
+por lo tanto el lado de [$pregunta[$index]] medida del triángulo es [` [$answer] `] cm.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

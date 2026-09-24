@@ -1,0 +1,90 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dado el perímetro de un cuadrado encontrar el valor del lado.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/geometria/Cuadrilateros.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Geometría)
+## DBsection(Cuadrilateros)
+## Level(1)
+## KEYWORDS('cuadrilateros','cuadrados')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context("Numeric");
+
+$lado      = random(2, 99);
+$perimetro = 4 * $lado;
+
+if (random(0, 1) == 0) {
+    $condicion = "perímetro";
+    $pregunta  = "lado";
+    $answer    = Compute("$lado");
+    $valor     = $perimetro;
+    $var       = "l";
+    $eq1       = "4\cdot \text{lado} = $perimetro";
+    $eq2       = "4\cdot l = $perimetro";
+    $eq3       = "4l = $perimetro";
+} else {
+    $condicion = "lado";
+    $pregunta  = "perímetro";
+    $answer    = Compute("$perimetro");
+    $valor     = $lado;
+    $var       = "p";
+    $eq1       = "4\cdot $lado=\text{perimetro}";
+    $eq2       = "4\cdot $lado = p";
+    $eq3       = $eq2;
+}
+
+#  Text
+
+BEGIN_PGML
+Si el [$condicion] de un cuadrado es [$valor] cm. Determine el valor del [$pregunta] del cuadrado. (Escribir sólo el número, SIN incluir cm)
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Ordenar la información del problema en una tabla:
+
+[#
+    [.Data.][.Ecuación.]{headerrow => 1}*
+[.El perímetro del cuadrado igual a cuatro veces el lado .]
+    [.[`\text{perimetro} = 4\cdot \text{lado}`].]*
+#]{horizontalrules => 1, texalignment => '|c|c|'}
+
+
+*Paso 2:* Sea [`[$var]`] la medida del [$pregunta] del cuadrado.
+
+*Paso 3:* Llevar a cabo la sustitución necesaria con las igualdades en el Paso 1 para obtener una ecuación lineal:
+
+
+[#
+    [.Ecuación.] [.Sustitución.]{headerrow =>1}*
+    [. [`[$eq1]`].] [.[`[$eq2]`].]*
+    [. [`[$eq3]`].] 
+#]{horizontalrules => 1, texalignment => '|c|c|'}
+
+*Paso 4:* Resolver la ecuación lineal para obtener el valor de [`[$var]`]:
+[```
+[$eq3] \quad \text{entonces}\quad  [$var] = [$answer]
+```]
+por lo tanto el [$pregunta] del cuadrado es [` [$answer] `] cm.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

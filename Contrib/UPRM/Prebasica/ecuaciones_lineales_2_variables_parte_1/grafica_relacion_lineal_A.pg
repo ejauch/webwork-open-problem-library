@@ -1,0 +1,88 @@
+#  DESCRIPTION
+
+#  Tipo: seleccion multiple
+#  Problema que pregunta a los estudiantes
+#  elegir la gráfica de una recta dada entre 4 opciones
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_lineales_2_variables_parte_1/grafica_relacion_lineal.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Ecuaciones lineales)
+## DBsection(Forma y=mx+b)
+## Level(1)
+## KEYWORDS('grafica', 'lineal','interceptos','pendiente')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'plots.pl',
+    'PGcourse.pl'
+);
+
+# Show which answers are correct and which ones are incorrect
+$showPartialCorrectAnswers = 0;
+
+$m = non_zero_random(-3, 3);
+$b = non_zero_random(-9, 9);
+
+$k          = random(0, 3, 1);         #Indice aleatorio de la recta a preguntar
+@perm       = random_subset(4, 0 .. 3);
+@inv[@perm] = 0 .. 3;    # Esto encuentra la inversa de los índices.
+
+@eqn = ("$m x + $b", "$m x - $b", "- $m x + $b", "- $m x - $b");
+
+for (0 .. 3) {
+    $plots[$_] = Plot(
+        xmin => -10,
+        xmax =>  10,
+        ymin => -10,
+        ymax => 10
+    );
+    $plots[$_]->add_function($eqn[ $perm[$_] ], 'x', -10, 10, color => 'blue');
+};                       #Arreglo de posibles rectas a preguntar
+
+@letter = ("A", "B", "C", "D");
+$dd     = DropDown([ 'A' .. 'D' ], $inv[$k]);
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+# Ecuación elegida e intercepto para ser usado en la solución.
+$ry = Formula($eqn[$k])->reduce;    #ry significa real y a ser usado
+
+#rb significa el real intercepto extraído al evaluar por x=0 en ry.
+$rb = $ry->eval(x => 0);
+
+BEGIN_PGML
+¿Cuál de las gráficas (A-D) corresponde a la recta [`y=[$ry]`]? [_]{$dd}
+
+[#
+    [. A .] [. B .]*
+    [. [!!]{$plots[0]}{250} .][.[!!]{$plots[1]}{250}.]*
+    [.C.] [.D.]*
+    [.[!!]{$plots[2]}{250}.][.[!!]{$plots[3]}{250}.]*
+#]
+
+
+>>(Click en la gráfica para agrandar)<<
+END_PGML
+
+$letter = ('A' .. 'D')[ $inv[$k] ];
+
+BEGIN_PGML_SOLUTION
+*Paso 1*: Identificar el valor de la pendiente [`(m)`] y del intercepto en el eje vertical [`(b)`]: observables en la ecuación dada [` y = [$ry]`], pues [`y = mx+b`]. 
+
+*Paso 2*: Encontrar una gráfica consistente con la información anterior: la única gráfica que interseca al eje [`y`] en [`(0,[$rb])`] tal que el valor de [`y`] se incrementa en [`[$m]`] cada vez que [`x`] se incrementa en 1 es [$letter].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

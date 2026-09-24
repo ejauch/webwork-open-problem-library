@@ -1,0 +1,63 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada la gráfica de un cuadrado encontrar el lado, o el área.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/geometria/Cuadrilateros.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Geometría)
+## DBsection(Cuadrilateros)
+## Level(1)
+## KEYWORDS('cuadrilateros','cuadrados')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context("Numeric");
+
+$lado = random(2, 99);
+$area = $lado**2;
+
+$k = random(0, 1);
+
+BEGIN_PGML
+>>[!!]{'cuadrado.png'}{300}<<
+END_PGML
+
+if ($k) {
+BEGIN_PGML
+Considere el cuadrado que se muestra arriba. Si el área del cuadrado es [$area] cm[`^2`]. Determine el valor del lado del cuadrado. (Escribir sólo el número, SIN incluir cm)
+END_PGML
+    $answer = Compute("$lado");
+} else {
+BEGIN_PGML
+Considere el cuadrado que se muestra arriba. Si el lado del cuadrado es [$lado] cm.  Determine el valor del área del cuadrado. (Escribir sólo el número, SIN incluir cm)
+END_PGML
+    $answer = Compute("$area");
+}
+BEGIN_PGML
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Utilizar la fórmula del áre de un cuadrado: [`A = l^2`], entonces
+[```
+[$eq],
+```]
+por lo tanto la solución es [$answer] [@ $k ? 'cm' : 'cm[`^2`]' @]**
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

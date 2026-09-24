@@ -1,0 +1,149 @@
+## DESCRIPTION
+## Algebra: Solve mixing problems with interest rates
+# written by Jan Hlavacek (jhlavace@svsu.edu)
+## ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Applications and models)
+## Level(5)
+## KEYWORDS('algebra', 'application problems', 'mixing problems')
+
+###########################
+#  Initialization
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'scaffold.pl', 'PGcourse.pl');
+
+Context("Numeric")->variables->are(x => "Real");
+
+## chemicals
+
+$chem =
+    list_random("acid", "glucose", "hydrogen peroxide", "active ingredient");
+
+## units
+
+$unit = list_random("milliliters", "liters", "gallons", "ounces");
+
+# volume of solution 1
+$x = random(7, 25, 1);
+
+$k = random(3, 7, 1);
+
+$s = random(2, 5);
+
+$p2 = random(1, 16, 1);
+
+$d      = $k * $s;
+$amount = $k * $x;
+
+$p1 = $p2 + $d;
+
+$p = $s + $p2;
+
+$amountchem = $p * $amount / 100;
+
+$answer2 = Compute("x");
+$answer3 = Compute("$p1/100*x");
+$answer5 = Compute("$amount - x");
+$answer6 = Compute("$p2/100*($amount - x)");
+$answer8 = Compute("$amountchem");
+
+###########################
+#  Main text
+
+BEGIN_PGML
+A chemist needs [$amount] [$unit] of [$p]% [$chem] solution by volume.  She
+only has [$p1]% solution and [$p2]% solution.  How many [$unit] of [$p1]%
+solution and how many [$unit] of [$p2]% solution does she need to mix to get the
+amount and concentration she needs?
+END_PGML
+
+Scaffold::Begin(
+    can_open => "when_previous_correct",
+    is_open  => "correct_or_first_incorrect"
+);
+
+Section::Begin("Part 1: Set up the table");
+
+BEGIN_PGML
+First, fill in the following table, using [`x`] for the amount of [$p1]% solution.
+
+[# 
+    [.Concentration .]
+    [.Amount needed .]
+    [.Amount of pure [$chem] .]{headerrow=>1}*
+    [.[$p1]% .]
+    [.[_]{$answer2}{10} .]
+    [.[_]{$answer3}{10} .]*
+    [.[$p2]% .]
+    [.[_]{$answer5}{10} .]
+    [.[_]{$answer6}{10} .]*
+    [.[$p]% .]
+    [.[$amount] .]
+    [.[_]{$answer8}{10} .]*
+#]{horizontalrules => 1, texalignment => '|c|c|c|', padding=> 0.3}
+>> (All amounts are in [$unit]) <<
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+In the second column, the amount of [$p1]% solution will be [`x`], and since the
+total amount of the desired solution must be [$amount], the amount of the [$p2]% solution will be [$answer5].
+
+To get the last column, simply multiply the first and second column (amount of pure [$chem] = concentration times the amount of solution).
+
+The table will look like this:
+
+[# 
+    [.Concentration .]
+    [.Amount needed .]
+    [.Amount of pure [$chem] .]{headerrow=>1}*
+    [.[$p1]% .]
+    [.[$answer2] .]
+    [.[$answer3] .]*
+    [.[$p2]% .]
+    [.[$answer5] .]
+    [.[$answer6] .]*
+    [.[$p]% .]
+    [.[$amount] .]
+    [.[$answer8] .]*
+#]{horizontalrules => 1, texalignment => '|c|c|c|', padding=> 0.3}
+
+
+>> (All amounts are in [$unit]) <<
+
+END_PGML_SOLUTION
+
+Section::End();
+
+###########################################
+Section::Begin("Part 2: Solve the equation");
+
+BEGIN_PGML
+
+Using the table, set up the equation, solve it and find the answer.
+
+The amount of [$p1]% solution is [__________]{$x} while 
+the amount of [$p2]% solution is [__________]{$amount-$x}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+In the last column of the table, the amount of pure [$chem] in the [$p1]% solution plus the 
+amount of pure [$chem] in the [$p2]% solution must be equal to the amount of pure [$chem] in 
+the mixture of the two solutions, which is [$answer8] [$unit].
+
+[``[$answer3] + [$answer6] = [$answer8]``]
+
+Solving the equation will give us [`x = [$x]`], which is the amount of the [$p1]% solution needed.
+Then we subtract that from [$amount] to get [$amount - $x], which is the amount of [$p2]% solution needed.
+END_PGML_SOLUTION
+
+Section::End();
+
+Scaffold::End();
+
+ENDDOCUMENT();

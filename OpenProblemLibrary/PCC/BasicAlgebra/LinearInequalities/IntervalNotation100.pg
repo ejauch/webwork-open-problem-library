@@ -7,16 +7,18 @@
 # Last updated: Hughes 7/15/2013, Yao, 6/26/13
 # ENDDESCRIPTION
  
-## DBCCSS('7.EE.4','A-REI.3')
-## DBsubject(Algebra)
-## DBchapter(Algebra of real numbers and simplifying expressions)
-## DBsection(Inequalities and intervals)
-## Institution(PCC)
-## Author(Alex Jordan, Carl Yao, Chris Hughes)
-## MLT(alg_real_num_2015_setbuilder_to_interval)
-## Level(3)
-## MO(1)
+## DBsubject('Algebra')
+## DBchapter('Basic Algebra')
+## DBsection('Inequalities')
 ## KEYWORDS('inequality','linear','set notation','interval notation','fraction')
+## DBCCSS('7.EE.4','A-REI.3')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+## Author('Alex Jordan, Carl Yao, Chris Hughes')
+## Institution('PCC')
  
 ##############################################
 
@@ -27,7 +29,8 @@ loadMacros(
   "MathObjects.pl",
   "PGML.pl",
   "contextFraction.pl",
-  "PGcourse.pl"
+  "PCCmacros.pl",
+  "PGcourse.pl",
 );
 
 ##############################################
@@ -58,13 +61,13 @@ TEXT(beginproblem());
 
 BEGIN_PGML
 
-Change the following inequality from set-builder notation to interval notation:
+A set is written using set-builder notation. Write it using interval notation.
 
-    [`` \left[$LBRACE] x \mid {[$left]} [$comp] [$right] \right[$RBRACE] ``]
+    [`` \left\{ x \mid {[$left]} [$comp] [$right] \right\} ``]
 
-Please use *inf* to represent [`\infty`].
+[@KeyboardInstructions(q!Please use [|INF|]* to represent [`\infty`].!)@]**
 
-    The interval notation is [_____________]{$ans->cmp(correct_ans=>$ans_string, correct_ans_latex_string=>$ans_latex_string)}
+    [_____________]{$ans->cmp(correct_ans=>$ans_string, correct_ans_latex_string=>$ans_latex_string)}
 
 END_PGML
 

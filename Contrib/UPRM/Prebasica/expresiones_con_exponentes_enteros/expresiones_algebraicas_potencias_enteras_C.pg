@@ -1,0 +1,70 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Decir el exponente a^b
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/expresiones_con_exponentes_enteros/expresiones_algebraicas_potencias_enteras.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Expresiones algebraicas)
+## DBsection(Exponentes)
+## Level(1)
+## KEYWORDS('exponentes','enteros')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context('Numeric')->operators->undefine('*');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+#Context()->noreduce('(-x)-y','(-x)+y');
+
+@vars  = ("m", "n", "p", "q", "r", "y", "z", "k", "a", "b");
+$index = random(0, 9);
+$prob  = random(0, 1);
+if ($prob == 0) {
+    Context()->variables->add($vars[$index] => 'Real');
+    $base = $vars[$index];
+} else {
+    $base = random(0, 50);
+}
+
+$exponente = random(2, 9);
+$expresion = "$base^{$exponente}";
+for (1 .. $exponente - 1) {
+    $cadena .= "$base\cdot ";
+}
+
+$cadena .= "$base";
+$answer = Compute("$expresion");
+
+#  Text
+
+BEGIN_PGML
+La expresion
+[```[$cadena]```]
+escrita como notación exponencial es: [_]{$answer}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Como [`[$base]`] se multiplica [`[$exponente]`] veces, entonces [`[$base]`] tiene exponente [`[$exponente]`], es decir: 
+[```
+ [$cadena] = [$base]^[$exponente].
+```]
+Por lo tanto la respuesta es: [`[$expresion]`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

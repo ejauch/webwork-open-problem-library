@@ -1,0 +1,105 @@
+#  DESCRIPTION
+
+#  Tipo: falso/cierto
+#  Dada dos recta decir si son paralelas o no.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_lineales_2_variables_parte_2/rectas_perpendiculares.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Rectas)
+## DBsection(Perpendiculares)
+## Level(1)
+## KEYWORDS('rectas','perpendiculares')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',      'PGML.pl',
+    'contextFraction.pl', 'parserPopUp.pl',
+    'PGcourse.pl'
+);
+
+Context("Fraction");
+
+# coeficientes de la primera recta a1x + b1y = c1
+$a1 = non_zero_random(-9, 9);
+$b1 = non_zero_random(-9, 9);
+$c1 = non_zero_random(-9, 9);
+
+#Dandole "igual" probabilidad usando la otra recta a2x + b2y = c2
+$prob = random(0, 1);
+
+if ($prob == 0) {
+    $a2 = non_zero_random(-9, 9);
+    $b2 = non_zero_random(-9, 9);
+} else {
+    $mult = non_zero_random(-4, 4);
+    $a2   = -$b1;
+    $b2   = $a1;
+}
+$c2 = non_zero_random(-9, 9);
+
+Context()->variables->add(y => 'Real');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+$eq1 = Formula("$a1 x + $b1 y")->reduce();
+$eq2 = Formula("$a2 x + $b2 y")->reduce();
+
+Context("Fraction");
+
+$m1   = Fraction(-$a1, $b1)->reduce();
+$m2   = Fraction(-$a2, $b2)->reduce();
+$m1m2 = Compute($m1 * $m2);
+
+$b1 = Fraction($c1, $b1)->reduce();
+$b2 = Fraction($c2, $b2)->reduce();
+
+if ($m1 * $m2 == -1) {
+    $answer  = 0;
+    $simbolo = "=";
+} else {
+    $answer  = 1;
+    $simbolo = "\ne";
+}
+
+$dd = DropDown([ 'cierta', 'falsa' ], $answer);
+
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa. Entre *C* para  cierta o *F* para falsa.
+
+[```
+\begin{aligned}
+[$eq1] &= [$c1] \\
+[$eq2] &= [$c2]
+\end{aligned}
+```]
+
+Las rectas anteriores son perpendiculares. [_]{$dd}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Dos rectas son perpendiculares si la pendiente de una es la inversa negativa de la otra, es decir que [`m_1 = -\frac{1}{m_2}`] o equivalentemente si [`m_1m_2 = -1`].
+
+*Paso 1:* Encontrar las pendientes, representando cada recta en la forma [`y=mx+b`]
+[```
+\begin{aligned}
+[$eq1] = [$c1] & \qquad\Rightarrow\qquad y=[$m1] x + [$b1] \\
+[$eq2] = [$c2] & \qquad\Rightarrow\qquad y=[$m2]* x + [$b2].
+\end{aligned}
+```]
+Como [`m_1 m_2 = [$m1]\cdot [$m2]  = [$m1m2] [$simbolo] -1`] entonces la proposición es [$dd].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

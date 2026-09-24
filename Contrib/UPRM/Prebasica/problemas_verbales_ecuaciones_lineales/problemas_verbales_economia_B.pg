@@ -1,0 +1,110 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Porcientos: problemas lineales de aplicación (economía)
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/problemas_verbales_ecuaciones_lineales/problemas_verbales_economia.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Applications and models)
+## Level(1)
+## KEYWORDS('ecuaciones','lineal','aplicacion','economia')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'unionTables.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+$precio_manzana = random(2,  4, 0.01);
+$n_manzana      = random(10, 50);
+
+$precio_pera = random(1.5, 2.5, 0.01);
+$n_pera      = random(10,  50);
+
+$total_comprado = $n_manzana + $n_pera;
+
+$total_dinero = $n_manzana * $precio_mazana + $n_pera * $precio_pera;
+
+@pregunta = ("manzana", "pera");
+$index    = random(0, 1);
+
+if ($index == 0) {
+    $text_preg = "manzana";
+    $answer    = Compute($n_manzana);
+} else {
+    $text_preg = "pera";
+    $answer    = Compute($n_pera);
+}
+
+@nombre = (
+    "Jacinto", "Isabel",   "Laura",   "Diego", "Ingrid",  "Cydmary",
+    "Jesús",   "Glorimar", "Alberto", "Lisha", "Gloriel", "Ramón",
+    "Aidy",    "Aldo",     "Hector",  "Eloy"
+);
+
+$index2 = random(0, 15);
+
+#  Text
+
+BEGIN_PGML
+[$nombre[$index2]] va a comprar manzanas y peras a Mr. special. El precio del kilo de manzanas es $[$precio_manzana] y el precio del kilo de peras es $[$precio_pera]. Si [$nombre[$index2]]  compró [$total_comprado] kilos de manzanas y peras en conjunto y pagó un total de $[$total_dinero], determinar los kilos de [$pregunta[$index]] que compró [$nombre[$index2]] .
+
+*Nota:* Los precios ya incluyen el Impuesto de Ventas
+
+Kilos de [$pregunta[$index]] comprados por [$nombre[$index2]]  = [_]{$answer}{20}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Ordenar la información del problema en una tabla:
+
+[#
+    [.Data.][.Ecuación.]{headerrow=>1}*
+    [.[`[$precio_manzana] \cdot \text{manzanas} + [$precio_pera] \cdot \text{peras} = [$total_dinero] `].]
+    [. .]*
+    [.Se compró [$total_vendidos] manzanas y peras en tota .]
+    [.[` \text{peras} = [$total_comprado] - \text{manzanas}`].]
+#]{horizontalrules => 1, texalignment => '|c|c|', padding => 0.3}
+
+*Paso 2:* Sea [`n`] la cantidad de kilos de manzana que compró [$nombre[$index2]].
+
+*Paso 3:* Llevar a cabo la sustitución necesaria con las igualdades en el Paso 1 para obtener una ecuación lineal:
+
+[#
+    [.Ecuación.][.Sustitución.]{headerrow=>1}*
+    [.[`\text{peras} = [$total_comprado] - \text{manzanas}`].]
+    [.[`\text{peras} = [$total_comprado] - n`] .]*
+    [. [`[$precio_manzana]\cdot\text{manzanas} + [$precio_pera]\cdot\text{peras}=[$total_dinero] `].]
+    [.[`[$precio_manzana] n + [$precio_pera]([$total_comprado] - n)=[$total_dinero]`] .]
+#]{horizontalrules => 1, texalignment => '|c|c|', padding=>0.3}
+
+
+*Paso 4:* Resolver la ecuación lineal para obtener el valor de [`n`]:
+[```
+[$precio_manzana] n + [$precio_pera]([$total_comprado] - n) = [$total_dinero] \quad \text{entonces}\quad  n = [$answer]
+```]
+*Paso 5:*
+Usar el valor de [`n`] para obtener la información que buscamos del problema verbal:
+[```
+ \begin{aligned}
+   \text{Manzanas: } & n=[$n_manzana] \\
+   \text{Peras: }   & [$total_comprado] - n =[$n_pera]
+ \end{aligned}
+```]
+
+por lo tanto [$nombre[$index2]]  compró [` [$answer] `] kilos de [$pregunta[$index]].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

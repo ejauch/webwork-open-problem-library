@@ -1,0 +1,61 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Resolver ecuaciones racionales denominador monomio
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_racionales/ecuaciones_racionales_con_monomios.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Ecuaciones racionales)
+## DBsection(Denominador monomio)
+## Level(1)
+## KEYWORDS('ecuaciones','monomios')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',             'PGML.pl',
+     'parserSolutionFor.pl',
+    'PGcourse.pl'
+);
+
+Context('Numeric');
+
+# coeficientes ecuación de tipo a1/(b1x) + a2/(b2x) = a3/(b3x)
+$a1 = non_zero_random(-9, 9);
+$b1 = non_zero_random(-9, 9);
+
+$a2 = non_zero_random(-9, 9);
+$b2 = non_zero_random(-9, 9);
+
+$a3 = non_zero_random(-9, 9);
+$b3 = non_zero_random(-9, 9);
+
+Context("Point")->variables->are(x => 'Real', y => 'Real');
+$f = SolutionFor("x^2 = cos(y)", "(1,0)");
+
+BEGIN_PGML
+
+*Esto es para borrar, sirve para pruebas.*
+
+A solution to [`[$f->{f}]`] is
+
+[`(x,y)`] = [_]{$f}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+
+END_PGML_SOLUTION
+
+
+ENDDOCUMENT();

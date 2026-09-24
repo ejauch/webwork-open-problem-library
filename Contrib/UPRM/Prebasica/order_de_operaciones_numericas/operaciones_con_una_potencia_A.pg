@@ -1,0 +1,89 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Orden de operaciones: dada una exp tipo a \pm (b + c*d)^n, encontrar el resultado.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/order_de_operaciones_numericas/operaciones_con_una_potencia.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Algebra of real numbers and simplifying expressions)
+## DBsection(Evaluating expressions)
+## Level(1)
+## KEYWORDS('operaciones', 'numeros', 'orden')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',            'PGML.pl',
+    'contextLimitedNumeric.pl', 'PGcourse.pl'
+);
+
+Context("Numeric");
+
+#construyendo la exp. tipo a \pm (b + c*d)^n
+$a = non_zero_random(-20, 20);
+$b = non_zero_random(-20, 20);
+$c = non_zero_random(-5,  5);
+$d = random(2, 5);
+$n = random(2, 4);
+
+$sig = random(0, 1) == 0 ? '+' : '-';
+$r   = Compute("$a $sig ($b + $c*$d)**$n");
+
+#usado al presentar la solución
+$multiplicacion = $c * $d;
+$suma_resta1    = $b + $multiplicacion;
+
+$potencia    = $suma_resta1**$n;
+$suma_resta2 = Compute("$a $sig $potencia");
+
+Context("LimitedNumeric");
+
+$answer = Compute($r);
+
+BEGIN_PGML
+[```
+[$a] [$sig] ([$b] + [$c]\times [$d])^{[$n]}
+```]
+Efectúe las operaciones indicadas y obtenga el resultado para la expresión que se muestra arriba.
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Resolver los paréntesis:
+
+la multiplicación
+[```
+ [$a] [$sig] ([$b] + [$c]\times [$d])^{[$n]} = [$a] [$sig] ([$b] + [$multiplicacion])^{[$n]}
+```]
+la suma o resta
+[```
+ [$a] [$sig] ([$b] + [$multiplicacion])^{[$n]} = [$a] [$sig] ([$suma_resta1])^{[$n]}
+```]
+
+*Paso 2:* Realizar la potencia: 
+[```
+[$a] [$sig] ([$suma_resta1])^{[$n]} = [$a] [$sig] [$potencia]
+```]
+
+*Paso 3:* Realizar la suma o resta:
+[```
+[$a] [$sig] [$potencia] = [$suma_resta2]
+```]
+
+La solución es: [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

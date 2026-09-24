@@ -1,0 +1,90 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada la gráfica de un rectángulo cuyos lados están en función de x
+#  si se dá el perímetro, encontrar x.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/geometria/Cuadrilateros.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Geometría)
+## DBsection(Cuadrilateros)
+## Level(1)
+## KEYWORDS('cuadrilateros','rectnagulos')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'plots.pl', 'PGcourse.pl');
+
+Context("Numeric");
+
+$a = random(1, 5);
+$b = random(5, 10);
+
+$c = random(1, 5);
+$d = random(1, 7);
+
+@largos = ("x + $a", "$a x - $b", "$a x");
+@altos  = ("x - $a", "$b x - $d", "$b x");
+$index  = random(0, 2);
+
+$x = random(2, 20);
+
+$fa = Formula($largos[$index])->reduce;
+$fb = Formula($altos[$index])->reduce;
+
+$largo = $fa->eval(x => $x);
+$alto  = $fb->eval(x => $x);
+
+$p = 2 * ($largo + $alto);
+$A = $largo * $alto;
+
+#Objeto que tendrá el rectángulo
+$plot = Plot(
+    xmin         => -10,
+    xmax         =>  10,
+    ymin         => -5,
+    ymax         =>  5,
+    xvisible     =>  0,
+    yvisible     =>  0,
+    show_grid    =>  0,
+    aspect_ratio => 1
+);
+$plot->add_rectangle([ -10, -5 ], [ 10, 5 ], width => 3);
+$plot->add_label(0,  -5, $fa->TeX, v_align => 'bottom');
+$plot->add_label(10,  0, $fb->TeX, h_align => 'right');
+
+$answer = Compute($x);
+
+#  Text
+
+BEGIN_PGML
+>> [!!]{$plot}{250} <<
+
+Considere el rectángulo que se muestra arriba. Si el perímetro es [$p] cm, calcule el valor de [`x`]. (NO escriba el símbolo cm)
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Utilizar la fórmula del perímetro de un rectángulo: [`P = 2a+2b`], donde [`a`] es la base y [`b`] es la altura.
+
+Entonces
+[```
+[$p] = 2([$largos[$index]])+2([$altos[$index]]) \quad \Rightarrow\quad  x = [$x].
+```]
+Por lo tanto el valor de [` x `] es [$answer].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

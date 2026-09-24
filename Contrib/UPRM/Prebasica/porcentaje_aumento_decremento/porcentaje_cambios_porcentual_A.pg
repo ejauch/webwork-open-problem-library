@@ -1,0 +1,93 @@
+#  DESCRIPTION
+
+#  Tipo: seleccionar la correcta
+#  Identificar el cambio porcentual
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu de archivo
+#  pedro_prebasica/porcentaje_aumento_decremento/porcentaje_cambios_porcentual.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Arithmetic)
+## DBchapter(Percents)
+## DBsection(Applications)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('porcientos','porcentaje','cambio')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',         'PGML.pl',
+    'parserRadioButtons.pl', 'PGcourse.pl'
+);
+
+Context('Numeric');
+
+#Eligiendo 6 valores diferentes de porcentajes
+do {
+    $p1 = non_zero_random(-100, 100);
+    $p2 = non_zero_random(-100, 100);
+    $p3 = non_zero_random(-100, 100);
+} until ($p1 != $p2 && $p3 != $p2 && $p3 != $p1);
+
+#Eligiendo el porcentaje a usar, reducción (signo -) o aumento (signo +)
+@porciento = ($p1, $p2, $p3, -$p1, -$p2, -$p3);
+$index     = random(0, 5);
+
+#Eligiendo el valor inicial y calculando el final con el respectivo porciento
+$valor_inicial = random(20, 1000, 5);
+$valor_final   = $valor_inicial + $valor_inicial * $porciento[$index] / 100;
+
+#Arreglo que tendrá las opciones
+@opciones = ();
+
+#creando las cadenas de las opciones dependiendo si es + o -
+for my $i (0 .. 5) {
+    if ($porciento[$i] > 0) {
+        $opciones[$i] = "un aumento de $porciento[$i]%";
+        $valor = "positivo" if ($i == $index);
+    } else {
+        $tmp          = abs($porciento[$i]);
+        $opciones[$i] = "una disminucion de $tmp%";
+        $valor        = "negativo" if ($i == $index);
+    }
+}
+
+$radio = RadioButtons(
+    [ @opciones, "Ninguna de estas" ],
+    $opciones[$index],               # correct answer
+    last => ["Ninguna de estas"],    # can be a list
+);
+
+#  Text
+
+BEGIN_PGML
+Calcular el cambio porcentual si el valor inicial es de [`[$valor_inicial]`] y el valor final es de [`[$valor_final]`]. Indique si fue una disminución o aumento porcentual.  
+
+[_]{$radio}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Si llamamos [`v_i`] al valor inicial y [`v_f`] al valor final, y [`C`] al cambio porcentual, entonces:
+[```
+C = \frac{v_f - v_i}{v_i}\cdot 100
+```]
+
+*Paso 2:* Ahora, sustituyendo los datos de nuestro problema tenemos que:
+[```
+\begin{aligned}
+ C&= \frac{v_f - v_i}{v_i}\cdot 100 \\
+    &= \frac{[$valor_final] - [$valor_inicial]}{[$valor_inicial]}\cdot 100 \\
+    &= [$porciento[$index]]
+\end{aligned}
+```]
+por ser un valor [$valor], el cambio fue *[$opciones[$index]]****.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

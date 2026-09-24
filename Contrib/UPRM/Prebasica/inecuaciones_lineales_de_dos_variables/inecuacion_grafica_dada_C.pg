@@ -1,0 +1,160 @@
+#  DESCRIPTION
+
+#  Tipo: Opción múltiple única respuesta
+#  Dada una inecuación tipo y > Mx + B, elegir su representación gráfica.
+#  M y B son enteros no cero positivos o negativos
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/inecuacioness/inecuaciones.db
+#  Programación por Carl Yao de Portland Community College del archivo
+#  PCCBasicAlgebra/EquationsAndInequalitiesInTwoVariables/GraphTwoVariableInequality30.pg
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Inecuaciones)
+## DBsection(Inecuaciones lineales dos variables)
+## Level(1)
+## KEYWORDS('inecuaciones','lineales', 'dos variables', 'graficas')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',         'PGML.pl',
+    'parserRadioButtons.pl', 'plots.pl',
+    'PGcourse.pl'
+);
+
+Context("Numeric")->noreduce('(-x)-y', '(-x)+y');
+
+$symbol = '>';
+
+$m = non_zero_random(-5, 5);
+$b = 0;
+# Las primeras cuatro son regiones opcionales y la última es la correcta
+@regiones = (
+    { m => -$m, b => $b, linestyle => 'dashed', lado => 'derecho' },
+    { m => -$m, b => $b, linestyle => 'solid',  lado => 'izqueda' },
+    { m => $m,  b => $b, linestyle => 'dashed', lado => 'derecho' },
+    { m => $m,  b => $b, linestyle => 'dashed', lado => 'izqueda' },
+    {
+        m         => $m,
+        b         => $b,
+        linestyle => 'dashed',
+        lado      => $m > 0 ? 'izqueda' : 'derecho'
+    }
+);
+
+$correct_index = $m > 0 ? 3 : 2;
+
+$f = Compute("$m x + $b")->reduce;
+
+$ALPHABET       = 'A' .. 'D';
+@scramble       = random_subset(4, 0 .. 3);
+@inv[@scramble] = 0 .. 3;
+
+$alt_tags = {};
+
+for (0 .. 4) {
+    $plots[$_] = Plot(xmin => -10, xmax => 10, ymin => -10, ymax => 10);
+    $plots[$_]->add_function(
+        "$regiones[$_]->{m} x + $regiones[$_]->{b}", 'x', -10, 10,
+        color     => 'blue',
+        linestyle => $regiones[$_]->{linestyle}
+    );
+    if ($regiones[$_]->{lado} eq 'derecho') {
+        $plots[$_]->add_dataset(
+            [ 10, 10 ],
+            $regiones[$_]->{m} > 0 ? [ 10, -10 ]
+            : [ 10, 10 * $regiones[$_]->{m} ],
+            $regiones[$_]->{m} > 0 ? [ -10, -10 * $regiones[$_]->{m} ]
+            : [ 10, 10 * $regiones[$_]->{m} ],
+            $regiones[$_]->{m} > 0 ? [ 10, 10 * $regiones[$_]->{m} ]
+            : [ -10, -10 * $regiones[$_]->{m} ],
+            [ 10, 10 ],
+            fill         => 'self',
+            fill_opacity => 0.3,
+            fill_color   => 'blue',
+            color        => 'none'
+        );
+    } else {
+        $plots[$_]->add_dataset(
+            [ -10, 10 ],
+            $regiones[$_]->{m} < 0 ? [ -10, -10 * $regiones[$_]->{m} ]
+            : [ 10, 10 * $regiones[$_]->{m} ],
+            $regiones[$_]->{m} < 0 ? [ 10, 10 * $regiones[$_]->{m} ]
+            : [ -10, -10 * $regiones[$_]->{m} ],
+            [ -10, -10 ],
+            [ -10,  10 ],
+            fill         => 'self',
+            fill_opacity => 0.3,
+            fill_color   => 'blue',
+            color        => 'none'
+        );
+    }
+    $dashOrSolid =
+        ($regiones[$_]->{line_style} eq 'dashed') ? 'punteada' : 'solida';
+    $y = $regiones[$_]->{m} * 1 + $regiones[$_]->{b};
+    $yfillcoord = ($regiones[$_]->{m} > 0 && $regiones[$_]->{lado} eq 'izqueda')
+        || ($regiones[$_]->{m} < 0 && $regiones[$_]->{lado} eq 'derecho')
+        ? 1
+        : -1;
+    $alt_tags->{ $ALPHABET[ $inv[$_] ] // 'correcta' } =
+        "Gráfica $ALPHABET[$inv[$_]]: Esta es la gráfica de la línea que pasa "
+        . " por (0,$ar_mb[$i][1]) y (1,$y). La línea es $dashOrSolid. El lado "
+        . "que incluye el punto (0,$yfillcoord) está sombreado.";
+}
+
+$radio =
+    RadioButtons([ 'A' .. 'D' ], $inv[$correct_index], separator => "$SPACE");
+
+BEGIN_PGML
+
+Elija la gráfica que muestra la solución de [`y [$symbol] [$f]`]. En su propio papel de gráficar, primero dibuje la línea (sea punteada o sólida), y luego seleccione un punto de prueba para decidir cual lado de la línea sombrear. *Advertencia:* si salta los pasos que se deben hacer en papel, entonces no se está practicando lo que el ejercicio intenta que usted practique. 
+
+La gráfica correcta es [_]{$radio}
+
+
+[#
+    [. A .]{header=>'rh'} [.B.]{header=>'rh'}*
+    [. [![$alt_tags->{'A'}]!]{$plots[$scramble[0]]}{250} .]
+    [. [![$alt_tags->{'B'}]!]{$plots[$scramble[1]]}{250} .]*
+    [. C .] [.D.]{headerrow=>1}*
+    [. [![$alt_tags->{'C'}]!]{$plots[$scramble[2]]}{250} .]
+    [. [![$alt_tags->{'D'}]!]{$plots[$scramble[3]]}{250} .]*
+ #]{padding => 0.4}
+END_PGML
+
+$plots[4]->add_point(0, 1, color => 'red');
+
+BEGIN_PGML_SOLUTION
+
+Para graficar la inecuación [` y [$symbol] [$f] `], primero graficamos la línea [` y=[$f] `]. Lo puede hacer usando el método de tabulación o el de triángulo-pendiente para localizar los dos puntos de la línea.
+
+Note que la línea es [$dashOrSolid], porque la inecuación usa el símbolo  [` [$symbol] `].
+
+            >>[!$alt_tag->{correcta}!]{$plots[4]}{250}<<
+
+Luego, necesitamos decidir cual lado sombrear. Elegimos [` (0,1) `] como el punto de prueba. Al sustituir [`x=0`] y [`y=1`] en la inecuación [` y [$symbol] [$f] `], tenemos:
+
+[```
+\begin{aligned}
+   y &[$symbol] [$f] \\
+   1 &[$symbol] [$m] (0) \\
+   1 &[$symbol] 0
+\end{aligned}
+```]
+
+Que es cierto, luego sombreamos el lado con el punto [` (0, 1) `].
+
+Por consiguiente la respuesta correcta es [$radio].
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

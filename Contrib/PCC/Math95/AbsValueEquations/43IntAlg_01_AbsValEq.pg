@@ -62,13 +62,33 @@ $ans = Formula("{-$a, $a}");
 #  Main text
 
 BEGIN_PGML
-Solve: [` \left\lvert [$var] \right\rvert = [$a] `]
+Solve the equation.
 
+[`` \left\lvert [$var] \right\rvert = [$a] ``]
+
+[@KeyboardInstructions("If there are no solutions, you may type [|no solutions|]*.")@]**
 
 [__]{$ans}{width=>20}
 
-
 END_PGML
+
+###################################
+
+
+BEGIN_PGML_SOLUTION
+
+    [``
+\begin{aligned}[t]
+   \left\lvert [$var] \right\rvert &= [$a] \\
+   [$var] &= [$a] &\text{ or }&& [$var] &= [$a*-1] \\
+\end{aligned}
+    ``]
+
+The solutions are [`[$ans]`] in set notation.
+
+END_PGML_SOLUTION
+
+###################################
 
 ENDDOCUMENT();
 

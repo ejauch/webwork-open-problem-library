@@ -47,14 +47,25 @@ $ans = Compute("no solutions");
 #  Main text
 
 BEGIN_PGML
-Solve the equation: [` \left\lvert [$var] \right\rvert = [$a] `]
+Solve the equation.
+
+[`` \left\lvert [$var] \right\rvert = [$a] ``]
 
 [@KeyboardInstructions("If there are no solutions, you may type [|no solutions|]*.")@]**
 
 [__]{$ans}{width=>20}
 
-
 END_PGML
+
+###################################
+
+BEGIN_PGML_SOLUTION
+
+An absolute value cannot be negative, so the solutions are: [`[$ans]`].
+
+END_PGML_SOLUTION
+
+###################################
 
 ENDDOCUMENT();
 

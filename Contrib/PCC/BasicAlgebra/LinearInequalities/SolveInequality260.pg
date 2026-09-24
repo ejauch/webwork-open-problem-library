@@ -65,7 +65,7 @@ Context()->variables->are(a=>"Real");
 
 $setans = Compute("{ a | a > $crit}");
 $alt = Compute("{ a | $crit < a}");
-$ans = OneOf($setans, $alt);
+$ans = $setans;
 
 
 Context("Interval");

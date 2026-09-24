@@ -8,16 +8,18 @@
 # Last updated: Kling, 7/24/13; Hughes 7/15/2013, Yao, 6/26/13
 # ENDDESCRIPTION
  
-## DBCCSS('7.EE.4','A-REI.3')
-## DBsubject(Algebra)
-## DBchapter(Linear equations and functions)
-## DBsection(Linear inequalities)
-## Institution(PCC)
-## Author(Alex Jordan, Carl Yao, Chris Hughes)
-## MLT(LinIneq_AllorNone)
-## Level(2)
-## MO(1)
+## DBsubject('Algebra')
+## DBchapter('Basic Algebra')
+## DBsection('Inequalities')
 ## KEYWORDS('inequality','linear','set notation','interval notation','add','no solution')
+## DBCCSS('7.EE.4','A-REI.3')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+## Author('Alex Jordan, Carl Yao, Chris Hughes')
+## Institution('PCC')
  
 ##############################################
 
@@ -27,7 +29,8 @@ loadMacros(
   "PGstandard.pl",
   "MathObjects.pl",
   "PGML.pl",
-  "PGcourse.pl"
+  "PCCmacros.pl",
+  "PGcourse.pl",
 );
 
 ##############################################
@@ -54,11 +57,7 @@ TEXT(beginproblem());
 
 BEGIN_PGML
 
-Solve this inequality.
-
-* Use interval notation in your response. 
-* If there is no solution, you may enter *no solution*.  
-* If the solution set is all real numbers, you may enter *(-inf, inf)* or *all real numbers*.
+Solve this inequality. [@KeyboardInstructions(q!Answer using interval notation. If there is no solution, you may enter [|no solution|]*. If the solution set is all real numbers, you may enter [|(-inf,inf)|]* or [|all real numbers|]*.!)@]**
 
     [`` -[$a]x \leq -[$a]x+[$b] ``]
 

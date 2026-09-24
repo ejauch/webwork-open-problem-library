@@ -8,16 +8,18 @@
 # Last updated: Yao, 04/18/2014
 # ENDDESCRIPTION
  
-## DBCCSS('7.EE.4','A-REI.3')
-## DBsubject(Algebra)
-## DBchapter(Linear equations and functions)
-## DBsection(Linear inequalities)
-## Institution(PCC)
-## Author(Alex Jordan, Carl Yao, Chris Hughes)
-## MLT(CompIneq_twonotations)
-## Level(3)
-## MO(1)
+## DBsubject('Algebra')
+## DBchapter('Basic Algebra')
+## DBsection('Inequalities')
 ## KEYWORDS('solve','inequality','linear','set notation','interval notation','compound','fraction')
+## DBCCSS('7.EE.4','A-REI.3')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+## Author('Alex Jordan, Carl Yao, Chris Hughes')
+## Institution('PCC')
  
 ##############################################
 
@@ -29,8 +31,9 @@ loadMacros(
   "PGML.pl",
   "contextInequalitySetBuilder.pl",
   "parserOneOf.pl",
+  "PCCmacros.pl",
+  "PGcourse.pl",
   "contextFraction.pl",
-  "PGcourse.pl"
 );
 
 ##############################################
@@ -76,11 +79,7 @@ Solve this inequality:
 
     [`` [$left] [$comp0] \frac{[$b]+[$c]x}{[$d]} [$comp1] [$right] ``]
 
-Please type:  
-
-* *inf* for [`\infty`],
-* *[$GTS]=* for [`\geq`],
-* and *[$LTS]=* for [`\leq`] 
+[@KeyboardInstructions(q!Please type [|INF|]* for [`\infty`], [|<=|]* for [`\leq`], and [|>=|]* for [`\geq`].!)@]** 
 
     In set-builder notation, the solution set is [______________]{$setans}.  
     An example of set-builder notation is [`\{x\mid 10>x>9\}`].  The *|* symbol is above the keyboard's Enter key.

@@ -103,6 +103,8 @@ $gr->stamps( closed_circle($d,$a,'blue') );
 $gr->stamps( closed_circle($co3,$a,'blue') );
 $gr->stamps( closed_circle($ans5,$e,'red') );
 
+$altb = "This is a graph of a piecewise function. In ($xmin,$d), the function is $a*x**2+$b, with an open dot at $d. In [$d,$co3], the function is y=$a, with closed dots at $d and $co3. In ($co3,$xmax), the function is y=$c-x, with an open dot at $co3. A horizontal line y=$e is graphed, intersecting with y=$c-x at ($ans5,$e).";
+
 BEGIN_PGML_SOLUTION
 
 a) Since [`[$co1]<[$d]`], to find [`f([$co1])`], we apply the first rule.  

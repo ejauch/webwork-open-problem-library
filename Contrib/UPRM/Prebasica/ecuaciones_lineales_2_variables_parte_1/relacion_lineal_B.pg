@@ -1,0 +1,54 @@
+#  DESCRIPTION
+
+#  Tipo: falso/cierto
+#  Problema que pregunta si una situacion real
+#  satisface una relacion lineal
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_lineales_2_variables_parte_1/relacion_lineal.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Ecuaciones lineales)
+## DBsection(Aplicaciones)
+## Level(1)
+## KEYWORDS('lineal','aplicaciones','relacion')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+$k         = random(20, 40);
+$y         = Formula("$k x");
+$randHoras = random(1, 5);
+$yrH       = $y->eval(x => $randHoras);
+
+$dd = DropDown([ 'cierta', 'falsa' ], 0);
+
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa. 
+
+Si [`x`] representa las horas que hemos trabajado y [`y`] representa el dinero que hemos ganado y ganamos [$yrH] dólares por [$randHoras] hora(s), entonces la relación entre  [`x`] y [`y`] es lineal. [_]{$dd}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Analizar el problema:
+
+*i.*  [`x = `] horas trabajadas, [`y = `] dinero ganado.
+
+*ii.*  Cuando [`x`] aumenta en [$randHoras], [`y`] aumenta en [$yrH], es decir, [`y`] es proporcional a [`x`] con pendiente o constante de proporcionalidad igual a [$k]. 
+
+Como la relación entre horas trabajadas y dinero ganado es de proporcionalidad directa con constante de proporcionalidad o pendiente igual a [$k], entonces la relación entre [`x`] y [`y`]  *es lineal*, con ordenada al origen 0. Por tanto, la proposición es *cierta*.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

@@ -1,0 +1,74 @@
+#  DESCRIPTION
+
+#  Tipo: seleccionar la correcta
+#  Diferenciar entre monomio, trinomio y trinomio
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu de archivo
+#  pedro_prebasica/expresiones_algebraicas/identificar_expresiones_algebraicas.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Expresiones algebraicas)
+## DBsection(Polinomios)
+## Level(1)
+## KEYWORDS('monomios','binomios','trinomios','polinomios')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+#los exponentes
+$n1 = random(5, 15);
+$n2 = random(1, 4);
+$n3 = random(1, 4);
+
+#los coeficientes
+$a = non_zero_random(-25, 25);
+$b = non_zero_random(-25, 25);
+$c = non_zero_random(-25, 25);
+
+$var = list_random('a' .. 'i', 'k' .. 'z');
+
+$prob = random(1, 3);
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+Context()->variables->are($var => 'Real');
+
+if ($prob == 1) {
+    $exp      = Formula("$a $var^$n1")->reduce;
+    $answer   = 'monomio';
+    $num_term = 1;
+} elsif ($prob == 2) {
+    $exp      = Formula("$a $var^$n1 + $b $var^$n2")->reduce;
+    $answer   = 'binomio';
+    $num_term = 2;
+} else {
+    $exp      = Formula("$a $var^$n1 + $b $var^$n2 + $c $var^$n3")->reduce;
+    $answer   = 'trinomio';
+    $num_term = 3;
+}
+$dd = DropDown([ 'monomio', 'binomio', 'trinomio' ], $answer);
+#  Text
+
+BEGIN_PGML
+La expresion algebraica
+[```
+[$exp]
+```]
+es un monomio, binomio o trinomio: [_]{$dd}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+La expresión algebraica [`[$exp]`] es un [`[$answer]`] ya que tiene [`[$num_term]`] términos. 
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

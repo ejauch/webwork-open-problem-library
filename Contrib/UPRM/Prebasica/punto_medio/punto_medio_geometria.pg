@@ -1,0 +1,109 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Problema que pregunta por el punto medio (xm,ym)
+#  del segmento representado en el plano cartesiano
+#  por dos puntos dados
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/punto_medio/punto_medio_geometria.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Cartesian coordinate system)
+## DBsection(Midpoint and distance formulas)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('grafica', 'puntos','plano','coordenadas','segmento', 'punto medio')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',       'PGML.pl',
+    'plots.pl',            'parserRadioButtons.pl',
+    'PGcourse.pl'
+);
+
+Context('Numeric');
+
+@eje   = ("\(x\)", "\(y\)");
+$index = random(0, 1, 1);
+
+Context("Point");
+$A = Point(random(-9, 9), random(-9, 9));
+$B = Point(random(-9, 9), random(-9, 9));
+
+#Extrayendo coordenadas de A, no se usa en este problema
+($aA, $bA) = $A->value;
+($aB, $bB) = $B->value;
+
+$plot = Plot(
+    xmin => -10,
+    xmax =>  10,
+    ymin => -10,
+    ymax => 10
+);
+$plot->add_point([ $aA, $bA, color => 'blue' ], [ $aB, $bB, color => 'red' ]);
+$plot->add_label(
+    $aA, $bA, 'A',
+    color   => 'blue',
+    v_align => 'bottom',
+    h_align => 'left'
+);
+$plot->add_label(
+    $aB, $bB, 'B',
+    color   => 'red',
+    v_align => 'bottom',
+    h_align => 'left'
+);
+
+#creando las opciones (puntos)
+
+$opcion1 = ($A - $B) / 2;
+$opcion2 = ($B - $A) / 2;
+$opcion3 = -($A + $B) / 2;
+$opcion4 = $A;
+$opcion5 = $B;
+$answer  = ($A + $B) / 2;
+
+$radio = RadioButtons(
+    [
+        "$answer",  "$opcion1", "$opcion2", "$opcion3",
+        "$opcion4", "$opcion5", "Ninguna de estas"
+    ],
+    "$answer",                       # correct answer
+    last => ["Ninguna de estas"],    # can be a list
+);
+
+#  Text
+
+BEGIN_PGML
+>>[!!]{$plot}{250}<<
+
+>>
+(Click en la gráfica para agrandar)
+<<
+
+Dado que [` (a,b) `] es el punto medio de los dos puntos mostrados en la gráfica anterior. Encuentre [` (a,b) `].
+
+[_]{$radio}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+El punto medio del segmento que une los puntos [` (x_1,y_1) `] y [` (x_2,y_2) `] se define por:
+[```
+  M = \left(  \frac{x_1+x_2}{2}, \frac{y_1+y_2}{2} \right),
+```]
+luego para los puntos [`[$A]`] y [`[$B]`] se tiene que:
+[```
+  M = \left(  \frac{[$aA]+[$aB]}{2}, \frac{[$bA]+[$bB]}{2} \right) = [$answer]
+```]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

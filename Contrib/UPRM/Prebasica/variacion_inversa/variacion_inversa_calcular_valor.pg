@@ -1,0 +1,97 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Variacion inversa: Buscar la relacion a=b/k, a y b dados. Y calcular a o b dado uno de ellos.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/variacion_inversa/variacion_inversa_calcular_valor.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Variation and power functions)
+## DBsection(Inverse variation)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('relaciones','variacion','indirecta')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextFraction.pl', 'PGcourse.pl');
+
+Context('Fraction');
+
+@frase  = ("varía inversamente con", "es inversamente proporcional a");
+$indice = random(0, $#frase);
+
+#posibles variables a usar
+@vars = ('a' .. 'i', 'l' .. 'z');
+#eligiendo la primera variable
+($index1, $index2) = random_subset(2, 0 .. $#vars);
+
+#creando la relación a=k/b
+$b = random(5, 50);
+$a = random(2, 9);
+$k = $a * $b;
+
+$prob = random(0, 1);
+if ($prob == 0) {
+    $valor_a_calcular = "$vars[$index1]";
+    $var_dada         = "$vars[$index2]";
+    do {
+        $valor = random(2, 50);
+    } until ($valor != $b);
+    $answer = Compute("$k/$valor");
+    $text1  = "$vars[$index1] = \frac{$k}{$valor}";
+} else {
+    $valor_a_calcular = "$vars[$index2]";
+    $var_dada         = "$vars[$index1]";
+    do {
+        $valor = random(2, 9);
+    } until ($valor != $a);
+    $answer = Compute("$valor*$k");
+    $text1  = "$valor =\frac{$k}{$vars[$index2]}";
+}
+
+#  Text
+
+BEGIN_PGML
+[``` [$vars[$index1]]\text{ [$frase[$indice]] } [$vars[$index2]] ```] 
+
+Si [` [$vars[$index1]] = [$a] `] cuando [` [$vars[$index2]] = [$b] `], calcule el valor de [` [$valor_a_calcular] `] cuando [` [$var_dada] = [$valor]`]. 
+
+[` [$valor_a_calcular] `] = [_]{$answer}{20}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Traducir el enunciado a una fórmula de variación inversa
+[```
+ [$vars[$index1]] \text{ [$frase[$indice]] } [$vars[$index2]] \quad \Rightarrow\quad  [$vars[$index1]] = \frac{k}{ [$vars[$index2]]} 
+```]
+donde [` k `] es la constante de proporcionalidad. 
+
+*Paso 2:* Sustituir valores conocidos para encontrar [` k `]
+[```
+ [$a] = \frac{k}{[$b]} \quad \Rightarrow\quad k = [$a]\cdot [$b] = [$k]
+```]
+
+*Paso 3:* Sustituir el valor de [` k `] y escribir la fórmula
+[```
+ [$vars[$index1]] = \frac{[$k]} {[$vars[$index2]] }
+```]
+
+*Paso 4:* Identificar variables conocidas y sustituir los valores en la fórmula
+[```
+[$text1] \quad \Rightarrow\quad [$valor_a_calcular] = [$answer].
+```] 
+Por lo tanto el valor de [` [$valor_a_calcular] `] es [` [$answer] `] cuando [` [$var_dada] = [$valor] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

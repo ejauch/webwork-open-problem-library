@@ -1,0 +1,83 @@
+#  DESCRIPTION
+
+#  Tipo: Falso/Cierto
+#  Variacion inversa: dada una relación decir si es inversa o no.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/variacion_inversa/variacion_inversa_definicion.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Variation and power functions)
+## DBsection(Inverse variation)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('relaciones','variacion','inversa')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+@frase  = ("varía inversamente con", "es inversamente proporcional a");
+$indice = random(0, $#frase);
+
+#posibles variables a usar
+@vars = ('a' .. 'i', 'l' .. 'w', 'z');
+
+#eligiendo dos variables
+($index1, $index2) = random_subset(2, 0 .. $#vars);
+
+$opt = random(0, 3);
+
+@ecuaciones = (
+    PGML("[```$vars[$index1] \text{ $frase[$indice] } $vars[$index2]```]"),
+    PGML("[```$vars[$index1] \text{ $frase[$indice] } $vars[$index2]```]"),
+    PGML("[```$vars[$index2] \text{ $frase[$indice] } $vars[$index1]```]"),
+    PGML("[```$vars[$index2] \text{ $frase[$indice] } $vars[$index1]```]"),
+);
+@preguntas = (
+    PGML(
+        "se representa algebraicamente como [`` $vars[$index1] = \frac{k}{$vars[$index2]} ``], para algún número real constante [`k`]."
+    ),
+    PGML(
+        "se representa algebraicamente como [``$vars[$index1] = \frac{$vars[$index2]}{k}  ``], para algún número real constante [`k`]."
+    ),
+    PGML(
+        "se representa algebraicamente como [`` $vars[$index1] = k $vars[$index2] ``], para algún número real constante [`k`]."
+    ),
+    PGML(
+        "se representa algebraicamente como [`` $vars[$index1] = \frac{k}{$vars[$index2]} ``], para algún número real constante [`k`]."
+    )
+);
+@respuestas = ('cierta', 'falsa', 'falsa', 'cierta');
+
+$dd = DropDown([ 'cierta', 'falsa' ], $respuestas[$opt]);
+
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa.
+
+El enunciado:
+
+[$ecuaciones[$opt]]*
+
+[$preguntas[$opt]]*
+
+[_]{$dd}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+El enunciado es [$respuestas[$opt]].
+  
+pues, [` [$vars[$index1]] `] [$frase[$indice]] [` [$vars[$index2]] `], se representa algebraicamente como [` [$vars[$index1]] = \frac{k}{[$vars[$index2]]} `] o equivalentemente [` [$vars[$index2]] = \frac{k}{[$vars[$index1]]} `]  para algún valor real [` k `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

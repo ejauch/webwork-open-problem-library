@@ -1,0 +1,68 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada una situación, encontrar el intervalo solución.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/desigualdades_lineales_una_variable/aplicaciones_desigualdades.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Linear inequalities)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('desigualdades','aplicaciones','intervalos')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+# Show which answers are correct and which ones are incorrect
+$showPartialCorrectAnswers = 0;
+
+#  Setup
+
+Context("Interval");
+
+$anchoPared     = random(30, 60);
+$minAnchoCuadro = random(3,  9);
+$disLadoCuadro  = random(2,  10);
+$x              = $anchoPared - 2 * $disLadoCuadro;
+
+$answer = Interval([ $minAnchoCuadro, $x ]);
+
+#  Text
+
+BEGIN_PGML
+Un pared mide [$anchoPared] pies de ancho. Se desea colocar un cuadro que debe tener un ancho mínimo de [$minAnchoCuadro] pies y se debe dejar por lo menos [$disLadoCuadro] pies a cada lado del cuadro. Sea [`x`] el acho del cuadro, determinar el intervalo asociado con [`x`]. *(Escriba el resultado en notación de intervalos)*.
+
+[_]{$answer}
+
+[@  helpLink('intervals')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* El cuadro debe tener un ancho mínimo de [$minAnchoCuadro] pies, entonces:
+[```
+  x \geq [$minAnchoCuadro]
+```]
+
+*Paso 2:* Como se tiene que dejar por lo menos [$disLadoCuadro] en cada lado del cuadro y  la pared tiene [$anchoPared] de ancho, entonces: 
+[```
+\begin{align*}
+  x +2\cdot[$disLadoCuadro]  \leq [$anchoPared] \\
+                                       x  \leq [$x]
+\end{align*}
+```]
+
+*Paso 3:* Por lo tanto la pared debe tener un ancho mínimo de [$minAnchoCuadro] y un ancho máximo de [$x] pies. En notación de intervalo es [`[$answer]`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

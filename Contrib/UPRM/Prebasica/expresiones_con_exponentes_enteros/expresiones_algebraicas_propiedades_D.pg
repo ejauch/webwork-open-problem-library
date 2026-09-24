@@ -1,0 +1,69 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Aplicar propiedad (x^n/b)^m = x^(n*m) / b^m
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/expresiones_con_exponentes_enteros/expresiones_algebraicas_propiedades.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Expresiones algebraicas)
+## DBsection(Propiedades de los exponentes)
+## Level(1)
+## KEYWORDS('exponentes','enteros','propiedades')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+#Context()->noreduce('(-x)-y','(-x)+y');
+
+$a   = non_zero_random(-9, 9);
+$var = list_random("m", "n", "p", "q", "r", "y", "z", "k", "a", "b");
+
+Context()->variables->add($var => 'Real');
+$n  = random(2, 6);
+$m  = random(2, 6);
+$nm = $n * $m;
+
+$exp = "\left( \frac{$var^$n}{$a} \right)^$m";
+
+$answer = Compute("($var^($n*$m))/(($a)^$m)")->reduce;
+
+#  Text
+
+BEGIN_PGML
+Simplifique al máximo la siguiente expresión
+[```
+[$exp]
+```]
+Contestación: [_]{$answer}
+
+[@  helpLink('formula')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Utilizando la propiedad [` \left( \frac{a}{b} \right)^c = \frac{a^c}{b^c} `], se obtiene
+[```
+[$exp] = \frac{ \left( [$var]^[$n] \right)^[$m]}{\left( [$a] \right)^[$m]}
+```]
+*Paso 2:* Utilizando la propiedad [` \left( a^n \right)^m = a^{bc} `] se tiene:
+[```
+ [$exp] = \frac{[$var]^{[$nm]}}{\left([$a]\right)^[$m]} = [$answer].
+```]
+Por lo tanto la respuesta es: [`[$answer]`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

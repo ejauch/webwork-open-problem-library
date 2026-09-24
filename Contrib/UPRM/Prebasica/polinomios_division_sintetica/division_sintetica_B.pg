@@ -1,0 +1,162 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  División sintética: polinomio grado 4, factor (x-r), r en Z.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu de los archivos
+#  pedro_prebasica/polinomios_division_sintetica/division_sintetica.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Polynomial equations and functions)
+## DBsection(Remainder and factor theorems)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('polinomios','operaciones','division','sintetica')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGpolynomialmacros.pl', 'PGcourse.pl');
+
+Context("Numeric");
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+#Creando el polinomio y sus componentes A = Q*(x-r) + R
+
+#el divisor
+$b1 = 1;
+$b0 = non_zero_random(-9, 9);
+@B  = ($b1, $b0);
+
+$rb0 = $b0 > 0 ? -$b0 : abs($b0);
+
+#el cociente
+$q3 = non_zero_random(-9, 9);
+$q2 = random(-9, 9);
+$q1 = random(-9, 9);
+$q0 = random(-9, 9);
+@Q  = ($q3, $q2, $q1, $q0);
+
+#el residuo
+$r0 = random(-9, 9);
+@R  = ($r0);
+
+#el dividendo A usando el macro PGpolynomialmacros.pl, multiplicando BQ y sumándole R
+@BQ = PolyMult(~~@B, ~~@Q);
+@A  = PolyAdd(~~@BQ, ~~@R);
+
+#adicionando la variable x a cada parte usando el macro PGpolynomialmacros.pl
+$polyB  = PolyString(~~@B,  x);
+$polyQ  = PolyString(~~@Q,  x);
+$polyR  = PolyString(~~@R,  x);
+$polyBQ = PolyString(~~@BQ, t);
+$polyA  = PolyString(~~@A,  x);
+
+$polyB  = Formula($polyB)->reduce;
+$polyQ  = Formula($polyQ)->reduce;
+$polyR  = Formula($polyR)->reduce;
+$polyBQ = Formula($polyBQ)->reduce;
+$polyA  = Formula($polyA)->reduce;
+
+@pregunta = ("cociente", "residuo");
+$index    = random(0, 1);
+
+if ($index == 0) {
+    $answer = $polyQ;
+    $label  = "Cociente";
+} else {
+    $answer = $polyR;
+    $label  = "Residuo";
+}
+
+$a = Compute($A[0]);
+
+$mul_tmp1 = $rb0 * $A[0];
+$b        = Compute($mul_tmp1);
+
+$sum_tmp1 = $A[1] + $mul_tmp1;
+$c        = Compute($sum_tmp1);
+
+$mul_tmp2 = $rb0 * $sum_tmp1;
+$d        = Compute($mul_tmp2);
+
+$sum_tmp2 = $A[2] + $mul_tmp2;
+$e        = Compute($sum_tmp2);
+
+$mul_tmp3 = $rb0 * $sum_tmp2;
+$f        = Compute($mul_tmp3);
+
+$sum_tmp3 = $A[3] + $mul_tmp3;
+$g        = Compute($sum_tmp3);
+
+$mul_tmp4 = $rb0 * $sum_tmp3;
+$h        = Compute($mul_tmp4);
+
+$sum_tmp4 = $A[4] + $mul_tmp4;
+$i        = Compute($sum_tmp4);
+
+#  Text
+
+BEGIN_PGML
+Sea [` P(x) = [$polyA] `], el [$pregunta[$index]] cuando [` P(x) `] es dividido por [` ([$polyB]) `] puede ser encontrado usando división sintética al calcular los valores de las letras en el siguiente arreglo
+[```
+\begin{array}{ccccccc}
+[$rb0]  &  \mid & [$A[0]] & [$A[1]] & [$A[2]] & [$A[3]] & [$A[4]] \\
+          &           &           & b       & d        & f         &  h \\ \hline
+          &           & a        & c       & e        & g        &  i \\
+\end{array}
+```]
+
+[`a =`][_]{$a}{5}
+  
+[`b =`][_]{$b}{5}
+  
+[`c =`][_]{$c}{5}
+  
+[`d =`][_]{$d}{5}
+  
+[`e =`][_]{$e}{5}
+  
+[`f =`][_]{$f}{5}
+  
+[`g =`][_]{$g}{5}
+
+[@  helpLink('number')  @]*
+
+>>
+[$label] = [_]{$answer}{20}
+<<
+
+[@  helpLink('formula')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*División sintética:*
+
+[```
+\begin{array}{rrrrrrr}
+[$rb0]  &  |  & [$A[0]] & [$A[1]] & [$A[2]] & [$A[3]] & [$A[4]]   \\
+          &     &           & [$b]     & [$d]      & [$f]       &  [$h]      \\ \hline
+          &     & [$a]     & [$c]      & [$e]     & [$g]      &  [$i]        
+\end{array}
+```]
+
+*Algoritmo de la división:*  [`P(x) = D(x)Q(x) + R(x)`]
+[```
+\underbrace{[$polyA]}_{P(x)} = ( \underbrace{[$polyB]}_{D(x)} )( \underbrace{[$polyQ]}_{Q(x)} ) + ( \underbrace{[$polyR]}_{R(x)} )
+```]
+Por lo tanto: 
+>>
+ [$label] = [`[$answer]`]
+<<
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

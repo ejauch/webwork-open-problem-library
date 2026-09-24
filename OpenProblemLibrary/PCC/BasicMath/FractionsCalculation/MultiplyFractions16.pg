@@ -1,70 +1,59 @@
 # WeBWorK problem written by Carl Yao
 # Portland Community College
 #
-# 
-# Multiply two fractions. Denominators are small. 
+#
+# Multiply two fractions. Denominators are small.
 # Fraction reduction is needed.
 #
 # Last edited: Carl Yao 2/24/2014
 #
 # ENDDESCRIPTION
 
-## DBCCSS('5.NF.4.a')
-
-## DBsubject(Arithmetic)
-## DBchapter(Fractions/rational numbers)
-## DBsection(Multiplication)
-## Institution(PCC)
-## Author(Carl Yao)
-## MLT(multiplyingTwoRationals)
-## Level(2)
+## DBsubject('Middle School')
+## DBchapter('Fractions')
+## DBsection('')
 ## KEYWORDS('multiply','fraction','reduce')
+## DBCCSS('5.NF.4.a')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+## Author('Carl Yao')
+## Institution('PCC')
 
-
-
-##############################################
 
 DOCUMENT();
 
-loadMacros(
-  "PGstandard.pl",
-  "MathObjects.pl",
-  "PGML.pl",
-  "contextFraction.pl",
-  "PGcourse.pl"
-);
+loadMacros("PGstandard.pl", "PGML.pl", "contextFraction.pl", "PGcourse.pl");
 
 ##############################################
 
 Context("LimitedFraction");
-Context()->flags->set(showMixedNumbers=>0);
-Context()->flags->set(allowMixedNumbers=>1);
-Context()->flags->set(requirePureFractions=>1);
+Context()->flags->set(showMixedNumbers     => 0);
+Context()->flags->set(allowMixedNumbers    => 1);
+Context()->flags->set(requirePureFractions => 1);
 
 do {
-   $num1 = random(1,9,1);
-   do {$den1 = random(10,15,1);} until (gcd($num1,$den1)==1);
-   $frac1 = Fraction($num1,$den1);
+    $num1 = random(1, 9, 1);
+    do { $den1 = random(10, 15, 1); } until (gcd($num1, $den1) == 1);
+    $frac1 = Fraction($num1, $den1);
 
-   $num2 = random(1,9,1);
-   do {$den2 = random(10,15,1);} until (gcd($num2,$den2)==1);
-   $frac2 = Fraction($num2,$den2);
+    $num2 = random(1, 9, 1);
+    do { $den2 = random(10, 15, 1); } until (gcd($num2, $den2) == 1);
+    $frac2 = Fraction($num2, $den2);
 
-   $ans = ($frac1 * $frac2)->reduce;
-   @temp = $ans->value;
-   $numAns = $temp[0];
-   $denAns = $temp[1];
-} until ((gcd($num1,$den2)==1)&&(gcd($num2,$den1)!=1));
-
-##############################################
-
-TEXT(beginproblem());
+    $ans    = ($frac1 * $frac2)->reduce;
+    @temp   = $ans->value;
+    $numAns = $temp[0];
+    $denAns = $temp[1];
+} until ((gcd($num1, $den2) == 1) && (gcd($num2, $den1) != 1));
 
 BEGIN_PGML
 
 Multiply these two fractions: [`` \frac{[$num1]}{[$den1]} \cdot \frac{[$num2]}{[$den2]} ``]
 
-If needed, use an improper fraction in your answer. Don't use a mixed number.
+[@KeyboardInstructions("If needed, use an improper fraction in your answer. Don't use a mixed number.")@]**
 
     [_______]{$ans}
 
@@ -72,7 +61,7 @@ END_PGML
 
 ##############################################
 
-$factor = gcd($num2,$den1);
+$factor = gcd($num2, $den1);
 
 BEGIN_PGML_SOLUTION
 
@@ -93,5 +82,6 @@ Note that it's easier to reduce fractions before multiplying the numerators and 
 END_PGML_SOLUTION
 
 ENDDOCUMENT();
+
 
 

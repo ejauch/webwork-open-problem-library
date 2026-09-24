@@ -1,0 +1,181 @@
+#  DESCRIPTION
+
+#  Tipo: Opción múltiple única respuesta
+#  Dada una inecuación tipo x < b, elegir su representación gráfica.
+#  b es entero positivo o negativo.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/inecuacioness/inecuaciones.db
+
+#  Programación y redacción por Carl Yao de Portland Community College del archivo
+#  PCCBasicAlgebra/EquationsAndInequalitiesInTwoVariables/GraphTwoVariableInequality60.pg
+
+#  Última actualización: Edwin F. 07/29/2014
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Inecuaciones)
+## DBsection(Inecuaciones lineales dos variables)
+## Level(1)
+## KEYWORDS('inecuaciones','lineales', 'dos variables', 'graficas')
+
+## DBCCSS('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl', 'PGML.pl',
+    'plots.pl',      'parserRadioButtons.pl',
+    'PGcourse.pl'
+);
+
+Context('Numeric');
+
+$symbol = '<';
+
+$m = 0;
+$b = non_zero_random(-5, 5);
+# Las primeras cuatro son regiones opcionales y la última es la correcta
+@regiones = (
+    { x => $b,  linestyle => 'dashed', lado => 'izqueda' },
+    { x => -$b, linestyle => 'solid',  lado => 'izqueda' },
+    { x => $b,  linestyle => 'dashed', lado => 'derecho' },
+    { y => $b,  linestyle => 'dashed', lado => 'abajo' },
+    { x => $b,  linestyle => 'dashed', lado => 'izqueda' }
+);
+
+$correct_index = 0;
+
+$ALPHABET       = 'A' .. 'D';
+@scramble       = random_subset(4, 0 .. 3);
+@inv[@scramble] = 0 .. 3;
+
+$alt_tags = {};
+
+%fill_opts = (
+    fill         => 'self',
+    fill_opacity => 0.3,
+    fill_color   => 'blue',
+    color        => 'none'
+);
+
+for (0 .. 4) {
+    $plots[$_] = Plot(xmin => -10, xmax => 10, ymin => -10, ymax => 10);
+    if ($regiones[$_]->{y}) {
+        $plots[$_]->add_dataset(
+            [ -10, $regiones[$_]->{y} ], [ 10, $regiones[$_]->{y} ],
+            color     => 'blue',
+            linestyle => $regiones[$_]->{linestyle}
+        );
+    } else {
+        $plots[$_]->add_dataset(
+            [ $regiones[$_]->{x}, -10 ], [ $regiones[$_]->{x}, 10 ],
+            color     => 'blue',
+            linestyle => $regiones[$_]->{linestyle}
+        );
+    }
+    if ($regiones[$_]->{lado} eq 'arriba') {
+        $plots[$_]->add_dataset(
+            [ -10, $regiones[$_]->{y} ],
+            [  10, $regiones[$_]->{y} ],
+            [  10, 10 ],
+            [ -10, 10 ],
+            [ -10, $regiones[$_]->{y} ], %fill_opts
+        );
+    } elsif ($regiones[$_]->{lado} eq 'abajo') {
+        $plots[$_]->add_dataset(
+            [ -10, $regiones[$_]->{y} ],
+            [  10, $regiones[$_]->{y} ],
+            [  10, -10 ],
+            [ -10, -10 ],
+            [ -10, $regiones[$_]->{y} ], %fill_opts
+        );
+    } elsif ($regiones[$_]->{lado} eq 'derecho') {
+        $plots[$_]->add_dataset(
+            [ $regiones[$_]->{x}, -10 ],
+            [ $regiones[$_]->{x},  10 ],
+            [ 10,                  10 ],
+            [ 10,                 -10 ],
+            [ $regiones[$_]->{x}, -10 ], %fill_opts
+        );
+    } else {
+        $plots[$_]->add_dataset(
+            [ $regiones[$_]->{x}, -10 ],
+            [ $regiones[$_]->{x},  10 ],
+            [ -10,                 10 ],
+            [ -10,                -10 ],
+            [ $regiones[$_]->{x}, -10 ], %fill_opts
+        );
+    }
+    $fill_pt =
+        $regiones[$_]->{y}
+        ? ('(0, ' . ($b + 1) . ')')
+        : ('(' . ($b + 1) . ', 0)');
+    $pt = $regiones[$_]->{y} ? "(0,$b)" : "($b,0)";
+    $alt_tags->{ $ALPHABET[ $inv[$_] ] // 'correcta' } =
+        "Gráfica $ALPHABET[$inv[$_]]: Esta es la gráfica de la línea "
+        . $regiones[$_]->{y} ? 'horizontal'
+        : 'vertical '
+        . "que pasa por el punto $pt."
+        . 'La línea es '
+        . $regiones[$_]->{line_style} eq 'dashed' ? 'punteada.'
+        : 'solida. ' . 'El lado que incluye el punto $fill_pt está sombreado.';
+}
+
+$radio =
+    RadioButtons([ 'A' .. 'D' ], $inv[$correct_index], separator => "$SPACE");
+
+BEGIN_PGML
+
+Elija la gráfica que muestra la solución de [`x [$symbol] [$b]`]. En su propio papel de gráficar, primero dibuje la línea (sea punteada o sólida), y luego seleccione un punto de prueba para decidir cual lado de la línea sombrear. *Advertencia:* si salta los pasos que se deben hacer en papel, entonces no se está practicando lo que el ejercicio intenta que usted practique. 
+
+La gráfica correcta es [_]{$radio}
+
+[#
+    [. A .]{header=>'rh'} [.B.]{header=>'rh'}*
+    [. [![$alt_tags->{'A'}]!]{$plots[$scramble[0]]}{250} .]
+    [. [![$alt_tags->{'B'}]!]{$plots[$scramble[1]]}{250} .]*
+    [. C .] [.D.]{headerrow=>1}*
+    [. [![$alt_tags->{'C'}]!]{$plots[$scramble[2]]}{250} .]
+    [. [![$alt_tags->{'D'}]!]{$plots[$scramble[3]]}{250} .]*
+ #]{padding => 0.4}
+
+END_PGML
+
+$plots[4]->add_point(0, 0, color => 'red');
+
+BEGIN_PGML_SOLUTION
+
+Para graficar la inecuación [` x [$symbol] [$b] `], primero graficamos la línea [` x=[$b] `]. Esta es una línea vertical que pasa por el punto [` ([$b],0) `].
+
+Note que la línea es punteada, porque la inecuación usa el símbolo  [` [$symbol] `].
+
+Luego, necesitamos decidir cual lado sombrear. Elegimos [` (0,0) `] como el punto de prueba. Al sustituir [`x=0`] y [`y=0`] en la inecuación [` x [$symbol] [$f] `], tenemos:
+
+[```
+\begin{align*}
+   x &[$symbol] [$b] \\
+   0 &[$symbol] [$b] 
+\end{align*}
+```]
+
+Que es [@ $b > 0 ? 'cierto' : 'falso' @], luego sombreamos el lado [@ $b > 0 ? 'con' : 'sin' @] el punto [` (0, 0) `].
+
+Por consiguiente la respuesta correcta es [$radio].
+
+
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

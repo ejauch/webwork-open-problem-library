@@ -48,7 +48,8 @@ $b=random(300,500,10);
 $ans = $a+$b;
 
 
-$UnitAns = NumberWithUnits($a+$b,"ft");
+$UnitAns = NumberWithUnits("$ans ft");
+$wrong =  NumberWithUnits("$a-$b ft");
 
 ##############################################
 
@@ -58,19 +59,18 @@ BEGIN_PGML
 
 A mountain is [`[$a]`] feet _above_ sea level. A trench is [`[$b]`] feet _below_ sea level. What is the difference in elevation between the mountain top and the bottom of the trench?
 
-    [_________]
+    [_]{$UnitAns}{16}
 
 END_PGML
 
 ##############################################
 
 
-
-$wrong =  NumberWithUnits("$a-$b ft");;
-ANS($UnitAns -> cmp() ->
-  withPostFilter(AnswerHints(
-    $wrong =>
-    "Remember that the trench is *below* sea level - does that mean its height has a positive or negative value?")));
+# AnswerHints causing bug; temporarily commenting out
+#ANS($UnitAns -> cmp() ->
+#  withPostFilter(AnswerHints(
+#    $wrong =>
+#    "Remember that the trench is *below* sea level - does that mean its height has a positive or negative value?")));
 
 
 BEGIN_PGML_SOLUTION

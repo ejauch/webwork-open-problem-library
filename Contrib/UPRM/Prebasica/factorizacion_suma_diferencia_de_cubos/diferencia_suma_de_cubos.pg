@@ -1,0 +1,100 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Factorizar diferencia de cubos
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/factorizacion_suma_diferencia_de_cubos/diferencia_suma_de_cubos.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Factorizacion)
+## DBsection(Diferencia o suma de cubos)
+## Level(1)
+## KEYWORDS('factorizacion','diferencia de cubos','suma de cubos')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextLimitedFactor.pl',
+    'PGcourse.pl');
+
+Context('Numeric');
+
+#la expresión a factorizar: (ax^n)^3 \pm b^3 = (ax^n+b)(a^2x^2n \pm abx^n + b^2)
+$a = random(1, 9);
+do {
+    $b = random(1, 9);
+} until ($a != $b);
+$n = random(2, 5);
+
+$aaa = $a**3;
+$bbb = $b**3;
+$n3  = 3 * $n;
+
+$ab = $a * $b;
+
+Context("LimitedFactor");
+
+Context()->noreduce('(-x)-y', '(-x)+y');
+if (random(0, 1) == 0) {
+    $signo   = "+";
+    $o_signo = "-";
+    $tipo    = "suma";
+    $answer  = Compute("($a x**$n + $b)($a**2 x**(2*$n) - $ab x**$n + $b**2)")
+        ->reduce();
+} else {
+    $signo   = "-";
+    $o_signo = "+";
+    $tipo    = "diferencia";
+    $answer  = Compute("($a x**$n - $b)($a**2 x**(2*$n) + $ab x**$n + $b**2)")
+        ->reduce();
+}
+
+Context("Numeric");
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+$exp  = Compute("$aaa x^{$n3} $signo $bbb")->reduce;
+$ax   = Compute("($a x**$n)")->reduce;
+$aaax = Compute("($aaa x**$n3)")->reduce;
+
+#  Text
+
+BEGIN_PGML
+Factorice completamente
+[```
+[$exp]
+```]
+
+[_]{$answer}
+
+[@  helpLink('formulas')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Verificar que cada término es un cubo perfecto:
+
+[`\phantom{aaa}`] i. [`\sqrt[3]{[$aaax]} = [$ax]`]
+  
+[`\phantom{aaa}`] ii. [`\sqrt[3]{[$bbb]} = [$b]`]
+
+entonces [` [$exp] = ([$ax])^3 [$signo] [$b]^3 `]
+
+*Paso 2:* Aplicar fórmula de [$tipo] de cubos:
+[```
+\begin{aligned}
+  ([$ax])^3 [$signo] [$b]^3 &= \left( ([$ax]) [$signo] [$b]\right)\left( ([$ax])^2 [$o_signo] ([$ax])([$b]) + ([$b])^2 \right) \\
+                                       & = [$answer]
+\end{aligned}
+```]
+  
+por lo tanto la respuesta es: [`[$answer]`]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

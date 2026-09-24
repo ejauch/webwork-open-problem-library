@@ -1,0 +1,95 @@
+#  DESCRIPTION
+
+#  Tipo: seleccionar la correcta
+#  Diferenciar entre monomio, trinomio y trinomio
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu de archivo
+#  pedro_prebasica/expresiones_algebraicas/identificar_expresiones_algebraicas.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Expresiones algebraicas)
+## DBsection(Polinomios)
+## Level(1)
+## KEYWORDS('monomios','binomios','trinomios','polinomios')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',         'PGML.pl',
+    'parserRadioButtons.pl', 'PGcourse.pl'
+);
+
+Context('Numeric');
+
+#los exponentes
+$n1 = random(5, 15);
+$n2 = random(1, 4);
+$n3 = random(1, 4);
+
+#los coeficientes
+$a = non_zero_random(-25, 25);
+$b = non_zero_random(-25, 25);
+$c = non_zero_random(-25, 25);
+Context("Numeric");
+
+$var = list_random('a' .. 'i', 'k' .. 'z');
+
+$prob = random(1, 4);
+
+Context()->variables->are($var => 'Real');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+if ($prob == 1) {
+    $exp      = Formula("$a $var**$n1")->reduce;
+    $answer   = "Monomio";
+    $num_term = 1;
+    $frase    = PGML('es un *Monomio* ya que tiene [`[$num_term]`] términos.');
+} elsif ($prob == 2) {
+    $exp      = Formula("$a $var**$n1 + $b $var**$n2")->reduce;
+    $answer   = "Binomio";
+    $num_term = 2;
+    $frase    = PGML('es un *Binomio* ya que tiene [`[$num_term]`] términos.');
+} elsif ($prob == 3) {
+    $exp      = Formula("$a $var**$n1 + $b $var**$n2 + $c $var**$n3")->reduce;
+    $answer   = "Trinomio";
+    $num_term = 3;
+    $frase = PGML('es un **Trinomio** ya que tiene [`[$num_term]`] términos.');
+} else {
+    $exp    = Formula("$a $var**(-$n1) + $b $var**$n2")->reduce;
+    $answer = "Ninguna de estas";
+    $frase =
+        "no es ni monomio, ni binomio ni trinomio ya que uno de los exponentes es negativo.";
+}
+
+$radio = RadioButtons(
+    [ "Monomio", "Binomio", "Trinomio", "Ninguna de estas" ],
+    $answer,                         # correct answer
+    last => ["Ninguna de estas"],    # can be a list
+);
+
+#  Text
+
+BEGIN_PGML
+La expresion algebraica
+[```[$exp]```]
+es un
+
+[_]{$radio}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+La expresión algebraica [`[$exp]`] [$frase]*
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

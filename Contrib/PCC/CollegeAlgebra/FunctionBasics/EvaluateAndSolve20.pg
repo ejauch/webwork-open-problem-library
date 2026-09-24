@@ -26,6 +26,7 @@ loadMacros(
   "unionTables.pl",
   "parserAssignment.pl",
   "contextFraction.pl",
+  "contextFiniteSolutionSets.pl",
   "pccTables.pl",
   "PGML.pl",
   "PCCmacros.pl",
@@ -89,6 +90,9 @@ if ($b == 1 and $c ne '') {$b = ''};
 
 $solvefequals0 = Compute("$var=$b $c or $var=-$b $c");
 
+Context("FiniteSolutionSets");
+Context()->variables->are($var=>'Real');
+$ans = Formula("{$b $c, -$b $c}");
 
 
 ##############################################
@@ -99,9 +103,9 @@ If [`[$f]`] is a function defined by [`[$f]([$var]) = [$function]`],
 a. Find [`[$f](0)`].  
    [_]{$fof0}{20}
 
-a. Solve [`[$f]([$var])=0`].
-   [@KeyboardInstructions("The answer should be in the form [|$var=23|]*, and not simply give the numerical value of the solution, like [|23|]*.  If there are two solutions, use the word [|or|]*, as in [|$var=23 or $var=12|]*.  If you need to use the square root sign, as in [`\\sqrt{23}`], type it like [|sqrt(23)|]*.")@]**  
-   [_]{$solvefequals0}{20}
+a. Solve [`[$f]([$var])=0`].  
+   [@KeyboardInstructions("If you need to use the square root symbol, as in [`x=\\sqrt{17}`], type it as [|x=sqrt(17)|]*. If there are no real solutions, enter [|no real solutions|]*.")@]**  
+   [_]{$ans}{20}
 
 END_PGML
 
@@ -111,6 +115,38 @@ END_PGML
 
 $showPartialCorrectAnswers=1;
 
+Context("Numeric")->variables->are($var=>'Real');
+$leading = Formula("$leadingCoefficient*$var^2")->reduce;
+
+$solve = '';
+
+if ($leadingCoefficient == 1) {
+  $solve = '[$f]([$var]) &= 0\\
+            [$function]  &= 0\\
+            [$var]^2     &= [$a]\\
+            [$var]       &= \pm\sqrt{[$a]}\\';
+  if ($c eq '') {$solve .= '&= \pm [$b]';}
+  elsif ($b ne '') {$solve .= '&= \pm [$b] [$c]';}
+} elsif ($den == 1 or $den == 4) {
+  $solve = '[$f]([$var]) &= 0\\
+            [$function]  &= 0\\
+            [$leading]   &= [$constant]\\
+            [$var]^2     &= [$a]\\
+            [$var]       &= \pm\sqrt{[$a]}\\';
+  if ($c eq '') {$solve .= '&= \pm [$b]';}
+  elsif ($b ne '') {$solve .= '&= \pm\sqrt{[$squarepart**2]\cdot[$newnewnum]}\\ &= \pm [$b] [$c]';}
+} else {
+  $solve = '[$f]([$var]) &= 0\\
+            [$function]  &= 0\\
+            [$leading]   &= [$constant]\\
+            [$var]^2     &= [$a]\\
+            [$var]       &= \pm\sqrt{[$a]}\\
+            [$var]       &= \pm\sqrt{[$a]\cdot\frac{[$den]}{[$den]}}\\
+            [$var]       &= \pm\sqrt{\frac{[$num*$den]}{[$den*$den]}}\\
+            [$var]       &= \pm\sqrt{\frac{[$squarepart**2]\cdot[$newnewnum]}{[$den*$den]}}\\';
+  if ($c eq '') {$solve .= '&= \pm [$b]';}
+  elsif ($b ne '') {$solve .= '&= \pm [$b] [$c]';}
+};
 
 
 ##############################################
@@ -120,8 +156,7 @@ BEGIN_PGML_SOLUTION
 To evaluate [`[$f](0)`],
 
     [`\begin{aligned}
-[$f](0) 
-&= [$leadingCoefficient]*(0)^2-[$constant]\\
+[$f](0) &= [$leadingCoefficient]*(0)^2-[$constant]\\
 &= [$leadingCoefficient]*(0)-[$constant]\\
 &= 0-[$constant]\\
 &= -[$constant]\\
@@ -131,19 +166,10 @@ To evaluate [`[$f](0)`],
 To solve [`[$f]([$var])=0`],
 
     [`\begin{aligned}
-[$f]([$var]) 
-&= 0\\
-[$leadingCoefficient]*([$var])^2-[$constant]
-&= 0\\
-[$leadingCoefficient]*([$var])^2
-&=[$constant]\\
-([$var])^2
-&=[$a]\\
-[$var]
-&=\sqrt{[$a]}\mbox{ or }{-\sqrt{[$a]}}\\
-[$var]
-&=[@sqrt($a)@]\mbox{ or }{-[@sqrt($a)@]}\\
+[$solve]**
 \end{aligned}`]
+
+So the solution set is [`[$ans]`].
 
 END_PGML_SOLUTION
 

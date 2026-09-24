@@ -1,0 +1,55 @@
+#  DESCRIPTION
+
+#  Tipo: falso/cierto
+#  Problema que pregunta si una situacion real
+#  satisface una relacion lineal
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_lineales_2_variables_parte_1/relacion_lineal.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Ecuaciones lineales)
+## DBsection(Aplicaciones)
+## Level(1)
+## KEYWORDS('lineal','aplicaciones','relacion')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+$k           = random(5, 50, 1);
+$y           = Formula("$k x");
+$randDolares = random(50, 200);
+$yrD         = $y->eval(x => $randDolares);
+
+$dd = DropDown([ 'cierta', 'falsa' ], 0);
+
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa. 
+
+Si [`x`] representa los dólares que podemos gastar y [`y`] representa el número de bananas que podemos comprar y [$yrD] bananas cuestan [$randDolares] dólares, entonces la relación entre [`x`] y [`y`] es lineal. [_]{$dd}
+
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Analizar el problema:
+
+*i.*  [`x = `] dólares gastados, [`y = `] bananas compradas.
+
+*ii.*  Cuando [`x`] aumenta en [$randDolares], [`y`] aumenta en [$yrD], es decir, [`y`] es proporcional a [`x`] con pendiente o constante de proporcionalidad igual a [$k]. 
+
+Como la relación entre dólares gastados y bananas compradas es de proporcionalidad directa con constante de proporcionalidad o pendiente igual a [$k], entonces la relación entre [`x`] y [`y`]  *es lineal*, con ordenada al origen 0. Por tanto, la proposición es *cierta*.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

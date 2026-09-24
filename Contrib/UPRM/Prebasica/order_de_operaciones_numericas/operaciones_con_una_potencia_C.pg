@@ -1,0 +1,87 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Orden de operaciones: dada una exp tipo a \pm (b \pm c)^n, encontrar el resultado.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/order_de_operaciones_numericas/operaciones_con_una_potencia.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Algebra of real numbers and simplifying expressions)
+## DBsection(Evaluating expressions)
+## Level(1)
+## KEYWORDS('operaciones', 'numeros', 'orden')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',            'PGML.pl',
+    'contextLimitedNumeric.pl', 'PGcourse.pl'
+);
+
+Context('Numeric');
+
+#construyendo la exp. tipo a \pm (b \pm c)^n
+
+$sig1 = random(0, 1) == 0 ? '+' : '-';
+$sig2 = random(0, 1) == 0 ? '+' : '-';
+
+$a = non_zero_random(-20, 20);
+do {
+    $b    = non_zero_random(-100, 100);
+    $c    = non_zero_random(-100, 100);
+    $cond = Compute("$b $sig2 $c");
+} until (abs($cond) < 11);
+
+$n = abs($cond) < 3 ? random(4, 12) : abs($cond) > 5 ? 2 : random(2, 4);
+$r = Compute("$a $sig1 ($b $sig2 $c)**$n");
+
+#usado al presentar la solución
+$suma_resta1 = Compute("$b $sig2 $c");
+
+$potencia    = $suma_resta1**$n;
+$suma_resta2 = Compute("$a $sig1 $potencia");
+
+Context("LimitedNumeric");
+
+$answer = Compute($r);
+
+BEGIN_PGML
+[```
+[$a] [$sig1] ([$b] [$sig2] [$c])^{[$n]}
+```]
+Efectúe las operaciones indicadas y obtenga el resultado para la expresión que se muestra arriba.
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Resolver los paréntesis haciendo la suma o resta:
+[```
+ [$a] [$sig1] ([$b] [$sig2] [$c])^{[$n]} = [$a] [$sig1] ([$suma_resta1])^{[$n]}
+```]
+
+*Paso 2:* Realizar la potencia: 
+[```
+[$a] [$sig1] ([$suma_resta1])^{[$n]} = [$a] [$sig1] [$potencia]
+```]
+
+*Paso 3:* Realizar la suma o resta:
+[```
+[$a] [$sig1] [$potencia] = [$suma_resta2]
+```]
+
+La solución es: [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

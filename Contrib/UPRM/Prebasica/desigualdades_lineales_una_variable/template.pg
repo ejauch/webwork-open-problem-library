@@ -1,0 +1,96 @@
+#  DESCRIPTION
+
+#  Tipo: opción múltiple, única respuesta
+#  Dada una región sombreada en dos dimensiones encontrar la region sombreada.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/desigualdades_lineales_dos_variables/desigualdades_lineales_2_variables.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Linear inequalities)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('desigualdades','representar','intervalos','grafica')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',       'PGML.pl', 'plots.pl',
+    'PGgraphmacros.pl',    'contextInequalities.pl',
+    'PGchoicemacros.pl',   'contextFraction.pl', 'PGcourse.pl'
+);
+
+#  Setup
+
+Context("Inequalities-Only");
+Context()->flags->set(formatStudentAnswer => 'parsed');
+
+#  This is an inequality of the form x>=low
+
+$low  = non_zero_random(-9, 5, 2) / 2;
+$high = 5;
+$diff = $high - $low;
+$ans  = Compute(" x >= $low " || "$low <= x");
+
+$plot = Plot(
+    xmin => -6,
+    xmax => 6,
+    xtick_delta => 1,
+    yvisible => 0,
+    ymin => -1,
+    ymax => 1,
+    show_grid => 0,
+    aspect_ratio => 0.6,
+    rounded_corners => 1
+);
+$plot->add_dataset([$low,0],[$high,0], color => 'blue', start_mark => 'circle', end_mark => 'arrow', width => 2
+                );
+$plot->add_label($low+1,0, 'x', v_align => 'bottom');
+
+#  Text
+
+##    to disable arithmetic operations in the answer.  Student must simplify.
+
+BEGIN_PGML
+Considere la siguiente gráfica: 
+
+>>[!!]{$plot}{640}<<
+
+*(Escriba el resultado en notación de intervalo)*.
+
+[_]{$ans}
+
+[@  helpLink('inequalities')  @]*
+END_PGML
+
+Context("Numeric");
+
+#  Answers
+
+ANS($ans->cmp());
+
+$showHint = 3;
+BEGIN_PGML_HINT
+From the picture find the fixed endpoint.  If the arrow goes to the right then x can be larger.  If the arrow goes to the left, then x can be smaller.
+END_PGML_HINT
+
+$showHint = 5;
+BEGIN_PGML_HINT
+Look at the endpoint.  If it is a solid point, then the endpoint should be included and you will need either [` \le `] or [` \ge `].  If it is an open point, then the endpoint should not be included and you will need either [` < `] or [` > `].
+END_PGML_HINT
+
+BEGIN_PGML_SOLUTION
+*Paso 1:*
+
+*Paso 2:*
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

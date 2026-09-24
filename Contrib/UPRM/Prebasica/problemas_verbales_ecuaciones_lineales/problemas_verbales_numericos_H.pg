@@ -1,0 +1,113 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Porcientos: problemas lineales de aplicación (numericos)
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/problemas_verbales_ecuaciones_lineales/problemas_verbales_numericos.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Applications and models)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('ecuaciones','lineal','aplicacion')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+#Eligiendo el primer entero
+$n = random(2, 50);
+
+#los posibles factores del segundo entero
+@factor = ("dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve");
+$index  = random(0, 7);
+
+#el factor del segundo entero
+$f = $index + 2;
+
+#el segundo entero
+$m = $f * $n;
+
+$prob1 = random(0, 1);
+if ($prob1 == 0) {
+    $ope     = "suma";
+    $valor   = $n + $m;
+    $simbolo = "+";
+} else {
+    $ope     = "resta";
+    $valor   = $n - $m;
+    $simbolo = "-";
+}
+
+$prob2 = random(0, 1);
+if ($prob2 == 0) {
+    $pregunta = "mayor";
+    $answer   = Compute($m);
+} else {
+    $pregunta = "menor";
+    $answer   = Compute($n);
+}
+
+BEGIN_PGML
+La [$ope] de dos números enteros positivos da como resultado [$valor]. Si el segundo de los números es [$factor[$index]] veces más grande que el primero, encontrar el número [$pregunta]. 
+
+El número [$pregunta] es = [_]{$answer}{20}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Ordenar la información del problema en una tabla 
+
+[# 
+    [. Data .]
+    [. Ecuación .]{headerrow=>1}*
+    [.Dos números tienen una [$ope] de [$valor] .]
+    [. [` \text{primer número} [$simbolo] \text{segundo número} = [$valor] `]  .]*
+    [.El segundo es [$factor[$index]] veces más grande que el primero .]
+    [. [` \text{segundo número} = [$f]\cdot \text{primer número} `]  .]*
+#]{horizontalrules => 1, texalignment => '|c|c|', padding=> 0.3}
+
+*Paso 2:* Sea [`n`] el primer número.
+
+*Paso 3:* Llevar a cabo la sustitución necesaria con las igualdades en el Paso 1 para obtener una ecuación lineal:
+
+[# 
+    [. Ecuación .]
+    [. Sustitución .]{headerrow=>1}*
+    [.[` \text{segundo número} = [$f]\cdot \text{primer número} `] .]
+    [.[` \text{segundo número} = [$f]\cdot n = [$f] n `] .]*
+    [.[` \text{primer número} [$simbolo] \text{segundo número} = [$valor]`] .]
+    [.[` n [$simbolo] [$f] n = [$valor] `] .]*
+#]{horizontalrules => 1, texalignment => '|c|c|', padding=> 0.3}
+
+
+*Paso 4:* Resolver la ecuación lineal para obtener el valor de [`n`]:
+[```
+n [$simbolo] [$f] n = [$valor] \quad \text{entonces}\quad  n = [$n].
+```]
+
+*Paso 5:*
+Usar el valor de [`n`] para obtener la información que buscamos en el problema verbal:
+[```
+\begin{aligned}
+ \text{Primer número: }     & n = [$n], \\
+ \text{Segundo número: } & [$f] n = [$m].
+\end{aligned} 
+```]
+
+Por lo tanto el número [$pregunta] es [`[$answer]`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

@@ -1,0 +1,94 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Expandir la multiplicación de dos binomios lineales.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu de los archivos
+#  pedro_prebasica/producto_binario/producto_binario_resta.db
+#  pedro_prebasica/producto_binario/producto_binario_suma.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Factoring)
+## DBsection(Factoring: common factors)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('polinomios','productos','notables')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',               'PGML.pl',
+    'contextLimitedPolynomial.pl', 'PGcourse.pl'
+);
+
+Context('Numeric');
+
+#Creando el binomio 1
+$A = non_zero_random(-15, 15);
+$B = non_zero_random(-15, 15);
+
+#Creando el binomio 2
+$C = non_zero_random(-15, 15);
+$D = non_zero_random(-15, 15);
+
+$AC = $A * $C;
+$AD = $A * $D;
+$BC = $B * $C;
+$BD = $B * $D;
+
+#Los coeficientes de la solución
+$a = $A * $C;
+$b = $A * $D + $B * $C;
+$c = $B * $D;
+
+$factor1 = Formula("$A x + $B")->reduce;
+$factor2 = Formula("$C x + $D")->reduce;
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+#Se restringe sólo a polinomios, i.e., sumas de múltiplos de potencias de x
+#Context("LimitedPolynomial");
+
+#Limita también a sólo un monomio de cada grado
+#Context("LimitedPolynomial")->flags->set(singlePowers=>1);
+
+#Adicionalmente, no permite operaciones entre coeficientes
+Context("LimitedPolynomial-Strict");
+
+$answer = Formula("$a x^2 + $b x + $c")->reduce;
+
+BEGIN_PGML
+Encuentre el producto de 
+[```
+([$factor1])([$factor2])
+```]
+Escribir el resultado en forma [` ax^2+bx+c `]. 
+
+Resultado: [_]{$answer}{20}
+
+[@  helpLink('formulas')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Aplicar propiedad distributiva, multiplicando cada término del primer factor con cada uno del segundo factor.
+[```
+([$factor1])([$factor2]) = ([$A] x)([$C] x) + ([$A] x)([$D]) + ([$B])([$C] x) + ([$B])([$D])
+```]
+
+*Paso 2:* Agrupar términos semejantes y sumar y/o restar sus coeficientes. 
+[```
+ = ([$AC]) x^2 + ([$AD] + [$BC]) x + ([$BD])
+```]
+Por lo tanto la solución es: [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

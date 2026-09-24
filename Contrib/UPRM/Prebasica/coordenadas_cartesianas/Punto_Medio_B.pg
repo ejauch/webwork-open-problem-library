@@ -1,0 +1,63 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Problema que pregunta por la coordenadas
+#  del punto medio entre dos puntos dados
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/coordenadas_cartesianas/Punto_Medio.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Cartesian coordinate system)
+## DBsection(Midpoint and distance formulas)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('grafica', 'puntos','plano','coordenadas','segmento', 'punto medio')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+@eje   = ("a", "b");
+$index = random(0, 1);
+
+Context("Point");
+$A  = Point(random(-50, 50), random(-50, 50));
+$B  = Point(random(-50, 50), random(-50, 50));
+$Pm = ($A + $B) / 2;
+
+#Extrayendo coordenadas de Pm
+($aA, $bA) = $A->value;
+($aB, $bB) = $B->value;
+($a,  $b)  = $Pm->value;
+
+$answer = $index == 0 ? $a : $b; 
+
+BEGIN_PGML
+Sea [`(a,b)`] el punto medio entre [`[$A]`] y [`[$B]`]. Calcular el valor de [`[$eje[$index]]`].
+  
+[`[$eje[$index]]`] = [_]{$answer}
+
+[@  helpLink('numbers')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Identificar los puntos: [`A = [$A]`] y [`B = [$B]`].
+
+*Paso 2:* Calcular el promedio de [`x`] y [`y`].
+
+[`\phantom{blablabla}`] el promedio de [`x`] es: [`\frac{[$aA]+[$aB]}{2}=[$a]`]
+
+[`\phantom{blablabla}`] el promedio de [`y`] es: [`\frac{[$bA]+[$bB]}{2}=[$b]`]
+
+Por lo tanto el valor de [$eje[$index]] es: [$answer]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

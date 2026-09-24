@@ -1,0 +1,88 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Factorizacion por agrupación de términos tipo: p^3+ap^2+bp+ab = (p+a)(p^2+b)
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/factorizacion_agrupacion/factorizacion_agrupacion.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Factorizacion)
+## DBsection(Por agrupacion)
+## Level(1)
+## KEYWORDS('factorizacion','agrupacion','factor comun')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextLimitedFactor.pl',
+    'PGcourse.pl');
+
+Context('Numeric');
+
+#la expresión a factorizar: p^3+ap^2+bp+ab
+$a  = non_zero_random(-20, 20);
+$b  = non_zero_random(-20, 20);
+$ab = $a * $b;
+
+#eligiendo las variables
+$var = list_random("b", "c", "d", "e", "g", "p", "q", "w", "y");
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+#Context()->noreduce('(-x)-y','(-x)+y');
+
+Context()->variables->add($var => 'Real');
+$exp = Formula(" $var^3 + $a $var^2 + $b $var + $b*$a")->reduce();
+
+$factor1 = Formula("$var + $a")->reduce();
+$factor2 = Formula("$var^2 + $b")->reduce();
+
+Context("LimitedFactor");
+Context()->variables->add($var => 'Real');
+$answer = Compute("($var +$a)($var^2+$b)")->reduce();
+
+#  Text
+
+BEGIN_PGML
+Factorizar
+[```
+[$exp]
+```]
+
+[_]{$answer} [@  helpLink('formulas')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Agrupar términos que se pueden factorizar
+[```
+[$exp] = ([$var]^3 + [$a] [$var]^2) + ([$b] [$var] + [$ab])
+```]
+
+*Paso 2:* Factorizar cada grupo
+[```
+\begin{align*}
+ [$exp1] &=  [$var]^2([$factor1]) \[```0.2cm]
+ [$exp2] &= [$b]([$factor1])
+\end{align*}
+```]
+
+*Paso 3:* Factorizar utilizando factor común
+[```
+\begin{align*}
+ [$exp]   &= [$var]^2([$factor1]) +  [$b]([$factor1]) \[```0.2cm]
+            &= [$answer]
+\end{align*}
+```]
+
+Por lo tanto la respuesta es: [`[$answer]`]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

@@ -1,0 +1,81 @@
+#  DESCRIPTION
+
+#  Tipo: falso/cierto
+#  Determinar si un punto pertenece a la relación. y = a\sqrt{x}, o, ax + by = c, o, y = ax^2+bx+c
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/verificacion_puntos_interceptos_ecuacion_recta/verificar_puntos_ecuacion.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Functions)
+## DBsection(Interpretation and applications)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('relaciones','verificar')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+$a = non_zero_random(-5,  5);
+$b = non_zero_random(-20, 20);
+$c = random(-20, 20);
+
+$p = random(2, 16);
+
+#Eligiendo la relación a mostrar
+$prob = random(0, 2);
+if ($prob == 0) {
+    $eq      = Formula("$a*sqrt(x) + $c")->reduce;
+    $eq_text = "y = $a\sqrt{x} + $c";
+} elsif ($prob == 1) {
+    $eq      = Formula("(-$a x + $c)/$b")->reduce;
+    $eq_text = "$a x + $b y = $c";
+} else {
+    $eq      = Formula("$a x^2 + $b x + $c")->reduce;
+    $eq_text = "y = $a x^2 + $b x + $c";
+}
+
+#Valor y cuando x = p
+$y = $eq->eval(x => $p);
+
+#Eligiendo aleatoriamente si (p,q) pertenece o no a la relación anterior.
+$bool = random(0, 1);
+if ($bool == 0) {
+    $q     = $eq->eval(x => $p);
+    $valor = "cierta";
+} else {
+    $q     = non_zero_random(-5, 5);
+    $valor = "falsa";
+}
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+$dd = DropDown([ 'cierta', 'falsa' ], $valor);
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa. 
+
+El punto [` ([$p],[$q]) `] pertenece a la ecuación
+[```
+[$eq_text]
+```]
+
+[_]{$dd}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Al sustituir [`x = [$p]`] en [`[$eq_text]`] tenemos que [` y = [$y]`], por lo tanto la respuesta es [$valor]. 
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

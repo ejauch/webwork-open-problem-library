@@ -51,7 +51,7 @@ Context("InequalitySetBuilder-Only");
 
 $setans = Compute("{ x | x <= $c}");
 $alt = Compute("{ x | $c >= x}");
-$ans = OneOf($setans, $alt);
+$ans = $setans;
 
 Context("Interval");
 Context()->flags->set("formatStudentAnswer"=>'parsed');

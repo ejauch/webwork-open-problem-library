@@ -1,0 +1,88 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada una gráfica, encontrar el intercepto en x o en y.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/intercepto_con_los_ejes/interceptos_con_los_ejes.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Polynomial equations and functions)
+## DBsection(Zeros and multiplicities)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('grafica', 'funciones','interceptos')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'plots.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+#Creando los ceros diferentes de un polinomio cúbico
+do {
+    $r1 = random(-8, 8, 0.5);
+    $r2 = random(-8, 8, 0.5);
+    $r3 = random(-8, 8, 0.5);
+} until ($r2 > $r1 && $r3 > $r2);
+
+$y = Formula(" (x - $r1)*(x - $r2)*(x - $r3) ");
+
+$prob = random(0, 2);
+if ($prob == 0) {
+    $answer   = Compute($r1);
+    $preg     = "menor";
+    $punto    = "($r1,0)";
+    $posicion = "primer";
+} elsif ($prob == 1) {
+    $answer   = Compute($r2);
+    $preg     = "del medio";
+    $punto    = "($r2,0)";
+    $posicion = "segundo";
+} else {
+    $answer   = Compute($r3);
+    $preg     = "mayor";
+    $punto    = "($r3,0)";
+    $posicion = "tercer";
+}
+
+$plot = Plot(
+    xmin => -10,
+    xmax =>  10,
+    ymin => -10,
+    ymax => 10
+);
+$plot->add_function($y, 'x', -10, 10, color => 'blue');
+
+BEGIN_PGML
+>>[!!]{$plot}{250}<<
+
+>>(Click en la gráfica para agrandar)<<
+
+Escriba el intercepto [$preg] con el eje [` X `] (abscisa) de la gráfica anterior.
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+El intercepto [$preg] en el eje [` X `] es la coordenada en [` x `] del [$posicion] punto (de izquierda a derecha) que interseca con el eje [` X `]. 
+
+En este caso, es [`[$punto]`].
+
+Por lo tanto la solución es [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

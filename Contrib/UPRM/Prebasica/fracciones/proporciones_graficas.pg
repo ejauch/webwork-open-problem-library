@@ -1,0 +1,102 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada una gráfica con alguna parte de ella sombreada,
+#  encontrar la fracción que la representa.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/fracciones/proporciones_graficas.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Fracciones)
+## DBsection(Representación gráfica)
+## Level(1)
+## KEYWORDS('fracciones','gráfica','sombreada','porcentaje')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl', 'PGML.pl', 'contextFraction.pl', 'plots.pl',
+    'PGcourse.pl'
+);
+
+Context("Fraction");
+
+#Numero de regiones
+$n = random(2, 20);
+
+$plot = Plot(
+    xmin      => -1.25,
+    xmax      =>  1.25,
+    ymin      => -1.25,
+    ymax      =>  1.25,
+    show_grid =>  0,
+    xvisible  =>  0,
+    yvisible  =>  0,
+);
+
+#variable donde estará el número de partes sombreadas
+$m = 0;
+
+$plot->add_circle([ 0, 0 ], 1);
+#Dibujando  las secciones
+for (0 .. $n - 1) {
+    $plot->add_dataset([ 0, 0 ],
+        [ cos(2 * pi * $_ / $n), sin(2 * pi * $_ / $n) ]);
+}
+
+#Sombreando regiones en forma aleatoria
+#y capturando la cantidad (m) para crear la respuesta
+foreach (0 .. $n - 2) {
+    $prob = random(0, 1);
+    if ($prob == 1) {
+        $plot->add_multipath(
+            [
+                [ 'cos(t)', 'sin(t)', "2*pi*$_/$n", "2*pi*($_+1)/$n" ],
+                [ 0, 0 ],
+            ],
+            't',
+            color => 'blue',
+            fill  => 'self',
+            cycle => 1
+        );
+        $m++;
+    }
+}
+
+#Comentario: los dos bucles anteriores se pueden unir, están así
+#pues empecé haciendo lo de dividir, luego sombrear.
+
+Context("Fraction");
+$answer = Fraction($m, $n);
+
+#  Text
+
+BEGIN_PGML
+¿Qué fracción del círculo está coloreada de azul?
+
+>>[!!]{$plot}{250}<<
+
+Exprese la respuesta como una fracción en su mínima expresión. 
+
+Contestación:
+[_]{$answer->cmp(studentsMustReduceFractions => 1, requirePureFractions => 1)}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+La figura se ha dividido en [`[$n]`] partes iguales, luego el denominador es igual a [`[$n]`]. De estas partes, [`[$m]`] está(n) coloreada(s) de azul, luego el numerador es igual a [`[$m]`].
+
+Por lo tanto la solución es: [`[$answer]`]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

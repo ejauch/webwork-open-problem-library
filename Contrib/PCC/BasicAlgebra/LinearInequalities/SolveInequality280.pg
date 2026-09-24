@@ -56,7 +56,7 @@ Context()->variables->add(p=>"Real");
 
 $setans = Compute("{ p | p < $crit}");
 $alt = Compute("{ p | $crit > p}");
-$ans = OneOf($setans, $alt);
+$ans = $setans;
 
 Context("Interval");
 Context()->flags->set("formatStudentAnswer"=>'parsed');

@@ -1,0 +1,124 @@
+#  DESCRIPTION
+
+#  Tipo: seleccionar varias respuestas correctas
+#  Identificar números en un intervalo dado
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/intervalos/numeros_en_intervalo.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Algebra of real numbers and simplifying expressions)
+## DBsection(Inequalities and intervals)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('intervalos','identificar')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl', 'PGML.pl',
+    'plots.pl',      'parserCheckboxList.pl',
+    'PGcourse.pl'
+);
+
+Context('Numeric');
+
+#Extremos del intervalo
+$a = random(-25,  0,  0.01);
+$b = random(0.01, 25, 0.01);
+
+#Esta parte es para mejorar a futuro
+
+#tipo de intervalo aleatoriamente (a,b), (a,b], [a,b), [a,b]
+#$tipo = random(0,3);
+
+#eligiendo aleatoriamente cantidad de números dentro del intervalo
+#$num_dentro = random(0,5);
+
+## hasta aqui
+
+#Puntos dentro del intervalo
+$r[0] = random($a, $b, 0.01);
+$r[1] = random($a, $b, 0.01);
+$r[2] = random($a, $b, 0.01);
+
+#Puntos fuera del intervalo
+$prob = random(0, 2);
+if ($prob == 0) {
+    $r[3] = random(-50,       $a + 0.01, 0.01);
+    $r[4] = random($b + 0.01, 50,        0.01);
+} elsif ($prob == 1) {
+    $izq_o_der = random(0, 1);
+    if ($izq_o_der == 0) {
+        $r[3] = $a;
+        $r[4] = random($b + 0.01, 50, 0.01);
+    } else {
+        $r[3] = random($b + 0.01, 50, 0.01);
+        $r[4] = $b;
+    }
+} else {
+    $r[3] = $a;
+    $r[4] = $b;
+}
+
+$checks = CheckboxList(
+    [ [@r], 'Ninguna de las anteriores' ],
+    [ 0,    1, 2 ],
+    labels => "ABC"
+);
+
+BEGIN_PGML
+¿Cuál de los siguientes números se encuentran en el intervalo [` ([$a],[$b]) `]?.  Podrían ser mas de uno.
+
+[_]{$checks}
+
+
+END_PGML
+
+#Haciendo la gráfica
+$plot = Plot(
+    xmin         => $a - 5,
+    xmax         => $b + 5,
+    xtick_delta  =>  2,
+    xminor       =>  1,
+    ymin         => -1.5,
+    ymax         =>  1.5,
+    xvisible     =>  1,
+    yvisible     =>  0,
+    show_grid    =>  0,
+    aspect_ratio => 1
+);
+
+$plot->add_dataset(
+    [ $a, 0 ], [ $b, 0 ],
+    start_mark => 'open_circle',
+    end_mark   => 'open_circle',
+    color      => 'blue'
+);
+$plot->add_point(
+    [ $r[0], 0, color => 'red' ],
+    [ $r[1], 0, color => 'red' ],
+    [ $r[2], 0, color => 'red' ]
+);
+$plot->add_label(
+    [ $r[0], 0.1, $r[0], v_align => 'bottom', color => 'red' ],
+    [ $r[1], 0.1, $r[1], v_align => 'bottom', color => 'red' ],
+    [ $r[2], 0.1, $r[2], v_align => 'bottom', color => 'red' ]
+);
+
+BEGIN_PGML_SOLUTION
+La representación gráfica 
+
+>>[!!]{$plot}{600}<<
+
+muestra que los valores [`[$r[0]], [$r[1]]`] y [`[$r[2]]`] están dentro del intervalo [` ([$a],[$b]) `], por lo tanto las soluciones son: [$checks].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

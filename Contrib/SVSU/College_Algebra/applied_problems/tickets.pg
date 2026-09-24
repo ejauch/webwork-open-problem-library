@@ -1,0 +1,142 @@
+## DESCRIPTION
+## Algebra: Solve mixing problems with prices
+# written by Jan Hlavacek (jhlavace@svsu.edu)
+## ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Applications and models)
+## Level(5)
+## KEYWORDS('algebra', 'rules of exponents')
+
+###########################
+#  Initialization
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'scaffold.pl', 'PGcourse.pl');
+
+Context("Numeric")->variables->are(x => "Real");
+
+$pricelow  = random(4, 12);
+$pricehigh = $pricelow + random(2, 10);
+
+$numberlow = random(30, 200);
+do { $numberhigh = random(30, 200); } until ($numberhigh != $numberlow);
+
+$totalnum = $numberhigh + $numberlow;
+$totalrev = $pricelow * $numberlow + $pricehigh * $numberhigh;
+
+$answer1 = Compute("$pricehigh");
+$answer2 = Compute("$totalnum - x");
+$answer3 = Compute("$pricehigh*($totalnum - x)");
+$answer4 = Compute("$pricelow");
+$answer5 = Compute("x");
+$answer6 = Compute("$pricelow*x");
+$answer7 = Compute("$totalnum");
+$answer8 = Compute("$totalrev");
+
+$ticketschild = Formula("x");
+
+###########################
+#  Main text
+
+BEGIN_PGML
+
+A movie theater sold [$totalnum] tickets for a show.  Their revenue for the show was 
+$[$totalrev].  There were two types of tickets sold: adult tickets for $[$pricehigh] and child tickets
+for $[$pricelow].
+
+How may child tickets were sold?
+
+END_PGML
+
+Scaffold::Begin(
+    can_open => "when_previous_correct",
+    is_open  => "correct_or_first_incorrect"
+);
+Section::Begin("Part 1: Set up the table");
+
+BEGIN_PGML
+First, fill in the following table, using [`x`] for the number of child tickets:
+
+[# 
+    [.Ticket type .]
+    [.Price .]
+    [.Number of tickets .]
+    [.Revenue .]{headerrow=>1}*
+    [.Adult .]
+    [.[_]{$answer1}{10} .]
+    [.[_]{$answer2}{10} .]
+    [.[_]{$answer3}{10} .]*
+    [.Child .]
+    [.[_]{$answer4}{10} .]
+    [.[_]{$answer5}{10} .]
+    [.[_]{$answer6}{10} .]*
+    [.Total (given) .]
+    [.  .]
+    [.[_]{$answer7}{10} .]
+    [.[_]{$answer8}{10} .]*
+#]{horizontalrules => 1, texalignment => '|c|c|c|c|', padding=> 0.3}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+The first column of the table is easy to fill in, just put down the price of
+the adult tickets and the price of the child tickets. 
+
+In the second column, the number of child tickets will be [`x`], and since the
+total number must be [$totalnum], the number of adult tickets will be [$answer2].
+
+To get the last column, simply multiply the first and second column (revenue =
+price times quantity).
+
+The table will look like this:
+
+[# 
+    [.Ticket type .]
+    [.Price .]
+    [.Number of tickets .]
+    [.Revenue .]{headerrow=>1}*
+    [.Adult .]
+    [.[$answer1] .]
+    [.[$answer2] .]
+    [.[$answer3] .]*
+    [.Child .]
+    [.[$answer4] .]
+    [.[$answer5] .]
+    [.[$answer6] .]*
+    [.Total (given) .]
+    [.  .]
+    [.[$answer7] .]
+    [.[$answer8] .]*
+#]{horizontalrules => 1, texalignment => '|c|c|c|c|', padding=> 0.3}
+
+END_PGML_SOLUTION
+
+Section::End();
+
+Section::Begin("Part 2: Solve the equation");
+
+BEGIN_PGML
+
+Using the table, set up the equation, solve it and find the answer.
+
+The number of child tickets is [__________]{$numberlow}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+In the last column of the table, the revenue for adult tickets plus the revenue
+for the child tickets must be equal to the total revenue, which is given.  From this we get the equation
+
+[``[$answer3] + [$answer6] = [$answer8]``]
+
+Solving the equation will give us [`x = [$numberlow]`].
+END_PGML_SOLUTION
+
+Section::End();
+
+Scaffold::End();
+
+ENDDOCUMENT();

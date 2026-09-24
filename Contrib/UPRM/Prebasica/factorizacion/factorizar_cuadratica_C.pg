@@ -1,0 +1,85 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Factorizar Cuadrados perfectos x^2 + 2ax + a^2
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/factorizacion/factorizar_cuadratica.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Factorizacion)
+## DBsection(Cuadrados perfectos)
+## Level(1)
+## KEYWORDS('factorizacion','cuadrados perfectos')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextLimitedFactor.pl',
+    'PGcourse.pl');
+
+Context('Numeric');
+
+#la expresión a factorizar: x^2+2ax + a^2
+$a = non_zero_random(-20, 20);
+
+$aa    = $a * $a;
+$dos_a = 2 * $a;
+$abs_a = abs($a);
+
+if ($a > 0) {
+    $tipo    = "suma";
+    $simbolo = "+";
+} else {
+    $tipo    = "resta";
+    $simbolo = "-";
+}
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+$exp = Formula("x^2+2*$a x + $a*$a")->reduce();
+
+$answer = Compute("(x + $a)^2")->reduce();
+
+#  Text
+
+BEGIN_PGML
+Factorizar completamente
+[```
+[$exp]
+```]
+
+[_]{$answer}
+
+[@  helpLink('formulas')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:*  Identificar que se puede aplicar el método de Cuadrados perfectos de una [$tipo] para factorizar:
+
+[`\phantom{aaa}`] i. [`\sqrt{x^2} = x`]
+  
+[`\phantom{aaa}`] ii. [`\sqrt{[$aa]} = [$a]`]
+
+[`\phantom{aaa}`] iii. [`2\cdot ([$a]) x = [$dos_a] x`]
+
+entonces [`[$exp] = (x)^2 [$simbolo] (2\cdot [$abs_a]) x + ([$abs_a])^2`]
+
+*Paso 2:* Factorizar
+[```
+ (x)^2 [$simbolo] (2\cdot [$abs_a]) x + ([$abs_a])^2 = [$answer],
+```]
+  
+por lo tanto la respuesta es: [`[$answer]`]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

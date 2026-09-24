@@ -1,0 +1,65 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Resolver ecuaciones racionales denominador monomio
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_racionales/ecuaciones_racionales_con_monomios.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Ecuaciones racionales)
+## DBsection(Denominador monomio)
+## Level(1)
+## KEYWORDS('ecuaciones','monomios')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextFraction.pl', 'PGcourse.pl');
+
+Context('Fraction')->noreduce('(-x)-y', '(-x)+y');
+
+# coeficientes ecuación de tipo a1/(b1x) + a2/(b2x) = a3/(b3x)
+do {
+    $a1 = non_zero_random(-9, 9);
+    $b1 = non_zero_random(-9, 9);
+
+    $a2 = non_zero_random(-9, 9);
+    $b2 = non_zero_random(-9, 9);
+
+    $a3 = non_zero_random(-9, 9);
+    $b3 = non_zero_random(-9, 9);
+
+    $c = Compute("$a3/$b3 - $a1/$b1")->reduce;
+} until ($c != 0);
+$rhs = Compute("($a3/$b3)/x");
+
+$answer = $c * $b2 / $a2;
+
+$lhs = Compute("$a1/($b1 x) + $a2/$b2")->reduce;
+
+# $eq = ImplicitEquation("$a1/($b1 x) + $a2/$b2 = $a3/($b3 x)")->reduce;
+
+BEGIN_PGML
+Resuelva la siguiente ecuación
+[``` [$lhs] = [$rhs] ```]
+
+[`x = `] [_]{$answer->cmp(StudentsMustReduceFractions => 1)}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+[``` \frac{[$a2]}{[$b2]} = \frac{[$a3]}{[$b3]x} - \frac{[$a1]}{[$b1]x} = [$c]\frac{1}{x} ```]
+
+[``` x = \frac{[$b2]}{[$a2]} \cdot [$c] = [$answer] ```]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

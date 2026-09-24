@@ -1,0 +1,65 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Aplicar propiedad (a^n)(a^m) = a^(n+m)
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/expresiones_con_exponentes_enteros/expresiones_algebraicas_propiedades.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Expresiones algebraicas)
+## DBsection(Propiedades de los exponentes)
+## Level(1)
+## KEYWORDS('exponentes','enteros','propiedades')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+#Context()->noreduce('(-x)-y','(-x)+y');
+
+$var   = list_random("m", "n", "p", "q", "r", "y", "z", "k", "a", "b");
+$index = random(0, 9);
+Context()->variables->add($var => 'Real');
+$n = random(-20, 20);
+$m = non_zero_random(-15, 15);
+
+$exp = Compute("($var^$n)($var^$m)");
+
+$answer = Compute("$var^($n+$m)")->reduce;
+
+Context()->operators->undefine('/', '*');
+
+BEGIN_PGML
+Escriba la siguiente expresión como una sola potencia:
+[```[$exp]```]
+Contestación: [_]{$answer}
+
+[@  helpLink('formula')  @]*
+END_PGML
+
+#Context("Numeric");
+
+#  Answers
+
+ANS($answer->cmp());
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Utilizando la propiedad [` a^nb^m = a^{n+m} `], se obtiene
+[```
+[$exp] = [$var]^{[$n]+[$m]} = [$answer],
+```]
+por lo tanto la respuesta es: [`[$answer]`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

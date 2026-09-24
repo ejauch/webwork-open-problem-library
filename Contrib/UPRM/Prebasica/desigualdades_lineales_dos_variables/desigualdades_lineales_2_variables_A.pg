@@ -1,0 +1,112 @@
+#  DESCRIPTION
+
+#  Tipo: opción múltiple, única respuesta
+#  Dada una región sombreada en dos dimensiones encontrar la region sombreada.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/desigualdades_lineales_dos_variables/desigualdades_lineales_2_variables.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Cartesian coordinate system)
+## DBsection(Graphs of equations)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('desigualdades','representar','intervalos','grafica')
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',         'PGML.pl',
+    'parserRadioButtons.pl', 'plots.pl',
+    'PGcourse.pl'
+);
+
+# Show which answers are correct and which ones are incorrect
+$showPartialCorrectAnswers = 0;
+
+#  Setup
+$a = non_zero_random(-6, 6, 0.5);
+
+@direccion = ("derecha", "izquierda", "arriba", "abajo");
+
+$k = random(0, 3);
+
+$plot = Plot(
+    xmin => -10,
+    xmax =>  10,
+    ymin => -10,
+    ymax => 10
+);
+
+if ($k == 0) {
+    $plot->add_dataset([ $a, -10 ], [ $a, 10 ], color => 'blue');
+    $plot->add_rectangle(
+        [ $a, -10 ], [ 10, 10 ],
+        fill_color => 'blue',
+        color      => 'none'
+    );
+} elsif ($k == 1) {
+    $plot->add_dataset([ $a, -10 ], [ $a, 10 ], color => 'blue');
+    $plot->add_rectangle(
+        [ -10, -10 ], [ $a, 10 ],
+        fill_color => 'blue',
+        color      => 'none'
+    );
+} elsif ($k == 2) {
+    $plot->add_dataset([ -10, $a ], [ 10, $a ], color => 'blue');
+    $plot->add_rectangle(
+        [ -10, $a ], [ 10, 10 ],
+        fill_color => 'blue',
+        color      => 'none'
+    );
+} else {
+    $plot->add_dataset([ -10, $a ], [ 10, $a ], color => 'blue');
+    $plot->add_rectangle(
+        [ -10, -10 ], [ 10, $a ],
+        fill_color => 'blue',
+        color      => 'none'
+    );
+}
+
+$checks = RadioButtons(
+    [
+        [
+            "\(x \geq $a\)",
+            "\(x \leq $a\)",
+            "\(y \geq $a\)",
+            "\(y \leq $a\)"
+        ],
+        'Ninguna de las anteriores'
+    ],
+    $k
+);
+
+BEGIN_PGML
+  
+Considere la siguiente gráfica:
+
+>>[!!]{$plot}{300}<<
+  
+>>(Click en la gráfica para agrandar)<<
+
+La inecuación que representa la región sombreada es:
+
+[_]{$checks}
+
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:*
+
+*Paso 2:*
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

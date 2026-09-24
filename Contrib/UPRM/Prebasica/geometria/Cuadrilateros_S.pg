@@ -1,0 +1,55 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada la gráfica de un trapecio encontrar algún lado, la altura o el área.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/geometria/Cuadrilateros.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Geometría)
+## DBsection(Cuadrilateros)
+## Level(1)
+## KEYWORDS('cuadrilateros','trapecio')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context("Numeric");
+
+$B = random(15, 30);
+$h = random(4,  9);
+$b = random(5,  20);
+
+$A = ($B + $b) * $h / 2;
+
+$answer = Compute($B);
+
+BEGIN_PGML
+>> [!!]{'trap.png'}{250} <<
+
+Considere el trapecio que se muestra arriba. Si [`b = [$b]`] cm, [`h = [$h]`] cm y el área es [`[$A]`] cm[`^2`],  calcule el valor de [`B`]. (NO escriba el símbolo cm)
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Utilizar la fórmula del área de un trapecio: [`\displaystyle A = \frac{(B+b)h}{2} `]. Sustituyendo,
+[```
+[$A] = \frac{(B+[$b])[$h]}{2} \quad \Rightarrow\quad B = [$B]
+```]
+por lo tanto la solución es [` [$answer] `] cm.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

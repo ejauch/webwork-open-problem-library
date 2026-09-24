@@ -1,0 +1,88 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Encontrar el área sombreada de figuras geométricas combinadas.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/geometria/Areas_Combinadas.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Geometría)
+## DBsection(Áreas combinadas)
+## Level(1)
+## KEYWORDS('area','sombreada','')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context("Numeric");
+
+$a = random(2, 30);
+
+$da  = 2 * $a;
+$asd = $a / 2;
+
+$a_rectangulo = $da * $a;
+$a_circulo    = pi * ($asd)**2;
+
+$asdc  = $asd**2;
+$dasdc = 2 * $asdc;
+
+$answer = Compute($a_rectangulo - 2 * $a_circulo);
+
+#  Text
+
+BEGIN_PGML
+>>[!!]{'ac2.png'}{300}<<
+
+Si [`a = [$a]`] cm, calcule el área sombreada de la figura de arriba. (NO escriba el símbolo cm)
+
+Contestación: [_]{$answer}
+
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Identificar área sombreada como combinación de figuras de áreas conocidas. Sea [`A_s`] el área sombreada, entonces
+[```
+\begin{aligned}
+ A_s &= \text{área rectángulo} - \text{área círculo} - \text{área círculo} \\
+        &= \text{área rectángulo} - 2(\text{área círculo})
+\end{aligned}
+```]
+
+*Paso 2:* Calcular el área de cada figura conocida:
+
+[` \phantom{algo} `] *Rectángulo:* El rectángulo tiene base [`b = 2a = 2\times[$a] = [$da]`], y altura [`a = [$a]`], entonces:
+[```
+\text{área rectángulo} = [$da]\times[$a] = [$a_rectangulo]
+```]
+
+[` \phantom{algo} `] *Círculo:* Cada uno de los círculos tiene radio [`r = \frac{a}{2} = \frac{[$a]}{2} = [$asd]`], entonces:
+[```
+\text{área círculo} = \pi([$asd])^2 = [$asdc]\pi
+```]
+
+*Paso 3:* Sustituir valores del paso 2 en el paso 1
+[```
+\begin{aligned}
+ A_s &= \text{área rectángulo} - 2(\text{área círculo}) \\
+        &= [$a_rectangulo] - 2\times [$asdc]\pi \\
+        &= [$a_rectangulo] - [$dasdc]\pi \approx [$answer]
+\end{aligned}
+```]
+
+Por lo tanto el área sombreada es [`[$answer]`] cm[`^2`].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

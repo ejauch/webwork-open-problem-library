@@ -1,0 +1,75 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Factorizar diferencia de cuadrados
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/factorizacion/factorizar_cuadratica.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Factorizacion)
+## DBsection(Diferencia de cuadrados)
+## Level(1)
+## KEYWORDS('factorizacion','diferencia de cuadrados')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextLimitedFactor.pl',
+    'PGcourse.pl');
+
+Context('Numeric');
+
+#la expresión a factorizar: (ax)^2 - b^2 = (ax+b)(ax-b)
+$a = random(1, 20);
+$b = (1, 20);
+
+$aa = $a * $a;
+$bb = $b * $b;
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+$exp = Formula("$aa x^2 - $bb")->reduce();
+
+Context("LimitedFactor");
+
+$answer = Compute("($a x + $b)($a x - $b)")->reduce();
+
+#  Text
+
+BEGIN_PGML
+Factorizar completamente
+[```[$exp]```]
+
+[_]{$answer}
+
+[@  helpLink('formulas')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:*  Identificar que se puede aplicar el método de diferencia de cuadrados para factorizar:
+
+[`\phantom{aaa}`] i. [`\sqrt{[$aa] x^2} = [$a] x`]
+  
+[`\phantom{aaa}`] ii. [`\sqrt{[$bb]} = [$b]`]
+
+entonces [`[$exp] = ([$a] x)^2 - ([$b])^2`]
+
+*Paso 2:* Factorizar
+[```
+ ([$a] x)^2 - ([$b])^2 = [$answer],
+```]
+  
+por lo tanto la respuesta es: [`[$answer]`]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

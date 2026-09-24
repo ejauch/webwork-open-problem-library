@@ -1,0 +1,112 @@
+##DESCRIPTION
+##  Algebra: absolute value equation
+##ENDDESCRIPTION
+
+
+## DBsubject(Algebra)
+## DBchapter(Absolute value expressions and functions)
+## DBsection(Solving equations with absolute values)
+## Date(8/31/2009)
+## Institution(University of Minnesota)
+## Author(Jonathan Rogness)
+## MLT(AbsVal4)
+## Level(4)
+## Static(1)
+## MO(1)
+## TitleText1('Algebra for College Students')
+## AuthorText1('Kaufmann, Schwitters')
+## EditionText1('8')
+## Section1('2.7')
+## Problem1('70')
+## KEYWORDS('algebra', 'equation', 'absolute value')
+
+########################################################################
+
+DOCUMENT();      
+
+loadMacros(
+  "PGstandard.pl",
+  "MathObjects.pl",
+  "unionLists.pl",
+  "extraAnswerEvaluators.pl",
+  "PGML.pl",
+  "contextFiniteSolutionSets.pl",
+  "contextFraction.pl",
+  "PCCmacros.pl",
+  "PGcourse.pl"
+);
+
+# Print problem number and point value (weight) for the problem
+TEXT(beginproblem());
+
+# Show which answers are correct and which ones are incorrect
+$showPartialCorrectAnswers = 1;
+
+##############################################################
+
+do{
+Context("Numeric");
+Context()->strings->add(none=>{},EmptySet=>{alias=>"none"});
+Context()->noreduce('(-x)+y','(-x)-y');
+
+do{
+$a = non_zero_random(-4,4,1);
+$b = non_zero_random(-4,4,1);
+$c = non_zero_random(-4,4,1);
+$d = non_zero_random(-4,4,1);
+} until ($a - $c != 0 and $a + $c != 0);
+
+$f = Formula("$a x + $b")->reduce;
+$g = Formula("$c x + $d")->reduce;
+
+Context("Fraction");
+$an1 = Fraction($d-$b,$a-$c);
+$an2 = Fraction(-$d-$b,$a+$c);
+} until ($an1 != $an2);
+
+Context("FiniteSolutionSets");
+$ans = Formula("{$an1, $an2}");
+
+##############################################################
+
+BEGIN_PGML
+The equation [` \lvert x\rvert =\lvert y\rvert `] is satisfied if [` x=y `] or [` x=-y `].  Use this fact to solve the following equation.
+
+[``\left\lvert [$f] \right\rvert = \left\lvert [$g] \right\rvert``]
+ 
+[@KeyboardInstructions("If there are no solutions, you may type [|no solutions|]*.")@]**
+
+[__]{$ans}{width=>20}
+
+END_PGML
+
+##############################################################
+
+$gN = Formula("-$c x - $d")->reduce;
+$p1 = $a-$c;
+$p2 = $a+$c;
+$p1l = Formula("$p1 x")->reduce;
+$p2l = Formula("$p2 x")->reduce;
+$q1 = $d - $b;
+$q2 = -$d - $b;
+
+BEGIN_PGML_SOLUTION
+
+    [``
+\begin{aligned}[t]
+   \left\lvert [$f] \right\rvert &= \left\lvert [$g] \right\rvert \\
+   [$f] &= [$g] &\text{ or }&& [$f] &= -([$g]) \\
+   [$f] &= [$g] &\text{ or }&& [$f] &= [$gN] \\
+   [$p1l] &= [$q1] &\text{ or }&& [$p2l] &= [$q2] \\
+   x &= [$an1] &\text{ or }&& x &= [$an2] \\
+\end{aligned}
+    ``]
+
+The solutions are [`[$ans]`] in set notation.
+
+END_PGML_SOLUTION
+
+###################################
+
+
+ENDDOCUMENT();        

@@ -1,0 +1,120 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Orden de operaciones: dada una exp tipo a+b[ c+(d+e*f)^n ] + [g^m - (h+i)], encontrar el resultado.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/order_de_operaciones_numericas/operaciones_combinadas.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Algebra of real numbers and simplifying expressions)
+## DBsection(Evaluating expressions)
+## Level(1)
+## KEYWORDS('operaciones', 'numeros', 'orden')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros(
+    'PGstandard.pl',            'PGML.pl',
+    'contextLimitedNumeric.pl', 'PGcourse.pl'
+);
+
+Context('Numeric');
+
+#construyendo la exp. tipo a+b[ c-(d+e*f)^n ] +  [g^m - (h+i)]
+$a = non_zero_random(-20,   20);
+$b = non_zero_random(-9,    9);
+$c = non_zero_random(-1000, 1000);
+$d = non_zero_random(-9,    9);
+$e = non_zero_random(-5,    5);
+$f = random(2, 5);
+$n = random(2, 4);
+$g = random(2, 5);
+$m = random(2, 4);
+$h = non_zero_random(-9, 9);
+$i = non_zero_random(-9, 9);
+
+$r = $a + $b * ($c - ($d + $e * $f)**$n) + ($g**$m - ($h + $i));
+
+#usado al presentar la solución
+$multiplicacion1 = $e * $f;
+$suma_resta1     = $h + $i;
+$suma_resta2     = $d + $multiplicacion1;
+
+#$r = $a + $b*[ $c - ( $sr2)**$n ] + [$g**$m - $sr1];
+
+$potencia1   = $suma_resta2**$n;
+$potencia2   = $g**$m;
+$suma_resta3 = $c - $potencia1;
+$suma_resta4 = $potencia2 - $suma_resta1;
+
+#$r = $a + $b*$sr3  + $sr4;
+
+$multiplicacion2 = $b * $suma_resta3;
+$suma_resta5     = $a + $multiplicacion2 + $suma_resta4;
+
+Context("LimitedNumeric");
+
+$answer = Compute($r);
+
+BEGIN_PGML
+[```
+ [$a] + [$b]\left[ [$c] - \left( [$d] + [$e]\times [$f] \right)^{[$n]} \right] + \left[ [$g]^{[$m]} + \left( [$h] + [$i] \right) \right]
+```]
+Efectúe las operaciones indicadas y obtenga el resultado para la expresión que se muestra arriba.
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Resolver los paréntesis circulares:
+
+la multiplicación y la suma/resta
+[```
+ [$a] + [$b]\left[ [$c] - \left( [$d] + [$e]\times [$f] \right)^{[$n]} \right] + \left[ [$g]^{[$m]} + \left( [$h] + [$i] \right) \right] = 
+ [$a] + [$b]\left[ [$c] - \left( [$d] + [$multiplicacion1] \right)^{[$n]} \right] + \left[ [$g]^{[$m]} + [$suma_resta1] \right]
+```]
+la suma y/o resta
+[```
+  [$a] + [$b]\left[ [$c] - \left( [$d] + [$multiplicacion1] \right)^{[$n]} \right] + \left[ [$g]^{[$m]} + [$suma_resta1] \right] = 
+  [$a] + [$b]\left[ [$c] - \left( [$suma_resta2] \right)^{[$n]} \right] + \left[ [$g]^{[$m]} + [$suma_resta1] \right]
+```]
+
+*Paso 2:* Resolver paréntesis cuadrados: 
+
+las potencias
+[```
+  [$a] + [$b]\left[ [$c] - \left( [$suma_resta2] \right)^{[$n]} \right] + \left[ [$g]^{[$m]} + [$suma_resta1] \right] = \
+  [$a] + [$b]\left[ [$c] - [$potencia1] \right] + \left[ [$potencia2] + [$suma_resta1] \right] = 
+```]
+las sumas y/o restas
+[```
+ [$a] + [$b]\left[ [$c] - [$potencia1] \right] + \left[ [$potencia2] + [$suma_resta1] \right] = 
+ [$a] + [$b]\times[$suma_resta3]  +  [$suma_resta4] 
+```]
+
+*Paso 3:* Realizar la multiplicación:
+[```
+ [$a] + [$b]\times [$suma_resta3]  +  [$suma_resta4]  = 
+ [$a] + [$multiplicacion2]  +  [$suma_resta4] 
+```]
+
+*Paso 4:* Realizar la sumas y/o restas:
+[```
+[$a] + [$multiplicacion2]  +  [$suma_resta4]  = [$suma_resta5]
+```]
+
+La solución es: [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

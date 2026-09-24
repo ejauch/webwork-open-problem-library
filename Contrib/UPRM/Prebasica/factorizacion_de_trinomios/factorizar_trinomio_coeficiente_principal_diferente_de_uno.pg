@@ -1,0 +1,86 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Factorizar trinomios tipo ax^2 + bx + c
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/factorizacion_de_trinomios/factorizar_trinomio_coeficiente_principal_diferente_de_uno.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Factorizacion)
+## DBsection(Trinomios cuadrados perfectos)
+## Level(1)
+## KEYWORDS('factorizacion','trinomios')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextLimitedFactor.pl',
+    'PGcourse.pl');
+
+Context('Numeric');
+
+#Creando las constantes para ax^2+bx+c
+
+do {
+    $A = non_zero_random(-5, 5);
+    $B = non_zero_random(-9, 9);
+    $C = non_zero_random(-5, 5);
+    $D = non_zero_random(-9, 9);
+} until ($A * $D + $B * $C != 0 && abs($A * $C) > 1);
+
+#Construimos ax^2+bx+c
+$a = $A * $C;
+$b = $A * $D + $B * $C;
+$c = $B * $D;
+
+Context("LimitedFactor");
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+$exp = Formula("$a x^2 + $b x + $c")->reduce();
+
+$answer = Compute(" ($A x + $B)($C x + $D) ")->reduce();
+
+#  Text
+
+BEGIN_PGML
+Factorice completamente el siguiente trinomio 
+[```
+[$exp]
+```]
+
+[_]{$answer}
+
+[@  helpLink('formulas')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+El trinomio es de la forma 
+[```
+  [$exp]  = (ax + b)(cx + d).
+```]
+
+*Paso 1:*  Buscar el cuarteto [` (a,b,c,d) `] tal que [` a\times c = [$a] `], [` b \times d = [$c] `] y [` ad + bc = [$b] `]. Para este ejercicio:
+[```
+ (a,b,c,d) = ([$A],[$B],[$C],[$D])
+```]
+
+*Paso 2:* Factorizando se obtiene
+[```
+ [$exp] = [$answer],
+```]
+  
+por lo tanto la respuesta es: [`[$answer]`]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

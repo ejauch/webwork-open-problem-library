@@ -70,7 +70,7 @@ Context()->flags->set(
 Context()->variables->are(y=>"Real");
 $setans = Compute("{ y | y >  -($critNum/$critDen)}");
 $alt = Compute("{ y | -($critNum/$critDen) < y}");
-$ans = OneOf($setans, $alt);
+$ans = $setans;
 $ansLatexString = "\left\{ y \mid y > ".$crit->TeX."\right\}";
 
 Context("Interval");

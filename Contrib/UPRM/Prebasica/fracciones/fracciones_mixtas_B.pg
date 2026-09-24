@@ -1,0 +1,75 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Fracciones mixtas, convertir de impropia a mixta
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/fracciones/fracciones_mixtas.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Fracciones)
+## DBsection(Mixtas)
+## Level(1)
+## KEYWORDS('fracciones','mixtas')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'contextFraction.pl', 'PGcourse.pl');
+
+Context("Fraction");
+
+$a  = random(6, 50);
+$b  = random(1, 5);
+$c  = random(6, 9);
+$ac = $a * $c;
+
+$nume = $a * $c + $b;
+$deno = $c;
+
+$f = Fraction($nume, $deno);
+
+Context("LimitedFraction");
+$answer = Compute("$a $b/$c");
+
+#  Text
+
+BEGIN_PGML
+La fracción impropia [` [$f] `] escrita como fracción mixta es:
+
+*Nota:*
+Escribir la fracción mixta de la forma [` a\frac{b}{c} `] y con la parte fraccionaria simplificada al máximo.
+
+Contestación: [_]{$answer->cmp(studentsMustReduceFractions => 1)}
+
+[@  helpLink('number')  @]*
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+*Paso 1:* Re-escribir numerador de la fracción usando al mayor entero múltiplo de [` [$deno]`] menor que [` [$nume] `]:
+[```
+ \frac{[$nume]}{[$deno]} = \frac{[$ac]+[$b]}{[$c]}
+```]
+
+*Paso 2:* Distribuir denominador con cada término del numerador y simplificar:
+[```
+\frac{[$ac]+[$b]}{[$c]} = \frac{[$ac]}{[$c]}  + \frac{[$b]}{[$c]} = [$a] + \frac{[$b]}{[$c]}
+```]
+
+*Paso 3:* Escribir como fracción mixta:
+[```
+[$a] + \frac{[$b]}{[$c]} = [$a]\frac{[$b]}{[$c]}.
+```]
+
+Por tanto, al simplificar la parte propia de ser necesario, la solución es: [`[$answer]`]
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

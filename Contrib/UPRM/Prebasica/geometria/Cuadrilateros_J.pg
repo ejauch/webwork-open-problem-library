@@ -1,0 +1,57 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada la gráfica de un rectángulo encontrar el perímetro, el lado, o el área.
+
+#  Problema WeBWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/geometria/Cuadrilateros.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Geometría)
+## DBsection(Cuadrilateros)
+## Level(1)
+## KEYWORDS('cuadrilateros','cuadrados')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context("Numeric");
+
+$largo = random(15, 30);
+$alto  = random(2,  9);
+
+$perimetro = 2 * ($largo + $alto);
+$area      = $largo * $alto;
+
+$answer = Compute($largo);
+
+#  Text
+
+BEGIN_PGML
+>> [!!]{'rectangulo.png'}{250} <<
+
+Considere el rectángulo que se muestra arriba. Si [`a = [$alto]`] cm y el área de dicho rectángulo es [$area] cm[`^2`], calcule el valor de [`b`]. (NO escriba el símbolo cm)
+
+Contestación: [_]{$answer}{10}
+
+[@  helpLink('number')  @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Utilizar la fórmula del área de un rectángulo: [`A = ab `]. Sustituyendo,
+[```
+[$area] =[$alto] \times b \quad \Rightarrow\quad b = [$largo]
+```]
+por lo tanto la solución es [` [$answer] `] cm.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

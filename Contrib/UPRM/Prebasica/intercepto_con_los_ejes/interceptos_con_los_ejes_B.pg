@@ -1,0 +1,65 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada una ecuación, encontrar el intercepto en x o en y.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/intercepto_con_los_ejes/interceptos_con_los_ejes.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Graphs of lines)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('grafica', 'funciones','interceptos')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context()->noreduce('(-x)-y', '(-x)+y');
+
+$m = non_zero_random(-4, 4);
+$b = random(-9, 9);
+$y = Formula("$m x + $b")->reduce;
+
+$index = random(0, 1);
+if ($index == 0) {
+    $answer = Compute($b);
+    $var    = "y";
+    $punto  = "(0,$b)";
+    $p_int  = "(0,b)";
+} else {
+    $int_x  = -$b / $m;
+    $answer = Compute($int_x);
+    $var    = "x";
+    $punto  = "($int_x,0)";
+    $p_int  = "(-\frac{b}{m},0)";
+}
+
+BEGIN_PGML
+Escriba el intercepto con el eje [@ $index == 0 ? "[`y`] (ordenada)" : "[`x`] (abscisa)" @]**  de [` y = [$y] `].
+
+Contestación: [@ ans_rule(10) @]* [@  helpLink('number')  @]*
+END_PGML
+
+ANS($answer->cmp());
+
+BEGIN_PGML_SOLUTION
+El intercepto en el eje [@ $index == 0 ? "[`y`] (ordenada)" : "[`x`] (abscisa)" @]**  de una recta [`y = mx+b `] es la coordenada en [` [$var] `] del punto que lo interseca y es exactamente en [`` [$p_int] ``]. En este caso es [`[$punto]`].
+
+Por lo tanto, el valor [` [$var] `] del punto es [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

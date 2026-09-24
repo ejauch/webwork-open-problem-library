@@ -1,0 +1,56 @@
+#  DESCRIPTION
+
+#  Tipo: falso/cierto
+#  Problema que pregunta si una situacion real
+#  satisface una relacion lineal
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/ecuaciones_lineales_2_variables_parte_1/relacion_lineal.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Prebasica)
+## DBchapter(Ecuaciones lineales)
+## DBsection(Aplicaciones)
+## Level(1)
+## KEYWORDS('lineal','aplicaciones','relacion')
+## Author(Edwin Florez)
+## Institution(UPRM)
+## Language(es)
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+Context('Numeric');
+
+$k                = random(40, 80, 1);
+$y                = Formula("$k x");
+$randTrabajadores = random(2, 40);
+$yrT              = $y->eval(x => $randTrabajadores);
+
+$dd = DropDown([ 'cierta', 'falsa' ], 0);
+
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa. 
+
+Si [`x`] representa el número de trabajadores que contratamos y [`y`] representa el dinero gastado en salarios cada día y [$randTrabajadores] trabajadores cobran [$yrT] dólares por día, entonces la relación entre [`x`] y [`y`] es lineal.
+
+[_]{$dd}
+
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Analizar el problema:
+
+*i.*  [`x = `] trabajadores contratados, [`y = `] salario de trabajadores por día.
+
+*ii.*  Cuando [`x`] aumenta en [$randTrabajadores], [`y`] aumenta en [$yrT], es decir, [`y`] es proporcional a [`x`] con pendiente o constante de proporcionalidad igual a [$k]. 
+
+Como la relación de trabajadores contratados y el salario diario de trabajadores es de proporcionalidad directa con constante de proporcionalidad o pendiente igual a [$k], entonces la relación entre [`x`] y [`y`]  *es lineal*, con ordenada al origen 0. Por tanto, la proposición es *cierta*.
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

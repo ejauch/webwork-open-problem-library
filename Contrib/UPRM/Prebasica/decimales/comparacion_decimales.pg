@@ -1,0 +1,69 @@
+#  DESCRIPTION
+
+#  Tipo: falso/cierto
+#  Compara dos decimales
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/decimales/comparacion_decimales.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Arithmetic)
+## DBchapter(Decimals)
+## DBsection(Inequalities)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('decimales','comparar')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'parserPopUp.pl', 'PGcourse.pl');
+
+Context("Numeric");
+$n        = random(1, 4, 1);
+@powers   = (10, 100, 1000, 10000);
+$tenPower = random(0, 3);
+$a        = random(1, 100) / $powers[$tenPower];
+$b        = random(1, 10) / ($powers[$tenPower] * 10) + $a / 10;
+
+@arrayRelacion = ("mayor", "menor");
+$index         = random(0, 1);
+
+if ($index == 0) {
+    if ($a > $b) {
+        $answer  = 0;
+        $answer2 = "derecha";
+    } else {
+        $answer  = 1;
+        $answer2 = "izquierda";
+    }
+} else {
+    if ($a < $b) {
+        $answer  = 0;
+        $answer2 = "izquierda";
+    } else {
+        $answer  = 1;
+        $answer2 = "derecha";
+    }
+}
+
+$dd = DropDown([ 'cierta', 'falsa' ], $answer);
+
+BEGIN_PGML
+Determine si la siguiente proposición es cierta o falsa. 
+
+El número [$a] es [$arrayRelacion[$index]] que [$b].
+
+[_]{$dd}
+END_PGML
+
+BEGIN_PGML_SOLUTION
+Ya que [$a] se encuentra a la [$answer2] de [$b] en la recta numérica, entonces la respuesta es [$answer]. 
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

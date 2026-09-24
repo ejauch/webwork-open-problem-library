@@ -7,67 +7,59 @@
 #
 # ENDDESCRIPTION
 
-## DBCCSS('6.NS.1')
-
-## DBsubject(Arithmetic)
-## DBchapter(Fractions/rational numbers)
-## DBsection(Division)
-## Institution(PCC)
-## Author(Alex Jordan, Carl Yao, Chris Hughes)
-## MLT(dividingTwoRationals)
-## MLTleader(1)
-## Level(2)
+## DBsubject('Middle School')
+## DBchapter('Fractions')
+## DBsection('')
 ## KEYWORDS('divide','fraction')
+## DBCCSS('6.NS.1')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+## Author('Alex Jordan, Carl Yao, Chris Hughes')
+## Institution('PCC')
 
 
 ##############################################
 
 DOCUMENT();
 
-loadMacros(
-  "PGstandard.pl",
-  "MathObjects.pl",
-  "PGML.pl",
-  "contextFraction.pl",
-  "PGcourse.pl"
-);
+loadMacros("PGstandard.pl", "PGML.pl", "contextFraction.pl", "PGcourse.pl");
 
 ##############################################
 
 #Make a new LimitedFraction context with different flag settings for how the answer will be handled. This context should require that pure fractions (non-mixed numbers) be entered, and that for display purposes, fractions should be displayed as improper rather than mixed.
 Context("LimitedFraction");
-Context()->flags->set(requirePureFractions=>1);
-Context()->flags->set(showMixedNumbers=>0);
+Context()->flags->set(requirePureFractions => 1);
+Context()->flags->set(showMixedNumbers     => 0);
 
 do {
-   $reducedDen1 = random(2,5,1);
-   do {$reducedNum2 = random(2,5,1);} until  (gcd($reducedNum2,$reducedDen1)==1);
+    $reducedDen1 = random(2, 5, 1);
+    do { $reducedNum2 = random(2, 5, 1); }
+        until (gcd($reducedNum2, $reducedDen1) == 1);
 
-   $dividend = random(2,5,1);
-   $num2 = $reducedNum2*$dividend;
-   $den1 = $reducedDen1*$dividend;
+    $dividend = random(2, 5, 1);
+    $num2     = $reducedNum2 * $dividend;
+    $den1     = $reducedDen1 * $dividend;
 
-   do {$den2 = random(2,10,1);} until (gcd($num2,$den2)==1);
-   do {$num1 = random(1,10,1);} until  (gcd($den1,$num1)==1);
-} until (gcd($den2,$num1)==1);
+    do { $den2 = random(2, 10, 1); } until (gcd($num2, $den2) == 1);
+    do { $num1 = random(1, 10, 1); } until (gcd($den1, $num1) == 1);
+} until (gcd($den2, $num1) == 1);
 
-$frac1 = Fraction($num1,$den1);
-$frac2 = Fraction($num2,$den2);
+$frac1 = Fraction($num1, $den1);
+$frac2 = Fraction($num2, $den2);
 
-$ans = (-$frac1 * $frac2)->reduce;
-@temp = $ans->value;
+$ans    = (-$frac1 * $frac2)->reduce;
+@temp   = $ans->value;
 $numAns = -$temp[0];
 $denAns = $temp[1];
 
-##############################################
-
-TEXT(beginproblem());
-
 BEGIN_PGML
 
-Divide one fraction into the other: [`` \frac{[$num1]}{[$den1]} \div \left(-\frac{[$den2]}{[$num2]}\right) ``]
+Divide: [`` \frac{[$num1]}{[$den1]} \div \left(-\frac{[$den2]}{[$num2]}\right) ``]
 
-If needed, use an improper fraction in your answer. Don’t use a mixed number.
+[@KeyboardInstructions("If needed, use an improper fraction in your answer. Don't use a mixed number.")@]**
 
     [_________]{$ans} 
 

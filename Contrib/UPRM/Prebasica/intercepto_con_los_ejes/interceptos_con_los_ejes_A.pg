@@ -1,0 +1,74 @@
+#  DESCRIPTION
+
+#  Tipo: respuesta corta
+#  Dada una gráfica, encontrar el intercepto en x o en y.
+
+#  Problema WebWork escrito por Edwin Florez,
+#  <edwin.florez (at) upr (dot) edu>
+
+#  Adaptado desde el sistema quiz.uprm.edu del archivo
+#  pedro_prebasica/intercepto_con_los_ejes/interceptos_con_los_ejes.db
+
+#  ENDDESCRIPTION
+
+## DBsubject(Algebra)
+## DBchapter(Linear equations and functions)
+## DBsection(Graphs of lines)
+## Institution(UPRM)
+## Author(Edwin Florez)
+## Level(1)
+## Language(es)
+## KEYWORDS('grafica', 'funciones','interceptos')
+
+DOCUMENT();
+
+loadMacros('PGstandard.pl', 'PGML.pl', 'plots.pl', 'PGcourse.pl');
+
+#Si se aplica el método reduce() al Contexto Formula, no usa estas reglas al
+#aplicar las técnicas de reducción a expresiones.
+Context('Numeric')->noreduce('(-x)-y', '(-x)+y');
+
+$m = non_zero_random(-4, 4);
+$b = random(-9, 9);
+$y = Formula("$m x + $b");
+
+$index = random(0, 1);
+if ($index == 0) {
+    $answer = Compute($b);
+    $var    = "y";
+    $punto  = "(0,$b)";
+} else {
+    $int_x  = -$b / $m;
+    $answer = Compute($int_x);
+    $var    = "x";
+    $punto  = "($int_x,0)";
+}
+
+$plot = Plot(
+    xmin => -10,
+    xmax =>  10,
+    ymin => -10,
+    ymax => 10
+);
+$plot->add_function($y, 'x', -10, 10, color => 'blue');
+
+BEGIN_PGML
+
+>>[!!]{$plot}{250}<<
+
+>>(Click en la gráfica para agrandar)<<
+
+Escriba el intercepto con el eje [@ $index == 0 ? "[`y`] (ordenada)" : "[`x`] (abscisa)" @]**  de la gráfica anterior.
+
+Contestación: [@ ans_rule(10) @]* [@  helpLink('number')  @]*
+END_PGML
+
+ANS($answer->cmp());
+
+BEGIN_PGML_SOLUTION
+El intercepto en el eje [@ $index == 0 ? "[`y`] (ordenada)" : "[`x`] (abscisa)" @]**  es la coordenada en [` [$var] `] del punto que lo interseca. En este caso es [`[$punto]`].
+
+Por lo tanto, el valor [` [$var] `] del punto es [` [$answer] `].
+END_PGML_SOLUTION
+
+ENDDOCUMENT();
