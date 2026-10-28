@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Multiplication principle - counting longer passwords with repetition
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Combinatorics')
+## DBchapter('Counting')
+## DBsection('Principles (addition, subtraction, multiplication)')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('counting','multiplication principle','passwords','scientific notation')
+
 
 DOCUMENT();
 
@@ -74,7 +74,7 @@ Context()->flags->set(
     snMinDigits => 3,
     snMaxDigits => 3,
 );
-Context()->flags->set(tolType => 'digits', tolerance => 1, tolTruncation => 1);
+Context()->flags->set(tolType => 'digits', tolerance => 4, tolTruncation => 1);
 
 $ans =  ScientificNotation($total**$char);
 

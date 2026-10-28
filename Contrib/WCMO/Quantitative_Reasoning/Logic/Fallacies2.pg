@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Fallacies - identify the premise, conclusion, and type of fallacy (second set of examples)
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('8/24/24')
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Rules of inference')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','fallacies','premise','conclusion')
+
 
 DOCUMENT();
 
@@ -34,29 +34,29 @@ loadMacros(
 $falslength = $#fals;
 
 @statements = (
-    ["The Macbook Air is the most popular laptop computer, so it must be the best laptop on the market.", "McDonalds has the most locations of any other restaurant in the United States, so it must be the best restaurant in the United States."],
-    ["Every time I wear a red shirt, I trip while walking to class. My red shirt must be causing me to loose my balance.", "Whenever I wake up and there is a bird in the tree outside my window, I have a good day. The birds must be helping me have a good day."],
-    ["Scientists have found no records of life outside of earth despite years of searching. Therefore, earth must be the only place where life exists in the universe.","No one has ever proven that ghosts do not exist, so they must be real."],
-    ["I met three people from New York City, and they were both rude. Everyone from New York City must be rude.","My first two days at this new job were really stressful, so this job is going to be terrible."],
-    ["Think of all the poor, starving children in the world! How can you not donate to this charity?","If you don't support this policy, you don't care about the safety of our community!"],
-    ["You can't trust Jane's opinion on climate change because she failed high school science.","Why should we listen to Alfred's argument about healthcare reform? He has been divorced twice!"]
+    ["Millions of people use TikTok every day, so it must be the most reliable source of news.", "Everyone in my dorm is buying the new energy drink, so it must be good for you."],
+    ["Our team won every game after we got a new mascot. The mascot must be the reason we are winning.", "I listened to music while studying and got an A on the exam. Listening to music must make me smarter."],
+    ["No one has proven that the new supplement does not work, so it must be effective.", "There is no evidence that the old house is not haunted, so it must be haunted."],
+    ["The first two math classes I took were boring, so all math classes must be boring.", "My neighbor's electric car broke down twice last month, so electric cars must be unreliable."],
+    ["Imagine how lonely these shelter puppies feel every night. You have to adopt one today!", "If you really cared about your family's future, you would buy this life insurance policy right now!"],
+    ["Why should we believe Maria's budget proposal? She cannot even keep her own desk organized.", "Do not listen to Coach Rivera's advice on nutrition; he is out of shape."]
 );
 
 @con = (
-        ["The Macbook air is the best laptop","McDonalds is the best restaurant in the United States."],
-        ["Red shirts are having a negative effect on my balance.","Birds are helping to make sure their day is good."],
-        ["Life only exists on Earth.","Ghosts are real."],
-        ["Everyone from New York City is rude.","The new job is going to be terrible forever."],
-        ["You should support the charity.","You should support the policy."],
-        ["Jane cannot have the correct opinion about climate change.","We should not listen to Alfred about healthcare."],
+        ["TikTok is the most reliable source of news.","The new energy drink is good for you."],
+        ["The new mascot is the reason the team is winning.","Listening to music makes me smarter."],
+        ["The new supplement is effective.","The old house is haunted."],
+        ["All math classes are boring.","Electric cars are unreliable."],
+        ["You should adopt a puppy today.","You should buy this life insurance policy."],
+        ["We should not believe Maria's budget proposal.","We should not listen to Coach Rivera's advice on nutrition."],
        );
 @prem = (
-        ["The Macbook Air is the most popular laptop.","McDonalds has the most restaurants in the United States."],
-        ["I was wearing a red shirt when I fell.","I saw a bird in the tree outside my window before having a good day."],
-        ["There have been no observations of life outside of earth despite years of searching.","There is a lack a evidence against the existence of ghosts."],
-        ["Three people from New York City were rude.","The first two days on the job were terrible."],
-        ["You care about poor, starving children.","You care about the safety of the community."],
-        ["Jane failed high school science.","Alfred has been divorced twice."],
+        ["Millions of people use TikTok every day.","Everyone in my dorm is buying the new energy drink."],
+        ["The team won every game after getting a new mascot.","I listened to music while studying and got an A on the exam."],
+        ["No one has proven that the new supplement does not work.","There is no evidence that the old house is not haunted."],
+        ["The first two math classes I took were boring.","My neighbor's electric car broke down twice last month."],
+        ["Shelter puppies feel lonely every night.","You care about your family's future."],
+        ["Maria cannot keep her own desk organized.","Coach Rivera is out of shape."],
        );       
 
 $falchoice = random(0,$falslength,1);
@@ -68,11 +68,19 @@ $probprem = $prem[$falchoice][$ver];
 $probstate = $statements[$falchoice][$ver];
 
 @dropdown = ();
-$dropdown[0] = DropDown( [[$probprem,$probcon]], $probprem, placeholder => ' - Select one of the following - ');
-$dropdown[1] = DropDown( [[$probprem,$probcon]], $probcon, placeholder => ' - Select one of the following - ');
+# a premise and conclusion from another fallacy serve as distractors
+$oth = random(0,$falslength,1);
+while ($oth == $falchoice) {
+$oth = random(0,$falslength,1);
+}
+$othprem = $prem[$oth][$ver];
+$othcon = $con[$oth][$ver];
+
+$dropdown[0] = DropDown( [[$probprem,$probcon,$othprem,$othcon]], $probprem, placeholder => ' - Select one of the following - ');
+$dropdown[1] = DropDown( [[$probprem,$probcon,$othprem,$othcon]], $probcon, placeholder => ' - Select one of the following - ');
 $dropdown[2] = DropDown( [[@fals]], $probfal, placeholder => ' - Select one of the following - ');
 BEGIN_PGML
-The for the statement below, select the premise(s), conclusion and what type of fallacy it is.
+For the statement below, select the premise(s), conclusion and what type of fallacy it is.
 
 >>``[$probstate]''<<
 

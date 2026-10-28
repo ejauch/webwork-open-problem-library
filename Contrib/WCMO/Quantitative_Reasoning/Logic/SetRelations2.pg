@@ -1,13 +1,15 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Venn diagram of set relations
+## Quantitative Reasoning: Venn diagram of set relations - subsets
 ## ENDDESCRIPTION
 
 ## DBsubject('Set theory and logic')
 ## DBchapter('Operations on sets')
 ## DBsection('Venn diagrams')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
-## KEYWORDS('Venn Diagrams')
+## KEYWORDS('sets','Venn diagrams','set relations','subset')
+
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -68,7 +70,7 @@ BEGIN_PGML
 
 >> [@ image($graph_image, width => 400, tex_size => 600) @]* <<
 
-Select which of the following set relations can be visuallized using the Venn diagram above. [__]{$dropdown}
+Select which of the following set relations can be visualized using the Venn diagram above. [__]{$dropdown}
 
 END_PGML
 

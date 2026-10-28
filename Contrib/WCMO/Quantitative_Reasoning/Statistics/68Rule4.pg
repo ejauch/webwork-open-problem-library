@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: 68-95-99.7 rule - expected number above or below a mass
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Probability')
+## DBchapter('Continuous distributions')
+## DBsection('Application of a normal distribution')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','normal distribution','68-95-99.7 rule')
+
 
 DOCUMENT();
 
@@ -24,7 +24,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0;
 
-SRAND(932);
 
 
 
@@ -34,7 +33,7 @@ $stddev = random(3,6,1);
 $steps = random(1,3,1);
 
 $par = random(0,1,1);
-$sample = random(10,20,1)*1000;
+$sample = random(10,20,2)*1000;
 
 if ($par == 0) {
 $value = $mean + $steps*$stddev;
@@ -58,7 +57,7 @@ $ans = 0.15/100*$sample;
 $course = $sub[random(0,$#sub,1)];
 
 BEGIN_PGML
-A certain candy factory creates candy bars with a mean mass of [$mean] grams and a standard deviation of [$stddev] grams. If they produce [$sample] bars in a normal day of production, how many would you suspect would be [$text] [$value] grams? 
+A certain candy factory creates candy bars with a mean mass of [$mean] grams and a standard deviation of [$stddev] grams. If they produce [$sample] bars in a normal day of production, how many would you expect to be [$text] [$value] grams? 
 
 The answer is [_]{$ans}{5} bars.
 END_PGML

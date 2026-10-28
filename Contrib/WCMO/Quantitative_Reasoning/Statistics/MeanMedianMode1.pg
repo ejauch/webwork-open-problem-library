@@ -1,21 +1,23 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Mean, median, and mode - product prices
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/20/2024')
+## DBsubject('Statistics')
+## DBchapter('Exploratory data analysis/descriptive statistics')
+## DBsection('Summary statistics')
+## Date('10/20/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','mean','median','mode')
+
+
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -48,7 +50,7 @@ if ($modeexist == 1) {
 
 $r = $nval - random(1,3,1);
 
-$price[$r] = random($price[$r],$price[$nval],0.01);
+$price[$r] = Currency(random($price[$r],$price[$nval],0.01));
 
 my $s = $r;
 
@@ -87,7 +89,7 @@ $median = ($price[$indexl]+$price[$indexr])/2;
 @shuffled_price = @price;
 
 for (my $i = @shuffled_price - 1; $i > 0; $i--) {
-    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
+    my $j = random(0,$i,1);  # Pick a random index between 0 and $i
     # Swap elements at index $i and $j
     my $temp = $shuffled_price[$i];
     $shuffled_price[$i] = $shuffled_price[$j];
@@ -110,11 +112,11 @@ A company is trying to determine the best price for a new product, [$prod], at [
 
 Find the following values associated to the above set of prices:
 
-- Mean: [_]{$mean}
+- Mean: [_]{DecimalPlacesCmp($mean, 2)}
 - Median: [_]{$median}
 - Mode: [_]{$mode}
 
-If a value does not exist enter *None* in the blank.
+If a value does not exist enter *None* in the blank. Round the mean to the nearest cent.
 END_PGML
 
 

@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Percent increase - new salary after a raise
 ## ENDDESCRIPTION
-
-## KEYWORDS()
 
 ## DBsubject('Arithmetic')
 ## DBchapter('Percents')
 ## DBsection('Applications')
-## Date('9/26/2024')
+## Date('9/26/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('percentages','percent increase')
+
 
 DOCUMENT();
 
@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -24,7 +25,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0;
 
-SRAND(124);
 
 Context("Currency");
 
@@ -39,7 +39,7 @@ $pre = Currency($salary*(100+$per)/100);
 
 BEGIN_PGML
 Imagine you work a part-time job during college making a yearly salary of
-[$salary]. After graduating college, you land a job that the salary is [$per]% more than your old one. Your new salary is [_]{$pre}{5}.
+[$salary]. After graduating college, you land a job whose salary is [$per]% more than your old one. Your new salary is [_]{DecimalPlacesCmp($pre, 2)}{5} (in dollars and cents).
 END_PGML
 
 

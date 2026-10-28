@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Rule of 70 - approximate decay rate from a half-life
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/15/2024')
+## DBsubject('Algebra')
+## DBchapter('Exponential and logarithmic expressions and functions')
+## DBsection('Applications and models - general')
+## Date('11/15/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('exponential decay','half-life','rule of 70')
+
 
 DOCUMENT();
 
@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "parserPopUp.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -28,11 +29,11 @@ $hlife = random(10,30,2);
 
 @ans = ();
 
-$ans[0] = sprintf("%0.1f",70/$hlife);
+$ans[0] = 70/$hlife;
 
 
 BEGIN_PGML
-After introducing a disinfectent to a surface in a lab a population of bacteria has a half-life of around [$hlife] minutes. If this is the case, then the decay rate would be approximately [_]{$ans[0]}% per minute (rounded to the nearest tenth).
+After introducing a disinfectant to a surface in a lab, a population of bacteria has a half-life of around [$hlife] minutes. If this is the case, then the decay rate would be approximately [_]{DecimalPlacesCmp($ans[0], 1)}% per minute (rounded to the nearest tenth).
 
 END_PGML
 

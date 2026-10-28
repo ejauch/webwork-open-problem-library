@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Sales tax - finding the pre-tax total
 ## ENDDESCRIPTION
-
-## KEYWORDS()
 
 ## DBsubject('Arithmetic')
 ## DBchapter('Percents')
 ## DBsection('Applications')
-## Date('9/26/2024')
+## Date('9/26/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('percentages','sales tax')
+
 
 DOCUMENT();
 
@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -33,7 +34,7 @@ $pre = Currency($post/((100+$tax)/100));
 
 
 BEGIN_PGML
-You go on a late night shopping spree an notice on your bank account that you after-tax total was [$post]. If the tax rate is [$tax]%, then your pre-tax total was [_]{$pre}{5}.
+You go on a late night shopping spree and notice on your bank account that your after-tax total was [$post]. If the tax rate is [$tax]%, then your pre-tax total, to the nearest cent, was [_]{DecimalPlacesCmp($pre, 2)}{5}.
 END_PGML
 
 

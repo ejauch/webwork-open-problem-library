@@ -1,13 +1,15 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Venn Diagram
+## Quantitative Reasoning: Venn diagram of a conditional argument - affirming the conclusion
 ## ENDDESCRIPTION
 
-## DBsubject()
-## DBchapter()
-## DBsection(Venn Diagrams)
-## Author: Erich Jauch
-## Institution(WCMO)
-## KEYWORDS('Venn Diagrams')
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Rules of inference')
+## Date('10/28/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','conditional','deductive argument','validity','Venn diagrams')
+
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -38,7 +40,7 @@ $par = 1;
 
 # the options for subsets and supsets (and their negations) for the Venn diagrams. It is important that these two arrays be the same size and the positions match
 
-@supset = ("lives in Missouri", "likes the mountians","likes the beach","likes the cold");
+@supset = ("lives in Missouri", "likes the mountains","likes the beach","likes the cold");
 @nsupset = ("does not live in Missouri", "does not like the mountains", "does not like the beach", "does not like the cold");
 
 @subset = ("lives in Fulton","lives in Colorado","lives in Miami","lives in Alaska");
@@ -46,7 +48,7 @@ $par = 1;
 
 # the conditional statement for the first proposition based on the sub/supsets above must be the same size and position as the arrays above.
 
-@conditional = ("If a person lives in Fulton, then they live in Missouiri.","If a person lives in Colorado, then they like the mountians.", "If a person lives in Miami, then they like the beach.", "If a person lives in Alaska, then they like the cold.");
+@conditional = ("If a person lives in Fulton, then they live in Missouri.","If a person lives in Colorado, then they like the mountains.", "If a person lives in Miami, then they like the beach.", "If a person lives in Alaska, then they like the cold.");
 
 # grabs the last index to then randomly select which option for the problem.
 $length = $#supset;
@@ -157,9 +159,9 @@ $refreshCachedImages = 1;
 BEGIN_PGML
 Consider the following deductive argument:
 
-*Proposition:* [$prop1]
+*Premise:* [$prop1]
 
-*Proposition:* [$prop2]
+*Premise:* [$prop2]
 
 *Conclusion:* [$con]
 
@@ -174,7 +176,7 @@ The Venn diagram below that matches the argument at the beginning of this proble
 
 >>(_Click to see a larger image_)<<
 
-Based on Venn diagram, is the argument is [__]{$dropdown1}.
+Based on the Venn diagram, the argument is [__]{$dropdown1}.
 
 END_PGML
 

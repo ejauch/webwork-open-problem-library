@@ -1,21 +1,23 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Mean and standard deviation of a small data set
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/20/2024')
+## DBsubject('Statistics')
+## DBchapter('Exploratory data analysis/descriptive statistics')
+## DBsection('Summary statistics')
+## Date('10/20/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','mean','standard deviation')
+
+
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "niceTables.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -49,7 +51,7 @@ $sum = $sum + $val[$k];
 $k++;
 }
 
-$mean = sprintf("%0.1f",$sum/($nval+1));
+$mean = $sum/($nval+1);
 
 @dev = ();
 @devsq = ();
@@ -67,7 +69,7 @@ $devsum = $devsum + $devsq[$s];
 $s++;
 }
 
-$std = sprintf("%0.2f",Compute(sqrt($devsum/$nval)));
+$std = sqrt($devsum/$nval);
 
 #@shuffled_val = @val;
 
@@ -84,7 +86,7 @@ $display_string = join(' | ',@val);
 
 $total = $nval + 1;
 
-$colors = ("red","green","blue","yellow");
+@colors = ("red","green","blue","yellow");
 
 $color = $colors[random(0,$#colors,1)];
 
@@ -94,9 +96,9 @@ A collection of [$total] kids all have packages of jelly beans and they have the
 
 >>| [$display_string] |<<
 
-The mean of this set is [_]{$mean} (rounded to 1 decimal place)
+The mean of this set is [_]{DecimalPlacesCmp($mean, 1)} (rounded to 1 decimal place)
 
-The standard deviation of this set is [_]{$std} (rounded to two decimal places)
+The standard deviation of this set is [_]{DecimalPlacesCmp($std, 2)} (rounded to two decimal places)
 
 END_PGML
 

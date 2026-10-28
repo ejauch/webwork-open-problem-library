@@ -1,5 +1,5 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Determining truth using truth table
+## Quantitative Reasoning: Determining truth using truth table - conditional (q whenever p)
 ## ENDDESCRIPTION
 
 ## DBsubject('Set theory and logic')
@@ -7,8 +7,8 @@
 ## DBsection('Truth tables')
 ## Date('7/11/24')
 ## Author('Erich Jauch')
-## Institution('WCMO')
-## KEYWORDS('logic', 'truth table')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','truth table','conditional')
 
 
 DOCUMENT();
@@ -66,7 +66,7 @@ $props[2] = "$props[1] whenever $props[0]";
 TEXT(beginproblem());
 BEGIN_PGML
 
-Using the truth table below to determine the truth of the proposition:
+Use the truth table below to determine the truth of the proposition:
 >> "[`[$a[1]]-[$b[1]]=[$c[1]]`] whenever [`[$a[0]]+[$b[0]]=[$c[0]]`]." <<
 (Enter T for True and F for False)
 

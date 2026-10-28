@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Relative frequency probability - rolling a 6-sided die
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/27/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Outcomes & events')
+## Date('10/27/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','relative frequency','empirical probability')
+
 
 DOCUMENT();
 
@@ -24,7 +24,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0
 
-SRAND(932);
 
 $num = random(150,250,10);
 
@@ -49,11 +48,11 @@ Suppose we roll a 6-sided die [$num] times and get the following results:
 - Rolling a 1 occurs [$count[0]] times;
 - Rolling a 2 occurs [$count[1]] times;
 - Rolling a 3 occurs [$count[2]] times;
-- Rolling a 4 occurs [$count[3]] times.
-- Rolling a 5 occurs [$count[4]] times.
+- Rolling a 4 occurs [$count[3]] times;
+- Rolling a 5 occurs [$count[4]] times;
 - Rolling a 6 occurs [$count[5]] times.
 
-Compute the relative frequency probabilities for each of those events (give each answers as a reduced fraction):
+Compute the relative frequency probabilities for each of those events (give each answer as a reduced fraction):
 - [`P(1)\approx`] [_]{$answer[0]->cmp(
     studentsMustReduceFractions => 1,
     reduceFractions => 1,

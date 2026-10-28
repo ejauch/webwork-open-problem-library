@@ -1,20 +1,22 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Mean, median, and mode - candy collected (even number of values)
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/20/2024')
+## DBsubject('Statistics')
+## DBchapter('Exploratory data analysis/descriptive statistics')
+## DBsection('Summary statistics')
+## Date('10/20/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','mean','median','mode')
+
+
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -69,7 +71,7 @@ $sum = $sum + $amount[$k];
 
 }
 
-$mean = sprintf("%0.1f",$sum/($nval+1));
+$mean = $sum/($nval+1);
 
 if ($nval % 2 == 0) {
 $index = $nval/2;
@@ -84,7 +86,7 @@ $median = ($amount[$indexl]+$amount[$indexr])/2;
 @shuffled_amount = @amount;
 
 for (my $i = @shuffled_amount - 1; $i > 0; $i--) {
-    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
+    my $j = random(0,$i,1);  # Pick a random index between 0 and $i
     # Swap elements at index $i and $j
     my $temp = $shuffled_amount[$i];
     $shuffled_amount[$i] = $shuffled_amount[$j];
@@ -103,7 +105,7 @@ A group of [$kidnum] children collected the following amounts of candy during th
 
 Find the following values associated to the data above:
 
-- Mean: [_]{$mean}
+- Mean: [_]{DecimalPlacesCmp($mean, 1)}
 - Median: [_]{$median}
 - Mode: [_]{$mode}
 

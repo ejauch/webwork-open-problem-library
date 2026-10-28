@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Identifying sampling methods
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
 ## DBsubject('Statistics')
-## DBchapter('Experimental design')
+## DBchapter('Sample survey methods')
 ## DBsection('Concepts')
-## Date('10/06/2024')
+## Date('10/6/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','sampling','random sampling','systematic sampling','convenience sampling','stratified sampling')
+
 
 DOCUMENT();
 
@@ -47,10 +47,10 @@ $state[1] = $sys[$par[1]];
 $state[2] = $conv[$par[2]];
 $state[3] = $strat[$par[3]];
 
-$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
-$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
-$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
-$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
 
 }
 elsif ($ver==1) {
@@ -59,10 +59,10 @@ $state[1] = $ran[$par[0]];
 $state[2] = $strat[$par[3]];
 $state[3] = $conv[$par[2]];
 
-$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
-$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
-$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
-$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
 }
 elsif ($ver==2) {
 $state[0] = $ran[$par[0]];
@@ -70,10 +70,10 @@ $state[1] = $strat[$par[3]];
 $state[2] = $conv[$par[2]];
 $state[3] = $sys[$par[1]];
 
-$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
-$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
-$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
-$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
 }
 else {
 $state[0] = $strat[$par[3]];
@@ -81,15 +81,15 @@ $state[1] = $conv[$par[2]];
 $state[2] = $sys[$par[1]];
 $state[3] = $ran[$par[0]];
 
-$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
-$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
-$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
-$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
+$drop[0] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 3 , placeholder => '- Select Sampling Type -');
+$drop[1] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 2 , placeholder => '- Select Sampling Type -');
+$drop[2] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 1 , placeholder => '- Select Sampling Type -');
+$drop[3] = DropDown(['Random Sampling','Systematic Sampling','Convenience Sampling', 'Stratified Sampling'], 0 , placeholder => '- Select Sampling Type -');
 }
 
 
 BEGIN_PGML
-Indentify the type of sampling used in each of the following cases.
+Identify the type of sampling used in each of the following cases.
 
 *(a)* [$state[0]] [_]{$drop[0]}
 

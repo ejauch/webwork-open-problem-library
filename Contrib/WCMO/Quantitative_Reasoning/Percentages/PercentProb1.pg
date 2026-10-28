@@ -1,21 +1,22 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Percent of a total
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('percentages','percent of')
+
 
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -23,7 +24,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0;
 
-SRAND(628);
 
 $per = random(60,88,4);
 
@@ -31,13 +31,13 @@ $num = random(744,912,13);
 
 $raw = Compute($per/100*$num);
 
-$ans = sprintf("%0.0f",$raw);
+$ans = $raw;
 
 BEGIN_PGML
 A student running for a student government senate seat hears that [$per]% support them. If there are [$num] students total, how many support this candidate? (Round
 to the nearest whole number)
 
-[_]{$ans}{5} students
+[_]{DecimalPlacesCmp($ans, 0)}{5} students
 END_PGML
 
 ENDDOCUMENT();

@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Exponential decay - classify the change and compute values
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/15/2024')
+## DBsubject('Algebra')
+## DBchapter('Exponential and logarithmic expressions and functions')
+## DBsection('Applications and models - general')
+## Date('11/15/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('exponential decay','depreciation','growth and decay','linear vs exponential')
+
 
 DOCUMENT();
 
@@ -18,6 +18,7 @@ loadMacros(
     "PGML.pl",          # PGML markup and Math Objects
     "parserPopUp.pl",
     "contextCurrency.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -55,17 +56,17 @@ $ans[$i] = Currency($amount * ((100 - $rate)/100)**($time[$i]/$interval));
 }
 
 BEGIN_PGML
-The value of a laptop decreases at a rate of [$rate]% every [$interval] years. If laptop is originally [$amount], answer the following:
+The value of a laptop decreases at a rate of [$rate]% every [$interval] years. If the laptop is originally worth [$amount], answer the following (round values to the nearest cent):
 
 - Is this growth or decay? [_]{$dropgd}
 
 - Is this exponential or linear change? [_]{$droptype}
 
-- What is the value of the laptop after [$time[0]] years? [_]{$ans[0]}{5}
+- What is the value of the laptop after [$time[0]] years? [_]{DecimalPlacesCmp($ans[0], 2)}{5}
 
-- What is the value of the laptop after [$time[1]] years? [_]{$ans[1]}{5} 
+- What is the value of the laptop after [$time[1]] years? [_]{DecimalPlacesCmp($ans[1], 2)}{5} 
 
-- What is the value of the laptop after [$time[2]] years? [_]{$ans[2]}{5}
+- What is the value of the laptop after [$time[2]] years? [_]{DecimalPlacesCmp($ans[2], 2)}{5}
 END_PGML
 
 ENDDOCUMENT();

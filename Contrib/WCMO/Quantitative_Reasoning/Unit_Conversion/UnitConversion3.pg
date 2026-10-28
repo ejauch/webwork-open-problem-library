@@ -1,13 +1,15 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## Quantitative Reasoning: Unit conversion - grams per cubic centimeter to pounds per cubic inch
 ## ENDDESCRIPTION
 
-## DBsubject()
-## DBchapter()
-## DBsection('Unit Conversions')
+## DBsubject('Arithmetic')
+## DBchapter('Units')
+## DBsection('Conversions')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
-## KEYWORDS('unit conversion', 'units')
+## KEYWORDS('unit conversion','units','density')
+
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -16,6 +18,7 @@ loadMacros(
   'PGML.pl',
   'niceTables.pl',
   'PGtikz.pl',
+  "decimalPlaces.pl",
   "PGcourse.pl"
 );
 
@@ -28,17 +31,13 @@ $d = random(12,16,1);
 
 $dens = Compute("$d*2.540**3/453.6");
 
-$rdens = sprintf("%0.3f",$dens);
 
-$ans = Compute("$rdens");
 
 
 BEGIN_PGML
 Convert [$d] grams per cubic centimeter to pounds per cubic inch (rounded to the nearest thousandth).
 
-Answer: [____]{$ans->cmp(
-    tolType   => 'absolute',
-    tolerance => .00001)} pounds per cubic inch.
+Answer: [____]{DecimalPlacesCmp($dens, 3)} pounds per cubic inch.
 
 END_PGML
 

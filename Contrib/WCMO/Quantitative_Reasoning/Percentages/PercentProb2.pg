@@ -1,21 +1,22 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Expressing a part as a percentage of a total
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('percentages','percent of')
+
 
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -23,7 +24,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0;
 
-SRAND(628);
 
 @colors = ("red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "white");
 
@@ -38,12 +38,12 @@ $num = 314;
 
 $frac = Compute($num/$total*100);
 
-$ans = sprintf("%0.1f",$frac);
+$ans = $frac;
 
 BEGIN_PGML
 A car dealership sold [$total] cars last month, and they noticed that [$num] of cars sold were [$color]. Express the number of [$color] cars sold as a percentage of the total number of cars sold. (Round to the nearest tenth of a percent)
 
-[_]{$ans}%
+[_]{DecimalPlacesCmp($ans, 1)}%
 END_PGML
 
 ENDDOCUMENT();

@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## Combinatorics: Simple combinations problem invovling picking a subset of a larger set.
+## Quantitative Reasoning: Combinations - choosing a subset of items to pack
 ## ENDDESCRIPTION
-
-## KEYWORDS('couting','combinations')
 
 ## DBsubject('Combinatorics')
 ## DBchapter('Counting')
 ## DBsection('Combinations')
-## Date('11/02/2024')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('counting','combinations')
+
 
 DOCUMENT();
 
@@ -24,7 +24,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0
 
-SRAND(192);
 
 $total = random(10,25,1);
 

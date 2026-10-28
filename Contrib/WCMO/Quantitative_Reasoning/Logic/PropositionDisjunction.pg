@@ -1,5 +1,5 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Determining truth using truth table
+## Quantitative Reasoning: Determining truth using truth table - disjunction
 ## ENDDESCRIPTION
 
 ## DBsubject('Set theory and logic')
@@ -7,8 +7,8 @@
 ## DBsection('Truth tables')
 ## Date('7/11/24')
 ## Author('Erich Jauch')
-## Institution('WCMO')
-## KEYWORDS('logic', 'truth table')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','truth table','disjunction')
 
 
 DOCUMENT();
@@ -43,17 +43,29 @@ $r = $r - 6;
 
 $j = random(0,3,1);
 
-$props[0] = $tprops[$k];
-$props[1] = $fprops[$j];
-$props[2] = $tprops[$r];
+# put the false statement in a random column
+$pos = random(0,2,1);
+@true = ($tprops[$k], $tprops[$r]);
+@ans = ();
+$t = 0;
+foreach my $i (0..2) {
+if ($i == $pos) {
+$props[$i] = $fprops[$j];
+$ans[$i] = "F";
+}
+else {
+$props[$i] = $true[$t];
+$ans[$i] = "T";
+$t++;
+}
+}
 $props[3] = "$props[0] or $props[1] or $props[2]";
-
-@ans = ("T", "F", "T", "T");
+$ans[3] = "T";
 
 
 BEGIN_PGML
 
-Using the truth table below to determine the truth of the proposition:
+Use the truth table below to determine the truth of the proposition:
 >>"[$props[3]]"<<
 (Enter T for True and F for False)
 

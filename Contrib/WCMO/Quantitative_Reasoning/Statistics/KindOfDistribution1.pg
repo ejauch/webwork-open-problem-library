@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Identifying normal distributions from histograms
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Statistics')
+## DBchapter('Exploratory data analysis/descriptive statistics')
+## DBsection('Description of distributions')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','distributions','normal distribution','histograms')
+
 
 DOCUMENT();
 
@@ -145,7 +145,7 @@ $checks = CheckboxList(
 }
 
 BEGIN_PGML
-Select all of the following distributions that would you describe as a normal distribution.
+Select all of the following distributions that you would describe as a normal distribution.
 
 [@ $table @]*
 

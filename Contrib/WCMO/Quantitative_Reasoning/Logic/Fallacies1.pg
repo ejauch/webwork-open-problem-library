@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Fallacies - identify the premise, conclusion, and type of fallacy
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Rules of inference')
 ## Date('8/24/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','fallacies','premise','conclusion')
+
 
 DOCUMENT();
 
@@ -34,30 +34,30 @@ loadMacros(
 $falslength = $#fals;
 
 @statements = (
-    ["The Macbook Air is the most popular laptop computer, so it must be the best laptop on the market.", "McDonalds has the most locations of any other restaurant in the United States, so it must be the best restaurant in the United States."],
-    ["Every time I wear a red shirt, I trip while walking to class. My red shirt must be causing me to loose my balance.", "Whenever I wake up and there is a bird in the tree outside my window, I have a good day. The birds must be helping me have a good day."],
+    ["The MacBook Air is the most popular laptop computer, so it must be the best laptop on the market.", "McDonalds has the most locations of any other restaurant in the United States, so it must be the best restaurant in the United States."],
+    ["Every time I wear a red shirt, I trip while walking to class. My red shirt must be causing me to lose my balance.", "Whenever I wake up and there is a bird in the tree outside my window, I have a good day. The birds must be helping me have a good day."],
     ["Scientists have found no records of life outside of earth despite years of searching. Therefore, earth must be the only place where life exists in the universe.","No one has ever proven that ghosts do not exist, so they must be real."],
-    ["I met three people from New York City, and they were both rude. Everyone from New York City must be rude.","My first two days at this new job were really stressful, so this job is going to be terrible."],
+    ["I met three people from New York City, and they were all rude. Everyone from New York City must be rude.","My first two days at this new job were really stressful, so this job is going to be terrible."],
     ["Think of all the poor, starving children in the world! How can you not donate to this charity?","If you don't support this policy, you don't care about the safety of our community!"],
     ["You can't trust Jane's opinion on climate change because she failed high school science.","Why should we listen to Alfred's argument about healthcare reform? He has been divorced twice!"]
 );
 
 @con = (
-        ["The Macbook air is the best laptop","McDonalds is the best restaurant in the United States."],
-        ["Red shirts are having a negative effect on my balance.","Birds are helping to make sure their day is good."],
+        ["The MacBook Air is the best laptop.","McDonalds is the best restaurant in the United States."],
+        ["Red shirts are having a negative effect on my balance.","Birds are helping to make sure my day is good."],
         ["Life only exists on Earth.","Ghosts are real."],
-        ["Everyone from New York City is rude.","The new job is going to be terrible forever."],
+        ["Everyone from New York City is rude.","The new job is going to be terrible."],
         ["You should support the charity.","You should support the policy."],
         ["Jane cannot have the correct opinion about climate change.","We should not listen to Alfred about healthcare."],
        );
 @prem = (
-        ["The Macbook Air is the most popular laptop.","McDonalds has the most restaurants in the United States."],
-        ["I was wearing a red shirt when I fell.","I saw a bird in the tree outside my window before having a good day."],
-        ["There have been no observations of life outside of earth despite years of searching.","There is a lack a evidence against the existence of ghosts."],
-        ["Three people from New York City were rude.","The first two days on the job were terrible."],
+        ["The MacBook Air is the most popular laptop.","McDonalds has the most restaurants in the United States."],
+        ["I trip whenever I wear a red shirt.","I saw a bird in the tree outside my window before having a good day."],
+        ["There have been no observations of life outside of earth despite years of searching.","There is a lack of evidence against the existence of ghosts."],
+        ["Three people from New York City were rude.","The first two days on the job were really stressful."],
         ["You care about poor, starving children.","You care about the safety of the community."],
         ["Jane failed high school science.","Alfred has been divorced twice."],
-       );       
+       );
 
 $falchoice = random(0,$falslength,1);
 $ver = random(0,1,1);
@@ -68,11 +68,19 @@ $probprem = $prem[$falchoice][$ver];
 $probstate = $statements[$falchoice][$ver];
 
 @dropdown = ();
-$dropdown[0] = DropDown( [[$probprem,$probcon]], $probprem, placeholder => ' - Select one of the following - ');
-$dropdown[1] = DropDown( [[$probprem,$probcon]], $probcon, placeholder => ' - Select one of the following - ');
+# a premise and conclusion from another fallacy serve as distractors
+$oth = random(0,$falslength,1);
+while ($oth == $falchoice) {
+$oth = random(0,$falslength,1);
+}
+$othprem = $prem[$oth][$ver];
+$othcon = $con[$oth][$ver];
+
+$dropdown[0] = DropDown( [[$probprem,$probcon,$othprem,$othcon]], $probprem, placeholder => ' - Select one of the following - ');
+$dropdown[1] = DropDown( [[$probprem,$probcon,$othprem,$othcon]], $probcon, placeholder => ' - Select one of the following - ');
 $dropdown[2] = DropDown( [[@fals]], $probfal, placeholder => ' - Select one of the following - ');
 BEGIN_PGML
-The for the statement below, select the premise(s), conclusion and what type of fallacy it is.
+For the statement below, select the premise(s), conclusion and what type of fallacy it is.
 
 >>``[$probstate]''<<
 

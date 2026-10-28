@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Margin of error - deciding whether a candidate will win
 ## ENDDESCRIPTION
-
-## KEYWORDS()
 
 ## DBsubject('Statistics')
 ## DBchapter('Confidence intervals')
-## DBsection('Concepts')
-## Date('10/06/2024')
+## DBsection('One sample proportion')
+## Date('10/6/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','margin of error','confidence interval','polls')
+
 
 DOCUMENT();
 
@@ -34,7 +34,7 @@ $per = random(51,53,1) + $err;
 $CIb = $per - $err;
 $CIt = $per + $err;
 
-$win = DropDown(['Yes','No'],'Yes', placeholder => '- Select on of the following -');
+$win = DropDown(['Yes','No'],'Yes', placeholder => '- Select one of the following -');
 
 BEGIN_PGML
 A survey of voters finds that [$per]% of voters plan to vote for candidate [$name]. The margin of error in the survey is [$err] percentage points.

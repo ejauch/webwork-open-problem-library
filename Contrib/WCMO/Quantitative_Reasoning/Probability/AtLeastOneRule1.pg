@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: At least once rule - coin tosses
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Independence')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','at least once','complement')
+
 
 DOCUMENT();
 

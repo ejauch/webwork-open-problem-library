@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: And probability - repeated rolls of one die
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Independence')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','and rule','independent events')
+
 
 DOCUMENT();
 
@@ -28,7 +28,7 @@ loadMacros(
 
 $die = $sides[random(0,$#sides,1)];
 
-$side = random(1,$die[$i],1);
+$side = random(1,$die,1);
 
 $num = random(3,6,1);
 
@@ -38,7 +38,7 @@ $ans = Compute("1/($die)**$num")->reduce();
 
 
 BEGIN_PGML
-Imagine you are rolling a [$die]-sided die [$num] times in row. What is probabilty that each time it results in a [$side]?
+Imagine you are rolling a [$die]-sided die [$num] times in a row. What is the probability that each time it results in a [$side]?
 
 [`P(\text{each result is a [$side]})=`] [_]{$ans->cmp(
     studentsMustReduceFractions => 1,

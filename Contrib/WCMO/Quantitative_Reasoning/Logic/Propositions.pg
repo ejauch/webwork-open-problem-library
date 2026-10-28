@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## Give a value for pi
+## Quantitative Reasoning: Identifying propositions
 ## ENDDESCRIPTION
 
-## KEYWORDS('propositions')
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('8/23/2024')
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Translation')
+## Date('8/23/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','propositions')
+
 
 DOCUMENT();
 
@@ -60,6 +60,10 @@ $choice[$j] = $props[$p[$i]];
 $choice[$k] = $notprops[$notp[$i]];
 }
 
+# remember the propositions, then shuffle the display order
+@correct = ($choice[0], $choice[2], $choice[4]);
+@choice = map { splice(@choice, random(0, $#choice, 1), 1) } 0 .. $#choice;
+
 $checkbox = CheckboxList(
     [
         [
@@ -72,7 +76,7 @@ $checkbox = CheckboxList(
         ],
         'None of the above'
     ],
-    [ $choice[0], $choice[2],$choice[4] ]
+    [ @correct ]
 );
 
 

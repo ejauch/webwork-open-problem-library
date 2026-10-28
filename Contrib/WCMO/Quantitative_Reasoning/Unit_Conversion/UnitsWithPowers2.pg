@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## Give a value for pi
+## Quantitative Reasoning: Units with powers - cubic feet to cubic yards
 ## ENDDESCRIPTION
 
-## KEYWORDS('template', 'pi')
+## DBsubject('Arithmetic')
+## DBchapter('Units')
+## DBsection('Conversions')
+## Date('10/28/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('unit conversion','units','volume')
 
-## DBsubject('Algebra')
-## DBchapter('Fundamentals')
-## DBsection('Real Numbers')
-## Date('')
-## Author('')
-## Institution('')
 
 DOCUMENT();
 
@@ -36,7 +36,7 @@ $yvol = $fvol/27;
 $ans = $yvol;
 
 BEGIN_PGML
-You have a rectangular flower bed is [$fdim[0]] feet long [$fdim[1]] feet wide, and [$fdim[2]] foot deep that you need to purchase soil for. Soil is typically sold in cubic yards, so you need [_]{$ans} cubic yards of soil for your flower bed.
+You have a rectangular flower bed that is [$fdim[0]] feet long, [$fdim[1]] feet wide, and [$fdim[2]] foot deep that you need to purchase soil for. Soil is typically sold in cubic yards, so you need [_]{$ans} cubic yards of soil for your flower bed.
 END_PGML
 
 ENDDOCUMENT();

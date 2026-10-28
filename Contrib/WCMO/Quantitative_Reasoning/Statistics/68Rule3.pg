@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: 68-95-99.7 rule - expected number above or below a price
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Probability')
+## DBchapter('Continuous distributions')
+## DBsection('Application of a normal distribution')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','normal distribution','68-95-99.7 rule')
+
 
 DOCUMENT();
 
@@ -32,7 +32,7 @@ $stddev = Currency(random(2000,5000,500));
 $steps = random(1,3,1);
 
 $par = random(0,1,1);
-$sample = random(10,20,1)*1000;
+$sample = random(10,20,2)*1000;
 
 if ($par == 0) {
 $value = $mean + $steps*$stddev;
@@ -56,7 +56,7 @@ $ans = 0.15/100*$sample;
 $course = $sub[random(0,$#sub,1)];
 
 BEGIN_PGML
-A car dealership find that the prices for a particular moddle of car are normally distributed with a mean price of [$mean] and a standard deviation of [$stddev]. If they sold [$sample] cars last year, how many would you suspect they sold [$text] a price of [$value]? 
+A car dealership finds that the prices for a particular model of car are normally distributed with a mean price of [$mean] and a standard deviation of [$stddev]. If they sold [$sample] cars last year, how many would you expect they sold [$text] a price of [$value]? 
 
 The answer is [_]{$ans}{5} cars.
 END_PGML

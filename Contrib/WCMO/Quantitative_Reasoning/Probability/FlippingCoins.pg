@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Outcomes, events, and probability for flipping coins
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Outcomes & events')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','outcomes','events','coins')
+
 
 DOCUMENT();
 
@@ -24,7 +24,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0
 
-SRAND(932);
 
 $numcoins = random(3,5,1);
 
@@ -53,7 +52,7 @@ $ans[2] = Compute("$numerator/$outcomes");
 BEGIN_PGML
 Answer the following based on flipping [$numcoins] coins:
 
-- How many possible outcomes are there for flipping [$numcoins]? [_]{$ans[0]}
+- How many possible outcomes are there for flipping [$numcoins] coins? [_]{$ans[0]}
 
 - If all we are interested in is the total number of [$choice], how many possible events are there? [_]{$ans[1]}
 

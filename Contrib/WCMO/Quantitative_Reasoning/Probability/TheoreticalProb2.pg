@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Theoretical probability - die rolls
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/27/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Probability: direct computation, inclusion/exclusion')
+## Date('10/27/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','theoretical probability','dice')
+
 
 DOCUMENT();
 
@@ -38,7 +38,7 @@ $ans[0] = Compute("1 / $size");
 $ans[1] = Compute('1/2');
 
 BEGIN_PGML
-Find the following probabilties corresponding to a [$size]-sided die:
+Find the following probabilities corresponding to a [$size]-sided die:
 
 - [`P(\text{rolling a }[$side])=`] [_]{$ans[0]->cmp(
     studentsMustReduceFractions => 1,

@@ -1,21 +1,22 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Percentiles of a normal distribution - score for a given percentile
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/26/2024')
+## DBsubject('Probability')
+## DBchapter('Continuous distributions')
+## DBsection('Application of a normal distribution')
+## Date('10/26/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','normal distribution','percentile','standard score')
+
 
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -45,20 +46,20 @@ $choice[1] = random(0,$#ztable,1);
 foreach my $i (0..1) {
 $per[$i] = $pertable[$choice[$i]];
 $z[$i] = $ztable[$choice[$i]];
-$val[$i] = sprintf("%.0f",($z[$i]*$stddev + $mean));
+$val[$i] = $z[$i]*$stddev + $mean;
 }
 
 
 BEGIN_PGML
 If the mean score on the SAT was [$mean] with a standard deviation of [$stddev], find the test scores that would correspond to the following percentiles:
 
-- [$per[0]]% of tests had a score at or below [_]{$val[0]} (rounded to the nearest whole number);
-- [$per[1]]% of tests had a score at or below [_]{$val[1]} (rounded to the nearest whole number).
+- [$per[0]]% of tests had a score at or below [_]{DecimalPlacesCmp($val[0], 0)} (rounded to the nearest whole number);
+- [$per[1]]% of tests had a score at or below [_]{DecimalPlacesCmp($val[1], 0)} (rounded to the nearest whole number).
 
 END_PGML
 
 BEGIN_PGML_HINT
-Use the table from page 83 of the note packet.
+Use the standard score table in Section 6C of _Using and Understanding Mathematics: A Quantitative Reasoning Approach_ (7th ed.).
 END_PGML_HINT
 
 ENDDOCUMENT();

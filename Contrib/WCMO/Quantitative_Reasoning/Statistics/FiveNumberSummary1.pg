@@ -1,21 +1,23 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Five-number summary - even number of values
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/20/2024')
+## DBsubject('Statistics')
+## DBchapter('Exploratory data analysis/descriptive statistics')
+## DBsection('Summary statistics')
+## Date('10/20/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','five-number summary','quartiles','median')
+
+
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "niceTables.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -44,12 +46,12 @@ if ($nval % 2 == 0) {
 $index = $nval/2;
 $median = $val[$index];
 if ($index % 2 == 0) {
-$lqindexl = $index/2;
-$lqindexr = $index/2-1;
-$lq = sprintf("%0.1f",($val[$lqindexl]+$val[$lqindexr])/2);
+$lqindexr = $index/2;
+$lqindexl = $index/2-1;
+$lq = ($val[$lqindexl]+$val[$lqindexr])/2;
 $uqindexr = $nval-$lqindexl;
 $uqindexl = $uqindexr-1;
-$uq = sprintf("%0.1f",($val[$uqindexl]+$val[$uqindexr])/2);
+$uq = ($val[$uqindexl]+$val[$uqindexr])/2;
 }
 else {
 $lqindex = ($index-1)/2;
@@ -61,7 +63,7 @@ $uq = $val[$uqindex];
 else {
 $indexl = ($nval-1)/2;
 $indexr = ($nval+1)/2;
-$median = sprintf("%0.1f",($val[$indexl]+$val[$indexr])/2);
+$median = ($val[$indexl]+$val[$indexr])/2;
 if ($indexl % 2 == 0) {
 $lqindex = $indexl/2;
 $lq = $val[$lqindex];
@@ -71,10 +73,10 @@ $uq = $val[$uqindex];
 else {
 $lqindexl = ($indexl-1)/2;
 $lqindexr = ($indexl+1)/2;
-$lq = sprintf("%0.1f",($val[$lqindexl]+$val[$lqindexr])/2);
+$lq = ($val[$lqindexl]+$val[$lqindexr])/2;
 $uqindexr = $nval-$lqindexl;
 $uqindexl = $uqindexr-1;
-$uq = sprintf("%0.1f",($val[$uqindexl]+$val[$uqindexr])/2);
+$uq = ($val[$uqindexl]+$val[$uqindexr])/2;
 }
 }
 
@@ -104,7 +106,7 @@ Find the five-number summary for the values below.
 
 >>| [$display_string] |<<
 
-Five-number summary: [_]{$min}, [_]{$lq}, [_]{$median},[_]{$uq},[_]{$max}
+Five-number summary: [_]{DecimalPlacesCmp($min, 1)}, [_]{DecimalPlacesCmp($lq, 1)}, [_]{DecimalPlacesCmp($median, 1)},[_]{DecimalPlacesCmp($uq, 1)},[_]{DecimalPlacesCmp($max, 1)}
 
 Round all answers to 1 decimal place.
 END_PGML

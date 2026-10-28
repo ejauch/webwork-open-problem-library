@@ -1,13 +1,15 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Venn Diagram
+## Quantitative Reasoning: Venn diagram - counting with two sets
 ## ENDDESCRIPTION
 
-## DBsubject()
-## DBchapter()
-## DBsection(Venn Diagrams)
-## Author: Erich Jauch
-## Institution(WCMO)
-## KEYWORDS('Venn Diagrams')
+## DBsubject('Set theory and logic')
+## DBchapter('Operations on sets')
+## DBsection('Venn diagrams')
+## Date('10/28/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('sets','Venn diagrams','counting')
+
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -37,7 +39,7 @@ $fullleft = $left + $center;
 $fullright = $right + $center;
 
 @labels = ("college graduates", "under 30", "pet owners", "parents");
-@nlabels = ("not college graduates", "over 30", "not pet owners", "not parents");
+@nlabels = ("not college graduates", "30 or older", "not pet owners", "not parents");
 
 $length = $#labels;
 

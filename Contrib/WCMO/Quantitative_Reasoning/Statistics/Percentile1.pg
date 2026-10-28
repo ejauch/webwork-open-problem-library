@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Percentiles of a normal distribution - percent below a value
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/26/2024')
+## DBsubject('Probability')
+## DBchapter('Continuous distributions')
+## DBsection('Application of a normal distribution')
+## Date('10/26/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','normal distribution','percentile','standard score')
+
 
 DOCUMENT();
 
@@ -49,13 +49,13 @@ $text[$i] = "above";
 
 while ($vals[1] == $vals[0]) {
 $vals[1] = sprintf("%0.0f",random($bottom,$top,5));
-while ($vals[$i] == $mean) {
+while ($vals[1] == $mean) {
 $vals[1] = sprintf("%0.0f",random($bottom,$top,5));
 }
 }
 while ($vals[2] == $vals[0] || $vals[2] == $vals[1]) {
 $vals[2] = sprintf("%0.0f",random($bottom,$top,5));
-while ($vals[$i] == $mean) {
+while ($vals[2] == $mean) {
 $vals[2] = sprintf("%0.0f",random($bottom,$top,5));
 }
 }
@@ -112,7 +112,7 @@ $j++;
 
 
 BEGIN_PGML
-If the scores for a normally distributed college placement exam have a mean score of [$mean] and a standard deviation [$stddev]. Answer the following:
+The scores for a normally distributed college placement exam have a mean of [$mean] and a standard deviation of [$stddev]. Answer the following:
 
 - The percentage of scores below [$vals[0]] would be [_]{$per[0]} %;
 - The percentage of scores below [$vals[1]] would be [_]{$per[1]} %;
@@ -121,7 +121,7 @@ If the scores for a normally distributed college placement exam have a mean scor
 END_PGML
 
 BEGIN_PGML_HINT
-Use the table from page 83 of the note packet.
+Use the standard score table in Section 6C of _Using and Understanding Mathematics: A Quantitative Reasoning Approach_ (7th ed.).
 END_PGML_HINT
 
 ENDDOCUMENT();

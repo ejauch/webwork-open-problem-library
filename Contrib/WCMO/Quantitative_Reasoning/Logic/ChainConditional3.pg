@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Chain of conditionals - validity of a three-premise argument
 ## ENDDESCRIPTION
 
-## KEYWORDS('conditional','deductive argument')
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Rules of inference')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','conditional','deductive argument','validity')
+
 
 DOCUMENT();
 

@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: At least once rule - scratch cards
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Independence')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','at least once','complement')
+
 
 DOCUMENT();
 
@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextFraction.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -31,14 +32,14 @@ $cardnum = random(10,15,1);
 
 $prob = Compute("1-(1-$num/$den)**$cardnum");
 
-$ans = sprintf("%.3f",$prob);
+$ans = $prob;
 
 
 
 BEGIN_PGML
-You purchase [$cardnum] scratch cards for which the probability of winning at least some amount of money on a single card is [$num] in [$den]. What is the probabiliy that you will have at least one winning card amoungst all your cards?
+You purchase [$cardnum] scratch cards for which the probability of winning at least some amount of money on a single card is [$num] in [$den]. What is the probability that you will have at least one winning card among all your cards?
 
-[`P(\text{at least one winner})=`] [_]{$ans} (Round your answer to 3 decimal places)
+[`P(\text{at least one winner})=`] [_]{DecimalPlacesCmp($ans, 3)} (Round your answer to 3 decimal places)
 
 
 END_PGML

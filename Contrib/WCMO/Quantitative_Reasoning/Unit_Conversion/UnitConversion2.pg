@@ -1,13 +1,15 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## Quantitative Reasoning: Unit conversion - cubic inches to cubic meters
 ## ENDDESCRIPTION
 
-## DBsubject()
-## DBchapter()
-## DBsection(Unit Conversions)
-## Author: Erich Jauch
-## Institution(WCMO)
-## KEYWORDS('unit conversion', 'units')
+## DBsubject('Arithmetic')
+## DBchapter('Units')
+## DBsection('Conversions')
+## Date('10/28/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('unit conversion','units','volume')
+
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -16,6 +18,7 @@ loadMacros(
   'PGML.pl',
   'niceTables.pl',
   'PGtikz.pl',
+  "decimalPlaces.pl",
   "PGcourse.pl"
 );
 
@@ -30,17 +33,13 @@ $h = random(10,18,1);
 
 $vol = Compute("$w*$d*$h*2.540**3*0.01**3");
 
-$rvol = sprintf("%0.3f",$vol);
 
-$ans = Compute("$rvol");
 
 
 BEGIN_PGML
-If a rectangular fish tank is [$w] in wide, [$d] in deep, and [$h] in tall is filled to the brim with water, how many cubic meters of water would be in the tank (rounded to the nearest thousandth)?
+If a rectangular fish tank that is [$w] in wide, [$d] in deep, and [$h] in tall is filled to the brim with water, how many cubic meters of water would be in the tank (rounded to the nearest thousandth)?
 
-The tank contains [____]{$ans->cmp(
-    tolType   => 'absolute',
-    tolerance => .00001)} cubic meters of water.
+The tank contains [____]{DecimalPlacesCmp($vol, 3)} cubic meters of water.
 
 END_PGML
 

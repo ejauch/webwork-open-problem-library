@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Or probability - cards with mutually exclusive events
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Probability: direct computation, inclusion/exclusion')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','or rule','mutually exclusive','cards')
+
 
 DOCUMENT();
 
@@ -47,7 +47,7 @@ $ans[1] = Compute("26/52")->reduce();
 
 
 BEGIN_PGML
-Imagine you have a standard deck of 52 cards. Find the following probabilities?
+Imagine you have a standard deck of 52 cards. Find the following probabilities.
 
 - [`P(\text{a [$numcard] or a [$piccard]})=`] [_]{$ans[0]->cmp(
     studentsMustReduceFractions => 1,

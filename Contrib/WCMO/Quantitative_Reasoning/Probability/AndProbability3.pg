@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: And probability - two marbles of one color without replacement
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Conditional probability -- direct')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','and rule','dependent events','without replacement')
+
 
 DOCUMENT();
 
@@ -53,7 +53,7 @@ $ans = Compute("($num[$pull]*($num[$pull]-1))/($total*($total-1))")->reduce();
 
 
 BEGIN_PGML
-Imagine you have a bag of [$total] marbles of three different colors: [$num[0]] [$marbles[0]] marbles, [$num[1]] [$marbles[1]] marbles, and [$num[2]] [$marbles[2]] marbles. If you do not replace marbles after you draw them, what is probability that you draw two [$marbles[$pull]] in a row?
+Imagine you have a bag of [$total] marbles of three different colors: [$num[0]] [$marbles[0]] marbles, [$num[1]] [$marbles[1]] marbles, and [$num[2]] [$marbles[2]] marbles. If you do not replace marbles after you draw them, what is the probability that you draw two [$marbles[$pull]] marbles in a row?
 
 [`P(\text{two [$marbles[$pull]] in a row})=`] [_]{$ans->cmp(
     studentsMustReduceFractions => 1,

@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Relative frequency probability - tossing two coins
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/27/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Outcomes & events')
+## Date('10/27/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','relative frequency','empirical probability')
+
 
 DOCUMENT();
 
@@ -45,7 +45,7 @@ Suppose we toss two coins [$num] times and get the following results:
 - 1 head occurs [$count[1]] times;
 - 2 heads occurs [$count[2]] times.
 
-Compute the relative frequency probabilities for each of those events (give each answers as a reduced fraction):
+Compute the relative frequency probabilities for each of those events (give each answer as a reduced fraction):
 - [`P(\text{0 heads})\approx`] [_]{$answer[0]->cmp(
     studentsMustReduceFractions => 1,
     reduceFractions => 1,

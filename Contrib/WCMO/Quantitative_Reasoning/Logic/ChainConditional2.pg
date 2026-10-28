@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Chain of conditionals - validity when the conclusion is reversed
 ## ENDDESCRIPTION
 
-## KEYWORDS('conditional','deductive argument')
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Rules of inference')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','conditional','deductive argument','validity')
+
 
 DOCUMENT();
 
@@ -24,7 +24,7 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0;
 
-@fprem = ("If deforestation continues at the current rate, then wildlife habitats will be destroyed",
+@fprem = ("If deforestation continues at the current rate, then wildlife habitats will be destroyed.",
         "If inflation rates rise, then the cost of living will increase.",
         "If water conservation efforts improve, then water scarcity will be reduced.",
         "If public health campaigns are effective, then vaccination rates will increase.",

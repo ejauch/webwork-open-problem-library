@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Linear growth - classify the change and compute values
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/15/2024')
+## DBsubject('Algebra')
+## DBchapter('Linear equations and functions')
+## DBsection('Applications and models')
+## Date('11/15/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('linear growth','growth and decay','linear vs exponential')
+
 
 DOCUMENT();
 
@@ -51,7 +51,7 @@ $ans[$i] = $amount + $rate*$time[$i]/$interval;
 }
 
 BEGIN_PGML
-The number of new members of a club increases by [$rate] students every [$interval] years. If there are originaly [$amount] students in the club, answer the following:
+The number of new members of a club increases by [$rate] students every [$interval] years. If there are originally [$amount] students in the club, answer the following:
 
 - Is this growth or decay? [_]{$dropgd}
 

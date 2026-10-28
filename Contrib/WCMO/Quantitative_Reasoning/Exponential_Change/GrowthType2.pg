@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Linear decay - classify the change and compute values
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/15/2024')
+## DBsubject('Algebra')
+## DBchapter('Linear equations and functions')
+## DBsection('Applications and models')
+## Date('11/15/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('linear decay','growth and decay','linear vs exponential')
+
 
 DOCUMENT();
 

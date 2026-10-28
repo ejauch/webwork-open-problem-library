@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: At least once rule - daily chance in a game
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Independence')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','at least once','complement')
+
 
 DOCUMENT();
 
@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextFraction.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -40,14 +41,14 @@ $days = $weeks*7;
 
 $prob = Compute("1-(1-$num/$den)**$days");
 
-$ans = sprintf("%.3f",$prob);
+$ans = $prob;
 
 
 
 BEGIN_PGML
-Imagine you play an online game in which you have a [$num] in [$den] chance of unlocking a special character every day. If you place the game for [$text], what is the probability that you unlock a special character at least once?
+Imagine you play an online game in which you have a [$num] in [$den] chance of unlocking a special character every day. If you play the game for [$text], what is the probability that you unlock a special character at least once?
 
-[`P(\text{unlocking at least once})=`] [_]{$ans} (Round your answer to 3 decimal places)
+[`P(\text{unlocking at least once})=`] [_]{DecimalPlacesCmp($ans, 3)} (Round your answer to 3 decimal places)
 
 
 END_PGML

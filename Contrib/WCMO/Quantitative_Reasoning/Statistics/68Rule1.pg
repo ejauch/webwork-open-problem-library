@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: 68-95-99.7 rule - percentage of data within a range
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('')
+## DBsubject('Probability')
+## DBchapter('Continuous distributions')
+## DBsection('Application of a normal distribution')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','normal distribution','68-95-99.7 rule')
+
 
 DOCUMENT();
 
@@ -46,7 +46,7 @@ $ans = 99.7;
 $course = $sub[random(0,$#sub,1)];
 
 BEGIN_PGML
-The scores on the midterm exam for a [$course] course at a large university are uniformly distributed with a mean score of [$mean] points and a standard deviation of [$stddev] points. What percentage of scores fall between the scores of [$bottom] points and [$top] points?
+The scores on the midterm exam for a [$course] course at a large university are normally distributed with a mean score of [$mean] points and a standard deviation of [$stddev] points. What percentage of scores fall between the scores of [$bottom] points and [$top] points?
 
 The answer is [_]{$ans}{5} %
 END_PGML

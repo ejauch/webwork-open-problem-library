@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## Give a value for pi
+## Quantitative Reasoning: Matching propositions with their negations
 ## ENDDESCRIPTION
 
-## KEYWORDS('propositions')
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('8/23/2024')
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Operations on propositions')
+## Date('8/23/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','propositions','negation')
+
 
 DOCUMENT();
 
@@ -44,7 +44,7 @@ $q_and_a[$i] = ["$props[$i]","$nprops[$i]"];
 @extra_a = ("Jack is the slowest runner.", "Lylla is the worst dancer.", "The grass is red.");
 
 # Randomize the questions.
-@q_and_a = map { splice(@q_and_a, random(0, $#q_and_a)) } 0 .. $#q_and_a;
+@q_and_a = map { splice(@q_and_a, random(0, $#q_and_a), 1) } 0 .. $#q_and_a;
 
 # Choose a random order to display the answers (including the incorrect answers).
 push(@answers, (map { $_->[1] } @q_and_a), @extra_a);

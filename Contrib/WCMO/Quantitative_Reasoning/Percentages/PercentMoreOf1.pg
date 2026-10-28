@@ -1,21 +1,23 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Percent more than - converting to times as large
 ## ENDDESCRIPTION
-
-## KEYWORDS()
 
 ## DBsubject('Arithmetic')
 ## DBchapter('Percents')
-## DBsection('Calculations')
+## DBsection('Applications')
 ## Date('9/24/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('percentages','percent more than','relative change')
+
+
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -48,7 +50,7 @@ $pero = $perm + 100;
 $times = $pero/100;
 
 BEGIN_PGML
-If [$name[0]] has [$perm]% more collectible figures than [$name[1]], then [$name[0]]'s collection is [__]{$times} times as large as [$name[1]]'s collection.
+If [$name[0]] has [$perm]% more collectible figures than [$name[1]], then [$name[0]]'s collection is [__]{DecimalPlacesCmp($times, 1)} times as large as [$name[1]]'s collection.
 
 (Give your answer rounded to the nearest tenth)
 

@@ -1,21 +1,22 @@
 ## DESCRIPTION
-## Give a value for pi
+## Quantitative Reasoning: Using units - hourly pay rate
 ## ENDDESCRIPTION
 
-## KEYWORDS('template', 'pi')
+## DBsubject('Arithmetic')
+## DBchapter('Units')
+## DBsection('Interpretation')
+## Date('10/28/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('units','rates')
 
-## DBsubject('Algebra')
-## DBchapter('Fundamentals')
-## DBsection('Real Numbers')
-## Date('')
-## Author('')
-## Institution('')
 
 DOCUMENT();
 
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -33,13 +34,13 @@ $hours = random(12,28,4);
 
 $rate = $pay/$hours;
 
-$ans = sprintf("%0.2f",$rate);
+$ans = $rate;
 
 BEGIN_PGML
 
-What is your hourly rate if you earn $[$pay] for [$hours] hours of work?
+What is your hourly rate if you earn $[$pay] for [$hours] hours of work? (Round to the nearest cent.)
 
-Hourly rate is $ [_]{$ans}.
+Hourly rate is $ [_]{DecimalPlacesCmp($ans, 2)}.
 END_PGML
 
 ENDDOCUMENT();

@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Permutations - top finishers in a competition
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('11/02/2024')
+## DBsubject('Combinatorics')
+## DBchapter('Counting')
+## DBsection('Permutations')
+## Date('11/2/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('counting','permutations')
+
 
 DOCUMENT();
 
@@ -24,7 +24,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0
 
-SRAND(932);
 
 $part = random(10,16,1);
 $num = random(3,5,1);

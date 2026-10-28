@@ -1,13 +1,15 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Truth Table - Three propositions with negations and conjunctions
+## Quantitative Reasoning: Truth table - three propositions with negations, conjunctions, and disjunctions
 ## ENDDESCRIPTION
 
 ## DBsubject('Set theory and logic')
 ## DBchapter('Propositional logic')
 ## DBsection('Truth tables')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
-## KEYWORDS('logic', 'truth table')
+## KEYWORDS('logic','truth table','negation','conjunction','disjunction')
+
 
 DOCUMENT();        # This should be the first executable line in the problem.
 

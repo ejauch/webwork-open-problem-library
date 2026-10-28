@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Standard scores - ages
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
-## DBsubject('')
-## DBchapter('')
-## DBsection('')
-## Date('10/26/2024')
+## DBsubject('Probability')
+## DBchapter('Continuous distributions')
+## DBsection('Application of a normal distribution')
+## Date('10/26/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','standard score','z-score','normal distribution')
+
 
 DOCUMENT();
 
@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "decimalPlaces.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -47,17 +48,17 @@ $vals[2] = sprintf("%0.0f",random($bottom,$top,1));
 }
 
 foreach my $i (0...2) {
-$z[$i] = sprintf("%0.2f",($vals[$i]-$mean)/$stddev);
+$z[$i] = ($vals[$i]-$mean)/$stddev;
 }
 
 
 
 BEGIN_PGML
-The age of members of a club are normally distributed with a mean age of [$mean] years with a standard deviation of [$stddev] years. Find the standard scores associated with the following ages (rounded to 2 decimal places).
+The ages of members of a club are normally distributed with a mean age of [$mean] years with a standard deviation of [$stddev] years. Find the standard scores associated with the following ages (rounded to 2 decimal places).
 
-- The standard score for [$vals[0]] years is [`z=`][_]{$z[0]} ;
-- The standard score for [$vals[1]] years is [`z=`][_]{$z[1]} ;
-- The standard score for [$vals[2]] years is [`z=`][_]{$z[2]} .
+- The standard score for [$vals[0]] years is [`z=`][_]{DecimalPlacesCmp($z[0], 2)} ;
+- The standard score for [$vals[1]] years is [`z=`][_]{DecimalPlacesCmp($z[1], 2)} ;
+- The standard score for [$vals[2]] years is [`z=`][_]{DecimalPlacesCmp($z[2], 2)} .
 
 
 END_PGML

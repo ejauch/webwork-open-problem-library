@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## Give a value for pi
+## Quantitative Reasoning: Units with powers - square yards to square feet
 ## ENDDESCRIPTION
 
-## KEYWORDS('template', 'pi')
+## DBsubject('Arithmetic')
+## DBchapter('Units')
+## DBsection('Conversions')
+## Date('10/28/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('unit conversion','units','area')
 
-## DBsubject('Algebra')
-## DBchapter('Fundamentals')
-## DBsection('Real Numbers')
-## Date('')
-## Author('')
-## Institution('')
 
 DOCUMENT();
 
@@ -39,7 +39,7 @@ $farea = $yarea*9;
 $ans = $farea;
 
 BEGIN_PGML
-You purchased a rug that is [$yarea] square yards. How large of area does the rug cover is square feet?
+You purchased a rug that is [$yarea] square yards. What area does the rug cover in square feet?
 
 The rug covers [__]{$ans} square feet.
 END_PGML

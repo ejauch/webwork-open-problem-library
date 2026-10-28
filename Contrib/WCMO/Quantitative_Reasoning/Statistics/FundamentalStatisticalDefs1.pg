@@ -1,15 +1,15 @@
 ## DESCRIPTION
-## 
+## Quantitative Reasoning: Population, sample, population parameter, and sample statistic
 ## ENDDESCRIPTION
 
-## KEYWORDS()
-
 ## DBsubject('Statistics')
-## DBchapter('Experimental design')
+## DBchapter('Sample survey methods')
 ## DBsection('Concepts')
-## Date('10/06/2024')
+## Date('10/6/24')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
+## KEYWORDS('statistics','population','sample','parameter','statistic')
+
 
 DOCUMENT();
 

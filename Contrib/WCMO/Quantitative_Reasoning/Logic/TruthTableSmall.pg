@@ -1,13 +1,15 @@
 ## DESCRIPTION
-## Quantitative Reasoning: Truth Table - two propositions with negations and conjunctions
+## Quantitative Reasoning: Truth table - two propositions with negations, conjunctions, and disjunctions
 ## ENDDESCRIPTION
 
-## DBsubject(Set theory and logic)
-## DBchapter(Propositional logic)
-## DBsection(Truth tables)
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Truth tables')
+## Date('10/28/26')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
-## KEYWORDS('logic', 'truth table')
+## KEYWORDS('logic','truth table','negation','conjunction','disjunction')
+
 
 DOCUMENT();        # This should be the first executable line in the problem.
 
@@ -52,7 +54,7 @@ elsif ($parameter==2) {
 
 $tab1 = DataTable( [
     ["\( p \)","\( q \)", "\( \text{not } p \)" ,
-"\( (\text{not }p) \text{ and } q\)","\( (p \text{ or } q\)"],
+"\( (\text{not }p) \text{ and } q\)","\( (p \text{ or } q) \)"],
 	["T", "T",ans_rule(10),ans_rule(10),ans_rule(10)],
     ["T", "F",ans_rule(10),ans_rule(10),ans_rule(10)],
     ["F", "T",ans_rule(10),ans_rule(10),ans_rule(10)],     
