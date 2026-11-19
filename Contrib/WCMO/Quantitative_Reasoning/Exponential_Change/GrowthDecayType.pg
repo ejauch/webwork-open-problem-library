@@ -1,0 +1,85 @@
+## DESCRIPTION
+## Quantitative Reasoning: Linear vs exponential change - identifying growth and decay
+## ENDDESCRIPTION
+
+## DBsubject('Algebra')
+## DBchapter('Exponential and logarithmic expressions and functions')
+## DBsection('Applications and models - general')
+## Date('4/27/25')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('linear growth','exponential growth','growth and decay','linear vs exponential')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserRadioButtons.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@linInc = ("The number of students at a high school has increased by 50 students in each of the past 4 years.", "A factory has produced 200 more toys each month for the past year.", "The height of a sunflower has grown by 3 inches each week during the summer.", "The balance in a savings account has increased by ~~$100 each month with simple interest.", "A library has added 75 new books every quarter for the past two years.", "The distance a train travels increases by 60 miles every hour at a constant speed.", "The amount of water collected from a melting block of ice increases by 2 pounds every hour.", "A company's profit has risen by ~~$5,000 each quarter over the past three years.", "A swimming pool is filled at a steady rate of 500 gallons per hour.", "The temperature inside a greenhouse rises by 2 degrees every hour in the morning.");
+
+@linDec = ("The number of subscribers to a magazine has dropped by 100 people every year for the past five years.", "A water tank has been draining at a rate of 30 gallons per hour.", "The value of a used car has decreased by ~~$1,500 each year since it was purchased.", "The height of a melting snow pile shrinks by 2 inches every day.", "The battery level on a phone has dropped by 5 percentage points every 10 minutes while gaming.", "A hiking group's elevation drops by 400 feet every hour as they descend the mountain.", "The amount of flour in a bakery's silo decreases by 200 pounds each day as they bake goods.", "The number of fish in a lake has declined by 250 each month due to drought.", "A warehouse's inventory has shrunk by 500 units each week from steady sales.", "The weight of a firewood stack has dropped by 10 pounds every week as it dries out."
+);
+
+@expInc = ("The number of bacteria in a petri dish increases by 100% every 3 hours.", "The amount of money in a bank account increases by 5% each year.", "The population of a town grows by 8% annually.", "The number of views on a viral video increases by 200% every day.", "A species of algae in a pond grows by 50% every week.", "The number of downloads for an app increases by 20% each month.", "The value of an investment portfolio increases by 6% each quarter.", "Each time a chain letter is sent, the number of recipients increases by 100%.", "The number of followers on a social media account grows by 10% weekly.", "A new virus spreads so that the number of infections increases by 30% every day."
+);
+
+@expDec = ("The value of a car decreases by 15% every year after purchase.", "The amount of a radioactive substance decreases by 50% every 10 hours.", "The number of users on an old app drops by 5% each month.", "The brightness of a dying star decreases by 10% every year.", "The strength of a medication in the bloodstream decreases by 12% every hour.", "The energy stored in a battery drops by 8% each day when left unused.", "The number of active players in an online game shrinks by 7% each week.", "The pressure inside a leaking tire decreases by 3% per day.", "The amount of caffeine in the body decreases by 50% every 5 hours.", "The audience size at a recurring event shrinks by 4% after each event."
+);
+
+$numq = 3; # number of questions (less 1) must be less than number of options from above lists (given by $#expDec)
+
+# Each question shows one statement of each type (same index in all four lists).
+# The inner brackets in RadioButtons below put those four in random order;
+# "None of these" always stays last.
+
+@selected = ();
+
+my $i = 0;
+
+while ($i<$numq+1) {
+$selected[$i] = random(0,$#expDec,1);
+$i++;
+}
+
+while ($selected[1] == $selected[0]) {
+$selected[1] = random(0,$#expDec,1);
+}
+
+while ($selected[2] == $selected[0] || $selected[2] == $selected[1]) {
+$selected[2] = random(0,$#expDec,1);
+}
+
+while ($selected[3] == $selected[0] || $selected[3] == $selected[1] || $selected[3]==$selected[2]) {
+$selected[3] = random(0,$#expDec,1);
+}
+
+@ans = ();
+my $j = 0;
+
+while ($j<$numq+1) {
+$ans[$j] = RadioButtons([["$linInc[$selected[$j]]","$linDec[$selected[$j]]","$expInc[$selected[$j]]","$expDec[$selected[$j]]"],"None of these"],$j);
+$j++;
+}
+
+BEGIN_PGML
+
+A. Which of the following represents something increasing linearly? [_]{$ans[0]}
+
+B. Which of the following represents something decreasing linearly? [_]{$ans[1]}
+
+C. Which of the following represents something increasing exponentially? [_]{$ans[2]}
+
+D. Which of the following represents something decreasing exponentially? [_]{$ans[3]}
+
+END_PGML
+
+ENDDOCUMENT();

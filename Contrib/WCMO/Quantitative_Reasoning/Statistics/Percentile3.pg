@@ -50,11 +50,23 @@ $val[$i] = $z[$i]*$stddev + $mean;
 }
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@valHints = ();
+foreach my $i (0, 1) {
+    $valHints[$i] = [
+        [ $mean - $z[$i]*$stddev,
+          "Check the sign of the standard score. A percentile below 50% is below the mean, so its "
+        . "standard score is negative; a percentile above 50% has a positive standard score." ],
+    ];
+}
+$closeMsg = 'Your answer is close, but not exact. Use the standard score that the Section 6C '
+          . 'table gives for this percentile, then find mean + z*(standard deviation).';
+
 BEGIN_PGML
 If the mean score on the SAT was [$mean] with a standard deviation of [$stddev], find the test scores that would correspond to the following percentiles:
 
-- [$per[0]]% of tests had a score at or below [_]{DecimalPlacesCmp($val[0], 0)} (rounded to the nearest whole number);
-- [$per[1]]% of tests had a score at or below [_]{DecimalPlacesCmp($val[1], 0)} (rounded to the nearest whole number).
+- [$per[0]]% of tests had a score at or below [_]{DecimalPlacesCmp($val[0], 0, hints => $valHints[0], nearMiss => 0.015, nearMissMessage => $closeMsg)} (rounded to the nearest whole number);
+- [$per[1]]% of tests had a score at or below [_]{DecimalPlacesCmp($val[1], 0, hints => $valHints[1], nearMiss => 0.015, nearMissMessage => $closeMsg)} (rounded to the nearest whole number).
 
 END_PGML
 

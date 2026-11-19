@@ -36,10 +36,29 @@ $k = $c + 273.15;
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$kHints = [
+    [ $f*5/9 - 32 + 273.15,
+      "It looks like you multiplied by 5/9 before subtracting 32. Subtract 32 from the Fahrenheit "
+    . "temperature first, then multiply by 5/9 to get Celsius, then add 273.15." ],
+    [ $f + 273.15,
+      "It looks like you added 273.15 to the Fahrenheit temperature. Convert to Celsius first, "
+    . "C = (F - 32)*5/9, then add 273.15." ],
+    [ $c + 273,
+      "Use 273.15, not 273, when converting Celsius to Kelvin." ],
+    [ 273.15 - $c,
+      "Check the sign of your Celsius temperature. Here (F - 32)*5/9 is negative, so the Kelvin "
+    . "temperature is less than 273.15." ],
+    [ $c,
+      "That is the temperature in Celsius. Add 273.15 to convert it to Kelvin." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Keep all of the digits of the Celsius '
+    . 'temperature until the end, then round.';
+
 BEGIN_PGML
 Convert [`[$f]^\circ`]F to Kelvin (rounded to the nearest hundredth).
 
-Answer: [____]{DecimalPlacesCmp($k, 2)} K
+Answer: [____]{DecimalPlacesCmp($k, 2, hints => $kHints, nearMiss => 0.0005, nearMissMessage => $closeMsg)} K
 
 END_PGML
 

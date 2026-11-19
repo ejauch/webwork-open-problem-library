@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextScientificNotation.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -78,10 +79,33 @@ Context()->flags->set(tolType => 'digits', tolerance => 4, tolTruncation => 1);
 
 $ans =  ScientificNotation($total**$char);
 
+# Number of special characters (@ and & always, ! and * sometimes).
+$sym = 2 + $exPar + $astPar;
+
+# HINTS messages for common wrong answers. Each one checks for a specific
+# wrong value (to 4 significant digits), so the answer is still marked wrong.
+sub countingHint {
+    my $w = shift;
+    return sub { my ($c, $s) = @_; abs($s->value - $w) <= 1E-3 * $w };
+}
+@passHints = (
+    countingHint(P($total, $char)) =>
+        "That does not let any character repeat. The password can repeat characters, "
+      . "so each of the $char positions has all $total choices.",
+    countingHint($char**$total) =>
+        "The base and the exponent are switched. There are $total choices for each of the "
+      . "$char positions, so multiply $total by itself $char times.",
+    countingHint(($total - $sym)**$char) =>
+        "Check how many characters you can choose from. Don't forget the $sym special characters.",
+    countingHint($total*$char) =>
+        "Multiplying the number of characters by the length counts too few passwords. Each of the "
+      . "$char positions has $total choices, so multiply $total by itself $char times.",
+);
+
 BEGIN_PGML
 How many [$char]-character passwords can be made by combining [$text] (with repetition)?
 
-Answer: [_]{$ans} (Round answer to four significant digits)
+Answer: [_]{$ans->cmp->withPostFilter(AnswerHints(@passHints))}{15} (Round answer to four significant digits)
 
 
 END_PGML

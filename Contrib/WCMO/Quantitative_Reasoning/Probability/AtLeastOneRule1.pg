@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextFraction.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -37,6 +38,16 @@ $ans = Compute("1-1/2**$num")->reduce();
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@atLeastHints = (
+    Compute("1/2^$num") =>
+        "That is the probability of getting no ${text}s at all. 'At least one' is everything else, "
+      . "so subtract it from 1.",
+    Compute("1/2") =>
+        "That is the probability for one coin. With $num coins you have more chances, so find the "
+      . "probability of no ${text}s and subtract it from 1.",
+);
+
 BEGIN_PGML
 Find the probability of getting at least one [$text] when you toss [$num] coins?
 
@@ -44,7 +55,7 @@ Find the probability of getting at least one [$text] when you toss [$num] coins?
     studentsMustReduceFractions => 1,
     reduceFractions => 1,
     allowMixedNumbers => 0
-)}{15}
+)->withPostFilter(AnswerHints(@atLeastHints))}{15}
 
 
 END_PGML

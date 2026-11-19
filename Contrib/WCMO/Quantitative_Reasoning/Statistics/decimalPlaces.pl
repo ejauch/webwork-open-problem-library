@@ -109,6 +109,43 @@ exactly C<$places> digits after the decimal point are required.
 The message shown when the answer has the wrong format. Defaults to
 "Your answer must be rounded to exactly N decimal places."
 
+=item C<hints>
+
+A list of common wrong answers, each with a message to show when a student
+enters it. Pass the B<unrounded> wrong value, just like the correct one:
+
+    DecimalPlacesCmp($std, 2, hints => [
+        [ $popStd, "It looks like you divided by n. ..." ],
+        [ $var,    "It looks like you found the variance. ..." ],
+    ])
+
+The answer is still marked wrong; the message only explains why. Each wrong
+value is rounded with C<Round> to C<$places> places and matched within
+C<hintTolerance> units of the last place, so students who rounded a little
+differently along the way still get the hint. A hint is skipped automatically
+if its rounded value is too close to the correct answer to tell apart. Hints
+are checked in order and only the first match is shown, and only after the
+answer passes the format check.
+
+=item C<hintTolerance> (default 1)
+
+How far, in units of the last decimal place, a student's answer may be from a
+hint value and still trigger it. With 2 places the default of 1 means
+within 0.01. Use 0 to require an exact match.
+
+=item C<nearMiss> (default 0, off)
+
+If set, a wrong answer that matches none of the C<hints> but is within this
+relative distance of the correct answer gets the C<nearMissMessage>. For
+example, C<< nearMiss => 0.01 >> catches answers within 1% of the correct one,
+which usually means the student rounded too early or used a slightly different
+conversion factor. The answer is still marked wrong.
+
+=item C<nearMissMessage>
+
+The message for C<nearMiss>. Defaults to "Your answer is close, but not exact.
+Keep all of the digits until the final step, then round."
+
 =item Any other option
 
 Passed through to the MathObject C<cmp> method (for example C<showTypeWarnings>).
@@ -122,6 +159,8 @@ The displayed correct answer is padded to C<$places> places (2.50, not 2.5).
 Same thing for currency values, called directly. C<$places> defaults to 2.
 C<DecimalPlacesCmp> calls this automatically for Currency values, so you only
 need it when C<$value> is a plain number that should be checked as currency.
+The C<hints>, C<hintTolerance>, C<nearMiss> and C<nearMissMessage> options
+work the same way as for C<DecimalPlacesCmp>.
 
 =head2 DecimalPlacesString($value, $places)
 
@@ -167,6 +206,48 @@ sub _decimalPlaces_number {
 	return $value + 0;
 }
 
+# Given the rounded correct value, the student's value and the hints list
+# ([value, message] pairs, unrounded), return the message of the first hint the
+# student's value matches, or undef. Kept separate from the checker so it can be
+# tested on its own.
+sub _decimalPlaces_hint {
+	my ($correct, $student, $places, $hints, $tolerance) = @_;
+	return undef unless $hints && @$hints;
+	my $unit = 10**(-$places);
+	my $tol  = $tolerance * $unit + 1E-9;
+	foreach my $hint (@$hints) {
+		my ($value, $msg) = @$hint;
+		my $r = Round(_decimalPlaces_number($value), $places);
+		next if abs($r - $correct) <= $tol;    # cannot be told apart from the right answer
+		return $msg if abs($student - $r) <= $tol;
+	}
+	return undef;
+}
+
+# Pull the feedback options out of %$options (removing them so they are not
+# passed on to cmp) and return them as a hash reference.
+sub _decimalPlaces_feedbackOptions {
+	my $options = shift;
+	return {
+		hints           => delete $options->{hints},
+		hintTolerance   => delete $options->{hintTolerance} // 1,
+		nearMiss        => delete $options->{nearMiss} // 0,
+		nearMissMessage => delete $options->{nearMissMessage}
+			// 'Your answer is close, but not exact. Keep all of the digits until the final step, then round.',
+	};
+}
+
+# The message for a wrong answer: the first matching hint, otherwise the near
+# miss message if the answer is close enough, otherwise undef.
+sub _decimalPlaces_feedback {
+	my ($correct, $student, $places, $fb) = @_;
+	my $hint = _decimalPlaces_hint($correct, $student, $places, $fb->{hints}, $fb->{hintTolerance});
+	return $hint if defined $hint;
+	return $fb->{nearMissMessage}
+		if $fb->{nearMiss} && abs($student - $correct) <= $fb->{nearMiss} * abs($correct);
+	return undef;
+}
+
 sub DecimalPlacesString {
 	my ($value, $places) = @_;
 	$value = _decimalPlaces_number($value);
@@ -197,6 +278,7 @@ sub DecimalPlacesCmp {
 
 	$value = _decimalPlaces_number($value);
 	my $allowOmittedZeros = delete $options{allowOmittedZeros} // 0;
+	my $feedback          = _decimalPlaces_feedbackOptions(\%options);
 	my $message           = delete $options{message}
 		// "Your answer must be rounded to exactly $places decimal place"
 		. ($places == 1 ? '' : 's') . '.';
@@ -219,7 +301,10 @@ sub DecimalPlacesCmp {
 			$raw =~ s/\s+//g;
 			Value->Error($message) unless $raw =~ $pattern;
 			my ($c, $s) = ($correct->value, $student->value);
-			return abs($c - $s) <= 1E-10 * (abs($c) > 1 ? abs($c) : 1);
+			return 1 if abs($c - $s) <= 1E-10 * (abs($c) > 1 ? abs($c) : 1);
+			my $hint = _decimalPlaces_feedback($c, $s, $places, $feedback);
+			$ansHash->{ans_message} = $hint if defined $hint;
+			return 0;
 		}
 	);
 }
@@ -228,6 +313,7 @@ sub CurrencyPlacesCmp {
 	my ($value, $places, %options) = @_;
 	$places = 2 unless defined $places;
 	delete $options{currency};
+	my $feedback = _decimalPlaces_feedbackOptions(\%options);
 
 	my $context = (ref($value) && Value::isValue($value)) ? $value->context : $main::context{Currency};
 	Value::Error("CurrencyPlacesCmp requires the Currency context (load contextCurrency.pl)")
@@ -240,7 +326,8 @@ sub CurrencyPlacesCmp {
 
 	# Two decimals is what contextCurrency.pl checks natively, and its .005
 	# absolute tolerance already requires the answer to the penny.
-	return $answer->cmp(forceDecimals => 1, %options) if $places == 2;
+	return _decimalPlaces_currencyFeedback($answer->cmp(forceDecimals => 1, %options), $rounded, $places, $feedback)
+		if $places == 2;
 
 	my $message = delete $options{message}
 		// "Your answer must be rounded to exactly $places decimal place"
@@ -248,7 +335,7 @@ sub CurrencyPlacesCmp {
 	my $decimal = quotemeta($context->{currency}{decimal} // '.');
 	my $pattern = $places == 0 ? qr/^[+-]?\d+$/ : qr/^[+-]?\d*$decimal\d{$places}$/;
 
-	return $answer->cmp(
+	my $cmp = $answer->cmp(
 		forceDecimals   => 0,
 		noExtraDecimals => 0,
 		($places == 0 ? (trimTrailingZeros => 1) : ()),
@@ -262,6 +349,25 @@ sub CurrencyPlacesCmp {
 			return abs($c - $s) <= 1E-10 * (abs($c) > 1 ? abs($c) : 1);
 		}
 	);
+	return _decimalPlaces_currencyFeedback($cmp, $rounded, $places, $feedback);
+}
+
+# Currency answers are checked by contextCurrency.pl, so hints are added with a
+# post filter. It only acts on a wrong answer that has no other message.
+sub _decimalPlaces_currencyFeedback {
+	my ($cmp, $correct, $places, $fb) = @_;
+	return $cmp unless ($fb->{hints} && @{ $fb->{hints} }) || $fb->{nearMiss};
+	return $cmp->withPostFilter(sub {
+		my $ansHash = shift;
+		return $ansHash if $ansHash->{score} >= 1 || ($ansHash->{ans_message} // '') ne '';
+		my $student = $ansHash->{student_value};
+		return $ansHash unless defined $student && Value::isValue($student);
+		my $s = eval { $student->value };
+		return $ansHash unless defined $s && !ref($s) && $s =~ /^[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?$/;
+		my $hint = _decimalPlaces_feedback($correct, $s, $places, $fb);
+		$ansHash->{ans_message} = $hint if defined $hint;
+		return $ansHash;
+	});
 }
 
 1;

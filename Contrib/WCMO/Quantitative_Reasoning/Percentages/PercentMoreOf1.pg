@@ -49,8 +49,20 @@ $pero = $perm + 100;
 
 $times = $pero/100;
 
+# HINTS messages for common wrong answers.
+$timesHints = [
+    [ $perm/100,
+      "That only counts the extra $perm%. Having $perm% more means having the original 100% "
+    . "plus another $perm%." ],
+    [ $pero,
+      "That is a percent. Write it as a number of times by dividing by 100." ],
+    [ $perm,
+      "That is the percent more, not the number of times as large. Having $perm% more means "
+    . "having 100% + $perm% of the other collection; write that percent as a number of times." ],
+];
+
 BEGIN_PGML
-If [$name[0]] has [$perm]% more collectible figures than [$name[1]], then [$name[0]]'s collection is [__]{DecimalPlacesCmp($times, 1)} times as large as [$name[1]]'s collection.
+If [$name[0]] has [$perm]% more collectible figures than [$name[1]], then [$name[0]]'s collection is [__]{DecimalPlacesCmp($times, 1, hints => $timesHints, hintTolerance => 0)} times as large as [$name[1]]'s collection.
 
 (Give your answer rounded to the nearest tenth)
 

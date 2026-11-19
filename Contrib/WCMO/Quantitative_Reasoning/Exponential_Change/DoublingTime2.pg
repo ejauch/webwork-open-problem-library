@@ -36,8 +36,22 @@ $check = random($time,4*$time,1);
 $ans[0] = $pop*2**($check/$time);
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$roundMsg = "It looks like you rounded the exponent (the number of doubling times). Keep all of its "
+          . "digits, or enter the whole calculation at once, and round only the final answer.";
+$wholeMsg = "It looks like you counted only whole doubling times. The number of doubling times "
+          . "($check divided by $time) does not have to be a whole number; use it exactly as the exponent.";
+$closeMsg = "Your answer is close, but not exact. Keep all of the digits of the exponent and round "
+          . "only the final answer.";
+$e = $check/$time;
+$botHints = [
+    [ $pop*2**Round($e, 2), $roundMsg ],
+    [ $pop*2**Round($e, 1), $roundMsg ],
+    [ $pop*2**int($e),      $wholeMsg ],
+];
+
 BEGIN_PGML
-In a sci-fi film the evil nanobots double in numbers every [$time] minutes. If there are [$pop] nanobots to start with, there would be [_]{DecimalPlacesCmp($ans[0], 0)} nanobots after [$check] minutes (rounded to the nearest whole number).
+In a sci-fi film the evil nanobots double in numbers every [$time] minutes. If there are [$pop] nanobots to start with, there would be [_]{DecimalPlacesCmp($ans[0], 0, hints => $botHints, nearMiss => 0.01, nearMissMessage => $closeMsg)} nanobots after [$check] minutes (rounded to the nearest whole number).
 
 END_PGML
 

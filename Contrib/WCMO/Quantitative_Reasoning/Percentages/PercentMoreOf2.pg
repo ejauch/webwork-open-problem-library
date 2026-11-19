@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -46,8 +47,16 @@ $perm = random(80,300,10);
 
 $pero = $perm + 100;
 
+# HINTS messages for common wrong answers.
+$peroCmp = Real($pero)->cmp->withPostFilter(AnswerHints(
+    Real($perm) =>
+        "That only counts the extra $perm%. A $perm% larger salary is the original 100% plus another $perm%.",
+    Real($pero/100) =>
+        "That is the number of times as large. The question asks for a percent, so multiply by 100.",
+));
+
 BEGIN_PGML
-If [$name[0]] has a [$perm]% larger salary than [$name[1]], then [$name[0]]'s salary is [__]{$pero}% of [$name[1]]'s salary.
+If [$name[0]] has a [$perm]% larger salary than [$name[1]], then [$name[0]]'s salary is [__]{$peroCmp}% of [$name[1]]'s salary.
 
 (Give your answer rounded to the nearest tenth)
 

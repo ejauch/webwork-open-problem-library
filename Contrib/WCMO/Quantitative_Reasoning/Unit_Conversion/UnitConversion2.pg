@@ -36,10 +36,25 @@ $vol = Compute("$w*$d*$h*2.540**3*0.01**3");
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$volHints = [
+    [ $w*$d*$h*2.54*0.01,
+      "For cubic units, cube the conversion factors: 1 cubic inch = 2.54^3 cubic centimeters "
+    . "and 1 cubic centimeter = 0.01^3 cubic meters." ],
+    [ $w*$d*$h*2.54**3,
+      "That is the volume in cubic centimeters. Convert to cubic meters: 1 cubic centimeter = "
+    . "0.01^3 cubic meters." ],
+    [ $w*$d*$h*2.54**3*0.01,
+      "Cube the centimeter-to-meter factor too: 1 cubic centimeter = 0.01^3 cubic meters." ],
+    [ $w*$d*$h*2.54*0.01**3,
+      "Cube the inch-to-centimeter factor too: 1 cubic inch = 2.54^3 cubic centimeters." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Use the conversion factors from class and keep all of the digits until the final step, then round.';
+
 BEGIN_PGML
 If a rectangular fish tank that is [$w] in wide, [$d] in deep, and [$h] in tall is filled to the brim with water, how many cubic meters of water would be in the tank (rounded to the nearest thousandth)?
 
-The tank contains [____]{DecimalPlacesCmp($vol, 3)} cubic meters of water.
+The tank contains [____]{DecimalPlacesCmp($vol, 3, hints => $volHints, nearMiss => 0.03, nearMissMessage => $closeMsg)} cubic meters of water.
 
 END_PGML
 

@@ -16,6 +16,7 @@ DOCUMENT();
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -45,10 +46,19 @@ $ans = 99.7;
 
 $course = $sub[random(0,$#sub,1)];
 
+# HINTS messages for common wrong answers.
+@precise = ($steps == 1) ? (68.2, 68.26, 68.27, 68.3) : ($steps == 2) ? (95.4, 95.44, 95.45, 95.5) : ();
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    [ map { Real($_) } @precise ] =>
+        "That is a more precise value, like one from a z-table. For this problem, use the "
+      . "68-95-99.7 rule.",
+    Real(100) => "Not quite all of them. Use the 68-95-99.7 rule.",
+));
+
 BEGIN_PGML
 The scores on the midterm exam for a [$course] course at a large university are normally distributed with a mean score of [$mean] points and a standard deviation of [$stddev] points. What percentage of scores fall between the scores of [$bottom] points and [$top] points?
 
-The answer is [_]{$ans}{5} %
+The answer is [_]{$ansCmp}{5} %
 END_PGML
 
 ENDDOCUMENT();

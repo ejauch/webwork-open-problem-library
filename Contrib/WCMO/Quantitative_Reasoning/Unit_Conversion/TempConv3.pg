@@ -36,10 +36,23 @@ $f = Compute("$c*9/5+32");
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$fHints = [
+    [ $c,
+      "That is the temperature in Celsius. Finish by converting to Fahrenheit: F = C*9/5 + 32." ],
+    [ -$c,
+      "That looks like the Celsius temperature with the wrong sign. C = K - 273.15, which is "
+    . "negative here. Then convert to Fahrenheit: F = C*9/5 + 32." ],
+    [ ($k - 273)*9/5 + 32,
+      "Use 273.15, not 273, when converting Kelvin to Celsius." ],
+    [ $k*9/5 + 32,
+      "Convert Kelvin to Celsius first (subtract 273.15), then convert Celsius to Fahrenheit." ],
+];
+
 BEGIN_PGML
 Convert [$k] K to Fahrenheit (rounded to the nearest hundredth).
 
-Answer: [____]{DecimalPlacesCmp($f, 2)}[`{}^\circ`] F
+Answer: [____]{DecimalPlacesCmp($f, 2, hints => $fHints)}[`{}^\circ`] F
 
 END_PGML
 

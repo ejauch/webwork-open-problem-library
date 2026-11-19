@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -55,10 +56,25 @@ $ans = 0.15/100*$sample;
 
 $course = $sub[random(0,$#sub,1)];
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+%precise = (1 => 15.87, 2 => 2.28, 3 => 0.13);
+%tail    = (1 => 16, 2 => 2.5, 3 => 0.15);
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real($precise{$steps}/100*$sample) =>
+        "That uses a more precise percentage, like one from a z-table. For this problem, use the "
+      . "68-95-99.7 rule to find the percentage, then multiply by the number of cars.",
+    [ map { Real($tail{$steps}/100*$sample*$_) } (10, 0.1, 0.01) ] =>
+        "Check how you changed the percentage to a decimal. To use $tail{$steps}% in a calculation, "
+      . "divide it by 100.",
+    Real($tail{$steps}) =>
+        "That is the percentage. The question asks how many cars, so multiply that percentage by "
+      . "the total number of cars.",
+));
+
 BEGIN_PGML
 A car dealership finds that the prices for a particular model of car are normally distributed with a mean price of [$mean] and a standard deviation of [$stddev]. If they sold [$sample] cars last year, how many would you expect they sold [$text] a price of [$value]? 
 
-The answer is [_]{$ans}{5} cars.
+The answer is [_]{$ansCmp}{5} cars.
 END_PGML
 
 ENDDOCUMENT();

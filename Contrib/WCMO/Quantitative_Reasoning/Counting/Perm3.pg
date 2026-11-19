@@ -1,0 +1,50 @@
+## DESCRIPTION
+## Quantitative Reasoning: Permutations - ordering songs in a DJ set
+## ENDDESCRIPTION
+
+## DBsubject('Combinatorics')
+## DBchapter('Counting')
+## DBsection('Permutations')
+## Date('11/18/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('counting','permutations')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "answerHints.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$songs = random(10,16,1);
+$num = random(3,5,1);
+
+$ans =  P($songs,$num);
+
+# HINTS messages for common wrong answers.
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real(C($songs, $num)) =>
+        "That counts groups of $num songs where order does not matter. Playing the same songs in a "
+      . "different order is a different opening, so use permutations.",
+    Real($songs**$num) =>
+        "That allows the same song to be played more than once. Each song can only be used once, "
+      . "so the number of choices goes down after each song is picked.",
+    Real(fact($songs)) =>
+        "That orders all $songs songs. Only the first $num songs are being chosen, so stop after $num picks.",
+));
+
+BEGIN_PGML
+A DJ has [$songs] songs ready and will choose [$num] of them to open the night, played one after another. How many different opening sequences of [$num] songs are possible?
+
+Answer: [_]{$ansCmp}
+END_PGML
+
+ENDDOCUMENT();

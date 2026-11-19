@@ -1,0 +1,105 @@
+## DESCRIPTION
+## Quantitative Reasoning: Doubling time - size of a population after a given time, with a written justification
+## Writing practice for the communication (MF2) part of the in-person final:
+## decide whether the population passes a threshold within a given time and justify it.
+## ENDDESCRIPTION
+
+## DBsubject('Algebra')
+## DBchapter('Exponential and logarithmic expressions and functions')
+## DBsection('Applications and models - population growth')
+## Date('11/18/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('exponential growth','doubling time','writing')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGessaymacros.pl",
+    "decimalPlaces.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Part (a) is the same as DoublingTime2.pg.
+# Part (b) matches the in-person final's Q4 add-on: would the population pass a
+# threshold within a different time? The yes/no and the supporting value are graded
+# automatically; the justification is graded by hand (0-4 scoring guide).
+
+$pop = random(9,15,1)*1000;
+
+$time = random(12,34,2);
+
+$check = random($time,4*$time,1);
+
+@ans = ();
+
+$ans[0] = $pop*2**($check/$time);
+
+
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$roundMsg = "It looks like you rounded the exponent (the number of doubling times). Keep all of its "
+          . "digits, or enter the whole calculation at once, and round only the final answer.";
+$wholeMsg = "It looks like you counted only whole doubling times. The number of doubling times "
+          . "($check divided by $time) does not have to be a whole number; use it exactly as the exponent.";
+$closeMsg = "Your answer is close, but not exact. Keep all of the digits of the exponent and round "
+          . "only the final answer.";
+$e = $check/$time;
+$botHints = [
+    [ $pop*2**Round($e, 2), $roundMsg ],
+    [ $pop*2**Round($e, 1), $roundMsg ],
+    [ $pop*2**int($e),      $wholeMsg ],
+];
+
+# Part (b): a whole number of doubling times, different from the time in part (a),
+# and a round-number threshold about 15% above or below the population then.
+do { $k = random(2,4,1) } until ($k*$time != $check);
+$check2 = $k*$time;
+$later  = $pop*2**$k;
+$above  = random(0,1,1);
+$thresh = 1000*Round($later*($above ? 0.85 : 1.15)/1000, 0);
+$passes = $later > $thresh ? 'Yes' : 'No';
+$passPopUp = PopUp([ 'Choose', 'Yes', 'No' ], $passes);
+
+$laterHints = [
+    [ $pop*2*$k, "The population doubles every $time minutes, so after $k doubling times you "
+               . "multiply by 2 a total of $k times, not by 2 times $k." ],
+];
+
+$compare   = $passes eq 'Yes' ? 'more' : 'fewer';
+$aRounded = Round($ans[0], 0);    # for the solution
+
+BEGIN_PGML
+In a sci-fi film the evil nanobots double in numbers every [$time] minutes. Suppose there are
+[$pop] nanobots to start with.
+
+a) There would be [_]{DecimalPlacesCmp($ans[0], 0, hints => $botHints, nearMiss => 0.01, nearMissMessage => $closeMsg)}
+nanobots after [$check] minutes (rounded to the nearest whole number).
+
+b) Would there be more than [$thresh] nanobots after [$check2] minutes? [_]{$passPopUp}
+
+    How many nanobots would there be after [$check2] minutes?
+    [_]{DecimalPlacesCmp($later, 0, hints => $laterHints)} nanobots
+
+    Justify your answer in one or two sentences using your work. A complete
+    justification states the conclusion and supports it with numbers from this problem.
+    Your justification will be graded by your instructor.
+
+[@ ANS(essay_cmp()); essay_box(5, 60) @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+a) [$check] minutes is [`[$check]/[$time]`] doubling times, so there are
+[`[$pop] \times 2^{[$check]/[$time]} \approx [$aRounded]`] nanobots (rounded).
+
+b) [$passes]. A model justification:
+
+>> "[$check2] minutes is [$check2]/[$time] = [$k] doubling times, so there would be
+[$pop] [`\times 2^{[$k]}`] = [$later] nanobots. That is [$compare] than [$thresh], so the answer is
+[$passes]." <<
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextFraction.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -35,6 +36,11 @@ else {
 $card = $pics[random(0,$#pics,1)];
 }
 
+# "an ace" and "an 8", "a" for everything else. Compare as strings (eq), since
+# $card can be a word: with == every word counts as 0, so "jack" == "ace" is true.
+$article = ($card eq "ace" || $card eq "8") ? "an" : "a";
+$cardstate = "$article $card";
+
 $suit = $suits[random(0,3,1)];
 
 
@@ -43,14 +49,21 @@ Context('Fraction-NoDecimals');
 $ans = Compute("(4+13-1)/52");
 
 
-BEGIN_PGML
-Imagine you have a standard deck of 52 cards. What is the probability that you draw a [$card] or a [$suit]?
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@orHints = (
+    Compute("17/52") =>
+        "It looks like you counted the $card of ${suit}s twice. Subtract the overlap: "
+      . "P(A or B) = P(A) + P(B) - P(A and B).",
+);
 
-[`P(\text{a [$card] or a [$suit]})=`] [_]{$ans->cmp(
+BEGIN_PGML
+Imagine you have a standard deck of 52 cards. What is the probability that you draw [$cardstate] or a [$suit]?
+
+[`P(\text{[$cardstate] or a [$suit]})=`] [_]{$ans->cmp(
     studentsMustReduceFractions => 1,
     reduceFractions => 1,
     allowMixedNumbers => 0
-)}{15}
+)->withPostFilter(AnswerHints(@orHints))}{15}
 
 
 END_PGML

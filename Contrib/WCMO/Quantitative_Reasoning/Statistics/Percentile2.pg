@@ -16,6 +16,7 @@ DOCUMENT();
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -123,12 +124,27 @@ $j++;
 }
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@perCmp = ();
+foreach my $i (0 .. 2) {
+    my $p = $per[$i];
+    $perCmp[$i] = Real($p)->cmp->withPostFilter(AnswerHints(
+        Real(100 - $p) => "That is the percentage of scores below $vals[$i]. The question asks "
+                        . "for the percentage above it.",
+        Real($z[$i]) => "That is the standard score. Use the Section 6C table to find the percentile "
+                      . "that goes with it.",
+        sub { my ($correct, $student) = @_; return abs($student->value - $p) <= 2 } =>
+            "Your answer is close, but not exact. Round the standard score to the nearest z-value "
+          . "listed in the Section 6C table, and use the percentile listed for it.",
+    ));
+}
+
 BEGIN_PGML
 The scores for a normally distributed college placement exam have a mean of [$mean] and a standard deviation of [$stddev]. Answer the following:
 
-- The percentage of scores above [$vals[0]] would be [_]{$per[0]} %;
-- The percentage of scores above [$vals[1]] would be [_]{$per[1]} %;
-- The percentage of scores above [$vals[2]] would be [_]{$per[2]} %.
+- The percentage of scores above [$vals[0]] would be [_]{$perCmp[0]} %;
+- The percentage of scores above [$vals[1]] would be [_]{$perCmp[1]} %;
+- The percentage of scores above [$vals[2]] would be [_]{$perCmp[2]} %.
 
 END_PGML
 

@@ -18,6 +18,7 @@ loadMacros(
   'PGML.pl',
   'niceTables.pl',
   'PGtikz.pl',
+  "answerHints.pl",
   "PGcourse.pl"
 );
 
@@ -33,12 +34,30 @@ $f = Compute("9/5*$c+32");
 $ans = Compute("$c");
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+# These answers are checked to within 0.0001, so the hints match to the nearest hundredth.
+$hintOpts = [ tolType => 'absolute', tolerance => .005 ];
+# AnswerHints shows its message even on a correct answer, so any hint that equals the
+# correct answer (the -40 degree case) is left out.
+@tempHintList = (
+    [ $f,
+      "That is the Fahrenheit temperature you started with. Convert it: C = (F - 32)*5/9." ],
+    [ $f*9/5 + 32,
+      "It looks like you used the Celsius-to-Fahrenheit formula. To go from Fahrenheit to "
+    . "Celsius, use C = (F - 32)*5/9." ],
+    [ $f*5/9 - 32,
+      "It looks like you multiplied by 5/9 before subtracting 32. Subtract 32 first, then "
+    . "multiply by 5/9." ],
+);
+$tempCmp = $ans->cmp(tolType => 'absolute', tolerance => .0001)->withPostFilter(AnswerHints(
+    map { (Real($_->[0]) => [ $_->[1], cmp_options => $hintOpts ]) }
+    grep { abs($_->[0] - $c) > .005 } @tempHintList
+));
+
 BEGIN_PGML
 Convert [`[$f]{}^\circ`] F to Celsius.
 
-Answer: [____]{$ans->cmp(
-    tolType   => 'absolute',
-    tolerance => .0001)}[`{}^\circ`] C
+Answer: [____]{$tempCmp}[`{}^\circ`] C
 
 END_PGML
 

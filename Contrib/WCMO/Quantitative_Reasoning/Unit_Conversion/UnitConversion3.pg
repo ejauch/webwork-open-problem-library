@@ -34,10 +34,25 @@ $dens = Compute("$d*2.540**3/453.6");
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$densHints = [
+    [ $d/2.54**3/453.6,
+      "It looks like you divided by 2.54^3. A cubic inch holds 2.54^3 cubic centimeters, so a "
+    . "cubic inch of this material weighs more than a cubic centimeter. Multiply by 2.54^3." ],
+    [ 2.54**3,
+      "That is just the conversion factor (cubic centimeters per cubic inch). Multiply the density "
+    . "by it, then convert grams to pounds." ],
+    [ $d*2.54/453.6,
+      "For cubic units, cube the conversion factor: 1 cubic inch = 2.54^3 cubic centimeters." ],
+    [ $d*2.54**3,
+      "That is in grams per cubic inch. Convert grams to pounds (1 lb = 453.6 g)." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Use 1 in = 2.54 cm and 1 lb = 453.6 g, and keep all of the digits until the final step, then round.';
+
 BEGIN_PGML
 Convert [$d] grams per cubic centimeter to pounds per cubic inch (rounded to the nearest thousandth).
 
-Answer: [____]{DecimalPlacesCmp($dens, 3)} pounds per cubic inch.
+Answer: [____]{DecimalPlacesCmp($dens, 3, hints => $densHints, nearMiss => 0.01, nearMissMessage => $closeMsg)} pounds per cubic inch.
 
 END_PGML
 

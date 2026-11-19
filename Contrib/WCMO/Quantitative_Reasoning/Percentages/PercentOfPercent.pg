@@ -34,13 +34,27 @@ $pof = (100-$pdec);
 
 $ans = $per*$pof/100;
 
+# Common wrong answers, for hint messages
+$ppError    = $per - $pdec;            # subtracted percentage points
+$changeOnly = $per*$pdec/100;          # found the decrease but did not subtract it
+$increased  = $per*(100 + $pdec)/100;  # increased instead of decreased
+
+$pctHints = [
+    [ $ppError,    "It looks like you subtracted $pdec percentage points. "
+                 . "A decrease of $pdec% of its 2018 value means the decrease is $pdec% OF $per%, "
+                 . "not $pdec percentage points." ],
+    [ $changeOnly, "That is the size of the decrease ($pdec% of $per%). "
+                 . "What is left after you take it away from the 2018 value?" ],
+    [ $increased,  "It looks like you increased the 2018 value. The number decreased." ],
+];
+
 
 BEGIN_PGML
 In 2018, [$per]% of students at a college were involved in athletics. In 2020, that
 number decreased by [$pdec]% of its 2018 value. What percentage of students were involved in athletics in
 2020? (Round to the nearest whole percent.)
 
-[_]{DecimalPlacesCmp($ans, 0)}%
+[_]{DecimalPlacesCmp($ans, 0, hints => $pctHints, hintTolerance => 0)}%
 END_PGML
 
 

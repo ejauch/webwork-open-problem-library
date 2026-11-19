@@ -1,0 +1,70 @@
+## DESCRIPTION
+## Quantitative Reasoning: Lottery - number of possible draws and probability of winning
+## ENDDESCRIPTION
+
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Probability: direct computation, inclusion/exclusion')
+## Date('11/2/24')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','combinations','lottery','scientific notation')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "answerHints.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$nums = random(5,8,1);
+
+$balls = random(40,80,4);
+
+$comb =  C($balls,$nums);
+
+$prob =  1 / $comb;
+
+# HINTS messages for common wrong answers.
+# (Built before the context changes, so the count is graded as an ordinary number.)
+$combCmp = Real($comb)->cmp->withPostFilter(AnswerHints(
+    Real(P($balls, $nums)) =>
+        "That counts the numbers in the order they are drawn. A lottery ticket wins no matter "
+      . "what order the numbers come out, so use combinations.",
+    Real($balls**$nums) =>
+        "A ball cannot be drawn twice, so the number of choices goes down after each ball is drawn, "
+      . "and the order of the numbers does not matter.",
+));
+
+# The probability is entered in scientific notation with 3 significant digits
+# (2 digits after the decimal point in the mantissa).
+Context("ScientificNotation");
+
+Context()->flags->set(
+    snDigits => 2,
+    snTrimZeros => 0,
+    snMinDigits => 2,
+    snMaxDigits => 2,
+);
+Context()->flags->set(tolType => 'digits', tolerance => 3, tolTruncation => 1);
+
+$ans =  ScientificNotation($prob);
+
+
+BEGIN_PGML
+Imagine a lottery where [$nums] balls are selected from a pool of balls numbered 1 through [$balls].
+
+What is the total number of possible sets of winning numbers? [_]{$combCmp}
+
+What is the probability that your [$nums] numbers are the winning numbers? [_]{$ans} (Round this answer to 3 significant digits.)
+END_PGML
+
+ENDDOCUMENT();

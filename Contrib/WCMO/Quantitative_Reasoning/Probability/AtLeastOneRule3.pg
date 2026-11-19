@@ -36,10 +36,24 @@ $ans = $prob;
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$p = $num/$den;
+$winHints = [
+    [ 1 - $p**$cardnum,
+      "It looks like you used the probability of winning on each card. Use the probability of NOT "
+    . "winning on one card, 1 - $num/$den, raised to the number of cards, then subtract from 1." ],
+    [ (1 - $p)**$cardnum,
+      "That is the probability that none of the cards win. 'At least one' is everything else, so "
+    . "subtract it from 1." ],
+    [ $cardnum*$p,
+      "You cannot add the probabilities for each card here. Find the probability that none of the "
+    . "cards win, then subtract it from 1." ],
+];
+
 BEGIN_PGML
 You purchase [$cardnum] scratch cards for which the probability of winning at least some amount of money on a single card is [$num] in [$den]. What is the probability that you will have at least one winning card among all your cards?
 
-[`P(\text{at least one winner})=`] [_]{DecimalPlacesCmp($ans, 3)} (Round your answer to 3 decimal places)
+[`P(\text{at least one winner})=`] [_]{DecimalPlacesCmp($ans, 3, hints => $winHints, nearMiss => 0.01)} (Round your answer to 3 decimal places)
 
 
 END_PGML

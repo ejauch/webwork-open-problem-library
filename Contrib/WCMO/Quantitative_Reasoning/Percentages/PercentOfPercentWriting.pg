@@ -1,0 +1,102 @@
+## DESCRIPTION
+## Quantitative Reasoning: Percent of a percent - relative decrease, with a written explanation
+## Writing practice for the communication (MF2) part of the in-person final:
+## explain why the "subtract the percentage points" answer is wrong.
+## ENDDESCRIPTION
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('11/18/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('percentages','relative change','percent decrease','writing')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "parserPopUp.pl",
+    "PGessaymacros.pl",
+    "decimalPlaces.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Part (a) is the same as PercentOfPercent.pg.
+# Part (b) matches the in-person final's Q10 add-on: a classmate's answer that
+# subtracts percentage points. The yes/no and the actual drop are graded
+# automatically; the explanation is graded by hand (0-4 scoring guide).
+
+$per = random(31,41,2);
+
+$pdec = random(11,15,1);
+
+$pof = (100-$pdec);
+
+$ans = $per*$pof/100;
+
+# Common wrong answers, for hint messages
+$ppError    = $per - $pdec;            # subtracted percentage points
+$changeOnly = $per*$pdec/100;          # found the decrease but did not subtract it
+$increased  = $per*(100 + $pdec)/100;  # increased instead of decreased
+
+$pctHints = [
+    [ $ppError,    "It looks like you subtracted $pdec percentage points. "
+                 . "A decrease of $pdec% of its 2018 value means the decrease is $pdec% OF $per%, "
+                 . "not $pdec percentage points." ],
+    [ $changeOnly, "That is the size of the decrease ($pdec% of $per%). "
+                 . "What is left after you take it away from the 2018 value?" ],
+    [ $increased,  "It looks like you increased the 2018 value. The number decreased." ],
+];
+
+# Part (b)
+$correctPopUp = PopUp([ 'Choose', 'Yes', 'No' ], 'No');
+
+# The actual drop in percentage points has at most two decimal places.
+$dropHints = [
+    [ $pdec, "That is the classmate's drop. The actual drop is $pdec% OF $per%." ],
+    [ $ppError, "That is the classmate's answer. How many percentage points did the share actually go down?" ],
+    [ $ans, "That is the 2020 percentage. How many percentage points lower is it than $per%?" ],
+];
+
+$ansRounded = Round($ans, 0);    # for the solution
+$exact      = $per - $changeOnly;
+
+BEGIN_PGML
+In 2018, [$per]% of students at a college were involved in athletics. In 2020, that
+number decreased by [$pdec]% of its 2018 value.
+
+a) What percentage of students were involved in athletics in 2020? (Round to the
+nearest whole percent.)
+
+    [_]{DecimalPlacesCmp($ans, 0, hints => $pctHints, hintTolerance => 0)}%
+
+b) A classmate says the answer is [$ppError]%.
+
+    Is the classmate correct? [_]{$correctPopUp}
+
+    By how many percentage points did the share of students in athletics actually go down?
+    (Round to two decimal places.) [_]{DecimalPlacesCmp($changeOnly, 2, hints => $dropHints)} percentage points
+
+    In one or two sentences, explain why the classmate's answer is incorrect. A complete
+    explanation states the conclusion and supports it with numbers from this problem.
+    Your explanation will be graded by your instructor.
+
+[@ ANS(essay_cmp()); essay_box(5, 60) @]*
+END_PGML
+
+BEGIN_PGML_SOLUTION
+a) The decrease is [$pdec]% of [$per]%, which is [`[$per] \times [$pdec/100] = [$changeOnly]`]
+percentage points. So [`[$per] - [$changeOnly] = [$exact]`], or about [$ansRounded]% after rounding.
+(The same as [`[$per] \times [$pof/100]`].)
+
+b) No. A model explanation:
+
+>> "The classmate subtracted [$pdec] percentage points, but the problem says the number
+dropped by [$pdec]% of its 2018 value. [$pdec]% of [$per]% is only [$changeOnly] percentage points,
+so the 2020 value is about [$ansRounded]%, not [$ppError]%." <<
+END_PGML_SOLUTION
+
+ENDDOCUMENT();

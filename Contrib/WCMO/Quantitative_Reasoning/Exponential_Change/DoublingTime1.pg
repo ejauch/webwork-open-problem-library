@@ -44,12 +44,29 @@ $j = $i + 1;
 $ans[$i] = $pop*2**(($year[$j]-$year[0])/$time);
 }
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$roundMsg = "It looks like you rounded the exponent (the number of doubling times). Keep all of its "
+          . "digits, or enter the whole calculation at once, and round only the final answer.";
+$wholeMsg = "It looks like you counted only whole doubling times. The number of doubling times "
+          . "(years elapsed divided by $time) does not have to be a whole number; use it exactly as the exponent.";
+$closeMsg = "Your answer is close, but not exact. Keep all of the digits of the exponent and round "
+          . "only the final answer.";
+@popHints = ();
+foreach my $i (0, 1) {
+    my $e = ($year[$i + 1] - $year[0])/$time;
+    $popHints[$i] = [
+        [ $pop*2**Round($e, 2), $roundMsg ],
+        [ $pop*2**Round($e, 1), $roundMsg ],
+        [ $pop*2**int($e),      $wholeMsg ],
+    ];
+}
+
 BEGIN_PGML
 Imagine that the population of a small town is [$pop] in [$year[0]]. If we know that population doubles every [$time] years, find the following populations (rounded to the nearest whole number):
 
-- The population of the town would be [_]{DecimalPlacesCmp($ans[0], 0)}{5} in [$year[1]].
+- The population of the town would be [_]{DecimalPlacesCmp($ans[0], 0, hints => $popHints[0], nearMiss => 0.01, nearMissMessage => $closeMsg)}{5} in [$year[1]].
 
-- The population of the town would be [_]{DecimalPlacesCmp($ans[1], 0)}{5} in [$year[2]].
+- The population of the town would be [_]{DecimalPlacesCmp($ans[1], 0, hints => $popHints[1], nearMiss => 0.01, nearMissMessage => $closeMsg)}{5} in [$year[2]].
 END_PGML
 
 ENDDOCUMENT();

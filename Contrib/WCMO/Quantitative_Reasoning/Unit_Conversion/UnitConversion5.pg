@@ -1,0 +1,65 @@
+## DESCRIPTION
+## Quantitative Reasoning: Unit conversion - pounds per cubic inch to grams per cubic centimeter
+## ENDDESCRIPTION
+
+## DBsubject('Arithmetic')
+## DBchapter('Units')
+## DBsection('Conversions')
+## Date('11/28/24')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('unit conversion','units','density')
+
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "decimalPlaces.pl",
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$d = random(20,80,1)/100;    # 0.20 to 0.80 lb per cubic inch (about iron through osmium)
+
+$dens = Compute("$d*453.6/(2.540**3)");
+
+
+
+
+# HINTS: messages for common wrong answers.
+$densHints = [
+    [ $d*453.6*2.54**3,
+      "It looks like you multiplied by 2.54^3. A cubic inch holds 2.54^3 cubic centimeters, so a "
+    . "cubic centimeter of this material weighs less than a cubic inch. Divide by 2.54^3." ],
+    [ 453.6/2.54**3,
+      "That is just the conversion factor (grams per cubic centimeter in one pound per cubic inch). "
+    . "Multiply the density by it." ],
+    [ $d*453.6/2.54,
+      "For cubic units, cube the conversion factor: 1 cubic inch = 2.54^3 cubic centimeters." ],
+    [ $d*453.6,
+      "That is in grams per cubic inch. Convert cubic inches to cubic centimeters "
+    . "(1 cubic inch = 2.54^3 cubic centimeters)." ],
+    [ $d/2.54**3,
+      "That is in pounds per cubic centimeter. Convert pounds to grams (1 lb = 453.6 g)." ],
+    [ $d/453.6/2.54**3,
+      "It looks like you divided by 453.6. There are 453.6 grams in a pound, so multiply by 453.6." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Use 1 in = 2.54 cm and 1 lb = 453.6 g, and keep all of the digits until the final step, then round.';
+
+BEGIN_PGML
+Convert [$d] pounds per cubic inch to grams per cubic centimeter (rounded to the nearest thousandth).
+
+Answer: [____]{DecimalPlacesCmp($dens, 3, hints => $densHints, nearMiss => 0.01, nearMissMessage => $closeMsg)} grams per cubic centimeter.
+
+END_PGML
+
+
+ENDDOCUMENT();

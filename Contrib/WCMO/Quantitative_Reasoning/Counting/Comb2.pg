@@ -1,0 +1,53 @@
+## DESCRIPTION
+## Quantitative Reasoning: Combinations - choosing pizza toppings
+## ENDDESCRIPTION
+
+## DBsubject('Combinatorics')
+## DBchapter('Counting')
+## DBsection('Combinations')
+## Date('11/18/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('counting','combinations')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "answerHints.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$total = random(8,15,1);
+
+$num = random(3,5,1);
+
+$ans =  C($total,$num);
+
+# HINTS messages for common wrong answers.
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real(P($total, $num)) =>
+        "That is a permutation, which counts the toppings in the order they are picked. A pizza "
+      . "is the same pizza no matter what order its toppings are chosen, so use combinations.",
+    Real($total**$num) =>
+        "That allows the same topping to be picked more than once and counts different orders. "
+      . "Each topping can only be picked once, and order does not matter, so use combinations.",
+    Real(fact($total)/fact($num)) =>
+        "Close: in the combination formula you also need to divide by ($total - $num)!, "
+      . "not just by $num!.",
+));
+
+
+BEGIN_PGML
+A pizza shop offers [$total] different toppings. How many different pizzas can be made with exactly [$num] different toppings?
+
+Answer: [_]{$ansCmp}
+END_PGML
+
+ENDDOCUMENT();

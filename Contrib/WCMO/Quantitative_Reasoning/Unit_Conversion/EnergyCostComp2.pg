@@ -48,10 +48,21 @@ Context("Currency");
 $ans = Currency("$costdif");
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$costHints = [
+    [ ($hwatt - $lwatt)*$hours/1000*$cost,
+      "Round the cost for each system to the nearest cent first, then subtract." ],
+    [ ($hwatt - $lwatt)*$hours/1000,
+      "That is the difference in energy used, in kilowatt-hours. Multiply by the cost per "
+    . "kilowatt-hour to get the difference in cost." ],
+    [ ($hwatt - $lwatt)*$hours*$cost,
+      "Convert watts to kilowatts (divide by 1000) before multiplying by the cost per kilowatt-hour." ],
+];
+
 BEGIN_PGML
 You are looking at two different computers for your dorm. The higher-end system uses [$hwatt] watts of power for [$hours] hours of use and the smaller system uses [$lwatt] watts for the same amount of time. If your energy costs [`\$[$cost]`] a kilowatt-hour, what is the difference in cost over the [$hours] hours?
 
-The difference in cost is [____]{DecimalPlacesCmp($ans, 2)} (Enter the $ with your answer, rounded to the nearest cent.)
+The difference in cost is [____]{DecimalPlacesCmp($ans, 2, hints => $costHints, hintTolerance => 0)} (Enter the $ with your answer, rounded to the nearest cent.)
 
 END_PGML
 

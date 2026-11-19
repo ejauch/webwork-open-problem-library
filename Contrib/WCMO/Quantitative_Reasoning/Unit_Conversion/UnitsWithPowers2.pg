@@ -16,6 +16,7 @@ DOCUMENT();
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -35,8 +36,20 @@ $yvol = $fvol/27;
 
 $ans = $yvol;
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$volCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real($fvol) => "That is the volume in cubic feet. Convert to cubic yards: 1 cubic yard = "
+                 . "3 ft by 3 ft by 3 ft = 27 cubic feet.",
+    Real($fvol/3) => "A cubic yard is 3 ft by 3 ft by 3 ft, which is 27 cubic feet, not 3. "
+                   . "Divide by 27.",
+    Real($fvol/9) => "9 is the number of square feet in a square yard. For volume, "
+                   . "1 cubic yard = 3 ft by 3 ft by 3 ft = 27 cubic feet.",
+    [ Real($fvol*3), Real($fvol*9), Real($fvol*27) ] =>
+        "Cubic yards are bigger than cubic feet, so the number should get smaller. Divide by 27.",
+));
+
 BEGIN_PGML
-You have a rectangular flower bed that is [$fdim[0]] feet long, [$fdim[1]] feet wide, and [$fdim[2]] foot deep that you need to purchase soil for. Soil is typically sold in cubic yards, so you need [_]{$ans} cubic yards of soil for your flower bed.
+You have a rectangular flower bed that is [$fdim[0]] feet long, [$fdim[1]] feet wide, and [$fdim[2]] foot deep that you need to purchase soil for. Soil is typically sold in cubic yards, so you need [_]{$volCmp} cubic yards of soil for your flower bed.
 END_PGML
 
 ENDDOCUMENT();

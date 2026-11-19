@@ -18,6 +18,7 @@ loadMacros(
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
     "decimalPlaces.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -104,6 +105,34 @@ $prod = $products[random(0,$#products,1)];
 
 $storenum = $nval + 1;
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+# middle of the list as shown (not sorted)
+$nShown = scalar(@shuffled_price);
+$unsortedMiddle = $nShown % 2
+    ? $shuffled_price[($nShown - 1)/2]
+    : ($shuffled_price[$nShown/2 - 1] + $shuffled_price[$nShown/2])/2;
+$midrange = ($price[0] + $price[$nval])/2;
+$meanHints = [
+    [ $midrange,
+      "That is the midrange (halfway between the smallest and largest values). The mean is the "
+    . "sum of all of the values divided by how many values there are." ],
+    [ $median,
+      "That is the median. The mean is the sum of all of the values divided by how many values there are." ],
+];
+# Currency answers: match a hint value to the nearest cent.
+sub _hintAt {
+    my $x = shift;
+    $x = $x->value if Value::isValue($x);
+    return sub { my ($correct, $student) = @_; return abs($student->value - $x) < 0.005 };
+}
+$medianCmp = $median->cmp->withPostFilter(AnswerHints(
+    _hintAt($mean) => "That is the mean. The median is the middle value after the values are sorted "
+                 . "from smallest to largest.",
+    _hintAt($unsortedMiddle) => "Sort the values from smallest to largest first, then find the middle value.",
+    _hintAt($midrange) => "That is the midrange (halfway between the smallest and largest values). "
+                     . "The median is the middle value after the values are sorted.",
+));
+
 BEGIN_PGML
 
 A company is trying to determine the best price for a new product, [$prod], at [$storenum] stores. The different prices are listed below:
@@ -112,8 +141,8 @@ A company is trying to determine the best price for a new product, [$prod], at [
 
 Find the following values associated to the above set of prices:
 
-- Mean: [_]{DecimalPlacesCmp($mean, 2)}
-- Median: [_]{$median}
+- Mean: [_]{DecimalPlacesCmp($mean, 2, hints => $meanHints)}
+- Median: [_]{$medianCmp}
 - Mode: [_]{$mode}
 
 If a value does not exist enter *None* in the blank. Round the mean to the nearest cent.

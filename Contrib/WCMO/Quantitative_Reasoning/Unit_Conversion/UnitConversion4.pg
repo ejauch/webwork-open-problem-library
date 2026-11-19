@@ -1,0 +1,57 @@
+## DESCRIPTION
+## Quantitative Reasoning: Unit conversion - model rocket speed, meters per second to miles per hour
+## ENDDESCRIPTION
+
+## DBsubject('Arithmetic')
+## DBchapter('Units')
+## DBsection('Conversions')
+## Date('11/18/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('unit conversion','units','speed')
+
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  "decimalPlaces.pl",
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+Context("Numeric");
+
+$d = random(31,55,2);
+$t = random(2,6,2);
+
+$speed = Compute("$d/$t*0.001*0.6214*3600");
+
+
+
+
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$speedHints = [
+    [ $d/$t,
+      "That is the speed in meters per second. Convert meters to miles and seconds to hours." ],
+    [ $d/$t*0.001*3600,
+      "That is the speed in kilometers per hour. Convert kilometers to miles (1 km = 0.6214 mi)." ],
+    [ $d/$t*0.001*0.6214*60,
+      "That is the speed in miles per minute. There are 3600 seconds in an hour." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Use 1 km = 0.6214 mi and keep all of the digits until the final step, then round.';
+
+BEGIN_PGML
+A model rocket was measured to travel a distance of [$d] meters in [$t] seconds. How fast was it moving in miles per hour (rounded to the nearest hundredth)?
+
+It was moving [____]{DecimalPlacesCmp($speed, 2, hints => $speedHints, nearMiss => 0.01, nearMissMessage => $closeMsg)} miles per hour.
+
+END_PGML
+
+
+ENDDOCUMENT();

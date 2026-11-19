@@ -33,10 +33,23 @@ $k = Compute("$c+273.15");
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$kHints = [
+    [ $c + 273,
+      "Use 273.15, not 273, when converting Celsius to Kelvin." ],
+    [ $c - 273.15,
+      "To go from Celsius to Kelvin, add 273.15." ],
+    [ ($c - 32)*5/9 + 273.15,
+      "It looks like you treated the temperature as Fahrenheit. It is already in Celsius, so "
+    . "just add 273.15." ],
+    [ -($c + 273.15),
+      "Check your sign. Kelvin temperatures are never negative: K = C + 273.15." ],
+];
+
 BEGIN_PGML
 Convert [`[$c]{}^\circ`] C to Kelvin (rounded to the nearest hundredth).
 
-Answer: [____]{DecimalPlacesCmp($k, 2)} K
+Answer: [____]{DecimalPlacesCmp($k, 2, hints => $kHints)} K
 
 END_PGML
 

@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextScientificNotation.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -31,11 +32,24 @@ $num = random(3,5,1);
 
 $ans =  C($total,$num);
 
+# HINTS messages for common wrong answers.
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real(P($total, $num)) =>
+        "That is a permutation, which counts the cosplays in the order they are picked. The same "
+      . "cosplays get packed no matter what order they are chosen, so use combinations.",
+    Real($total**$num) =>
+        "That allows the same cosplay to be picked more than once and counts different orders. "
+      . "Each cosplay can only be picked once, and order does not matter, so use combinations.",
+    Real(fact($total)/fact($num)) =>
+        "Close: in the combination formula you also need to divide by ($total - $num)!, "
+      . "not just by $num!.",
+));
+
 
 BEGIN_PGML
-A famous cosplayer has [$total] different cosplays to pick [$num] to take to an upcoming convention. How many possible sets of [$num] can they pack?
+A famous cosplayer has [$total] different cosplays and wants to pick [$num] of them to take to an upcoming convention. How many different sets of [$num] cosplays can they pack?
 
-Answer: [_]{$ans}
+Answer: [_]{$ansCmp}
 END_PGML
 
 ENDDOCUMENT();

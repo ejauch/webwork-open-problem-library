@@ -1,0 +1,56 @@
+## DESCRIPTION
+## Quantitative Reasoning: Sales tax - finding the pre-tax total of convention purchases
+## ENDDESCRIPTION
+
+## DBsubject('Arithmetic')
+## DBchapter('Percents')
+## DBsection('Applications')
+## Date('9/26/2024')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('percentages','sales tax')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextCurrency.pl",
+    "decimalPlaces.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context("Currency");
+
+$post = Currency(random(150,600,25)+random(15,95,15)/100);
+$tax = random(7,13,2);
+
+$pre = Currency($post/((100+$tax)/100));
+
+
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$preHints = [
+    [ $post*(100 - $tax)/100,
+      "Taking $tax% off the after-tax total does not undo the tax, because the tax was $tax% of "
+    . "the smaller pre-tax total. Since pre-tax total * (1 + tax rate) = after-tax total, divide "
+    . "the after-tax total by (1 + tax rate)." ],
+    [ $post*(100 + $tax)/100,
+      "You added tax again. The after-tax total already includes the tax, so work backward to "
+    . "the total before tax." ],
+    [ $post*$tax/100,
+      "That is $tax% of the after-tax total. The question asks for the total before tax." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Divide by (1 + tax rate) and round only at the '
+          . 'end, to the nearest cent.';
+
+BEGIN_PGML
+You go on a spending spree at a local convention and your after-tax total was [$post]. If the tax rate is [$tax]%, then your pre-tax total, to the nearest cent, was [_]{DecimalPlacesCmp($pre, 2, hints => $preHints, nearMiss => 0.005, nearMissMessage => $closeMsg)}{5}.
+END_PGML
+
+
+ENDDOCUMENT();

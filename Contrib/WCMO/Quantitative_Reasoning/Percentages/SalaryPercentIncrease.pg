@@ -37,9 +37,17 @@ $per = random(310,410,20);
 $pre = Currency($salary*(100+$per)/100);
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$salaryHints = [
+    [ $salary*$per/100,
+      "That is the raise ($per% of your old salary). Your new salary is the old salary plus the raise." ],
+    [ $salary + $per,
+      "The increase is $per percent of your old salary, not $per dollars." ],
+];
+
 BEGIN_PGML
 Imagine you work a part-time job during college making a yearly salary of
-[$salary]. After graduating college, you land a job whose salary is [$per]% more than your old one. Your new salary is [_]{DecimalPlacesCmp($pre, 2)}{5} (in dollars and cents).
+[$salary]. After graduating college, you land a job whose salary is [$per]% more than your old one. Your new salary is [_]{DecimalPlacesCmp($pre, 2, hints => $salaryHints)}{5} (in dollars and cents).
 END_PGML
 
 

@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextScientificNotation.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -30,10 +31,19 @@ $pos = random(3,5,1);
 
 $ans =  P($cand,$pos);
 
+# HINTS messages for common wrong answers.
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real(C($cand, $pos)) =>
+        "That counts groups of $pos candidates where order does not matter. However, in this setting the order "
+      . "matters (who runs first, second, etc.), so use permutations.",
+    Real($cand**$pos) =>
+        "A candidate can only fill one roll, so the choices go down after each position is filled.",
+));
+
 BEGIN_PGML
 A city has [$cand] candidates running for [$pos] leadership positions, where the top vote-getter gets the first position, the second the second position, etc. How many outcomes are possible in this situation?
 
-Answer: [_]{$ans}
+Answer: [_]{$ansCmp}
 END_PGML
 
 ENDDOCUMENT();

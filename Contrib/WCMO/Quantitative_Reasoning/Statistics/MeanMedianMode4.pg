@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "decimalPlaces.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -97,6 +98,33 @@ $display_string = join(' ', @shuffled_amount);
 
 $kidnum = $nval + 1;
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+# middle of the list as shown (not sorted)
+$nShown = scalar(@shuffled_amount);
+$unsortedMiddle = $nShown % 2
+    ? $shuffled_amount[($nShown - 1)/2]
+    : ($shuffled_amount[$nShown/2 - 1] + $shuffled_amount[$nShown/2])/2;
+$midrange = ($amount[0] + $amount[$nval])/2;
+$meanHints = [
+    [ $midrange,
+      "That is the midrange (halfway between the smallest and largest values). The mean is the "
+    . "sum of all of the values divided by how many values there are." ],
+    [ $median,
+      "That is the median. The mean is the sum of all of the values divided by how many values there are." ],
+];
+# AnswerHints shows a message even on a correct answer, so leave out any hint whose
+# value equals the median.
+@medianHintList = (
+    [ $mean, "That is the mean. The median is the middle value after the values are sorted "
+                 . "from smallest to largest." ],
+    [ $unsortedMiddle, "Sort the values from smallest to largest first, then find the middle value." ],
+    [ $midrange, "That is the midrange (halfway between the smallest and largest values). "
+                     . "The median is the middle value after the values are sorted." ],
+);
+$medianCmp = Real($median)->cmp->withPostFilter(AnswerHints(
+    map { (Real($_->[0]) => $_->[1]) } grep { Real($_->[0]) != Real($median) } @medianHintList
+));
+
 BEGIN_PGML
 
 A group of [$kidnum] children collected the following amounts of candy during the fall festivities:
@@ -105,8 +133,8 @@ A group of [$kidnum] children collected the following amounts of candy during th
 
 Find the following values associated to the data above:
 
-- Mean: [_]{DecimalPlacesCmp($mean, 1)}
-- Median: [_]{$median}
+- Mean: [_]{DecimalPlacesCmp($mean, 1, hints => $meanHints)}
+- Median: [_]{$medianCmp}
 - Mode: [_]{$mode}
 
 If a value does not exist enter *None* in the blank. Round any answers to 1 decimal place.

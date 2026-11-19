@@ -1,0 +1,72 @@
+## DESCRIPTION
+## Quantitative Reasoning: Combinations and probability - chance a specific group of coworkers wins a drawing
+## ENDDESCRIPTION
+
+## DBsubject('Probability')
+## DBchapter('Sample Space')
+## DBsection('Probability: direct computation, inclusion/exclusion')
+## Date('11/18/26')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('probability','combinations','scientific notation')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "answerHints.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+$nums = random(5,8,1);
+
+$numsless = $nums - 1;
+
+$total = random(30,50,1);
+
+$comb =  C($total,$nums);
+
+$prob =  1 / $comb;
+
+# HINTS messages for common wrong answers.
+# (Built before the context changes, so the count is graded as an ordinary number.)
+$combCmp = Real($comb)->cmp->withPostFilter(AnswerHints(
+    Real(P($total, $nums)) =>
+        "That counts the winners in the order their names are drawn. The group of winners is the "
+      . "same no matter what order the names come out, so use combinations.",
+    Real($total**$nums) =>
+        "An employee cannot win twice, so the number of choices goes down after each name is drawn, "
+      . "and the order of the names does not matter.",
+));
+
+# The probability is entered in scientific notation with 3 significant digits
+# (2 digits after the decimal point in the mantissa).
+Context("ScientificNotation");
+
+Context()->flags->set(
+    snDigits => 2,
+    snTrimZeros => 0,
+    snMinDigits => 2,
+    snMaxDigits => 2,
+);
+Context()->flags->set(tolType => 'digits', tolerance => 3, tolTruncation => 1);
+
+$ans =  ScientificNotation($prob);
+
+
+BEGIN_PGML
+A company with [$total] employees (yourself included) draws names at random to choose [$nums] employees for an all-expenses-paid trip.
+
+How many different groups of winners are possible? [_]{$combCmp}
+
+What is the probability that you and your [$numsless] closest coworkers ([$nums] employees in total) are the group chosen for the trip? [_]{$ans} (Round this answer to 3 significant digits.)
+END_PGML
+
+ENDDOCUMENT();

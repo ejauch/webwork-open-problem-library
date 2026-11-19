@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextScientificNotation.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -30,10 +31,22 @@ $num = random(3,5,1);
 
 $ans =  P($part,$num);
 
+# HINTS messages for common wrong answers.
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real(C($part, $num)) =>
+        "That counts groups of $num players where order does not matter. Finishing first, second, "
+      . "and so on are different awards, so the order matters; use permutations.",
+    Real($part**$num) =>
+        "That allows the same player to win more than one award. Each player can only finish in "
+      . "one place, so the number of choices goes down after each place is filled.",
+    Real(fact($part)) =>
+        "That ranks all $part participants. Only the top $num places get awards, so stop after $num places.",
+));
+
 BEGIN_PGML
 Imagine a competition has [$part] participants and they give awards to the top [$num] players. How many different possible outcomes of top [$num] players can occur?
 
-Answer: [_]{$ans}
+Answer: [_]{$ansCmp}
 END_PGML
 
 ENDDOCUMENT();

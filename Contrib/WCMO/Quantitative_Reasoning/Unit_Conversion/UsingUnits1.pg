@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextCurrency.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -37,11 +38,24 @@ $total = round($price*$weight*100)/100;
 
 $ans = $total;
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+# AnswerHints shows its message even on a correct answer, so any hint that equals the
+# correct answer is left out.
+@totalHintList = (
+    [ int($price*$weight*100)/100,
+      "Round to the nearest cent instead of cutting off the extra digits." ],
+    [ $price/$weight, "Multiply the price per pound by the number of pounds." ],
+    [ $weight/$price, "Multiply the price per pound by the number of pounds." ],
+);
+$totalCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    map { (Real($_->[0]) => $_->[1]) } grep { Real($_->[0]) != Real($ans) } @totalHintList
+));
+
 BEGIN_PGML
 
 How much would you pay for [$weight] pounds of [$pfruit] if it costs $[$pricedisp] per pound?
 
-Total amount paid is $ [_]{$ans}
+Total amount paid is $ [_]{$totalCmp}
 END_PGML
 
 ENDDOCUMENT();

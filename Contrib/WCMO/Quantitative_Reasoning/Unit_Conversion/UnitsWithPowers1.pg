@@ -16,6 +16,7 @@ DOCUMENT();
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -38,10 +39,22 @@ $farea = $yarea*9;
 
 $ans = $farea;
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$areaCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real($yarea*3) => "A square yard is 3 ft by 3 ft, which is 9 square feet, not 3. "
+                    . "Multiply by 9.",
+    Real($yarea/3) => "Square feet are smaller than square yards, so the number should get bigger. "
+                    . "A square yard is 3 ft by 3 ft, which is 9 square feet.",
+    Real($yarea/9) => "Square feet are smaller than square yards, so the number should get bigger. "
+                    . "Multiply by 9 instead of dividing.",
+    Real($yarea*27) => "27 is the number of cubic feet in a cubic yard. For area, "
+                     . "1 square yard = 3 ft by 3 ft = 9 square feet.",
+));
+
 BEGIN_PGML
 You purchased a rug that is [$yarea] square yards. What area does the rug cover in square feet?
 
-The rug covers [__]{$ans} square feet.
+The rug covers [__]{$areaCmp} square feet.
 END_PGML
 
 ENDDOCUMENT();

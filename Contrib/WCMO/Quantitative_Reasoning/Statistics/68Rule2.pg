@@ -16,6 +16,7 @@ DOCUMENT();
 loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -41,10 +42,25 @@ else {
 $ans = 0.3;
 }
 
+# HINTS messages for common wrong answers.
+%inside  = (1 => [68, 68.2, 68.26, 68.27, 68.3], 2 => [95, 95.4, 95.44, 95.45], 3 => [99.7, 99.73, 99.74]);
+%precise = (1 => [31.7, 31.73, 31.74], 2 => [4.55, 4.56, 4.6], 3 => [0.26, 0.27]);
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    [ map { Real($_) } @{ $inside{$steps} } ] =>
+        "That is the percentage inside the range. The question asks for the percentage outside it.",
+    [ map { Real($_) } @{ $precise{$steps} } ] =>
+        "That is a more precise value, like one from a z-table. For this problem, use the "
+      . "68-95-99.7 rule.",
+    Real(0) => "Some values still fall outside the range. Use the 68-95-99.7 rule to find how many "
+             . "fall inside, and take that away from 100%.",
+    Real(100) => "Not all of the values fall outside the range. Use the 68-95-99.7 rule to find how "
+               . "many fall inside, and take that away from 100%.",
+));
+
 BEGIN_PGML
 A manufacturer that makes packages of cookies has a normal distribution of the weights of the packages of cookies with a mean weight of [$mean] grams and a standard deviation of [$stddev] grams. What percentage of package weights fall outside the range from [$bottom] grams to [$top] grams?
 
-The answer is [_]{$ans}{5} %
+The answer is [_]{$ansCmp}{5} %
 END_PGML
 
 ENDDOCUMENT();

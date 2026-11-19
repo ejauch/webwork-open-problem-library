@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextScientificNotation.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -30,11 +31,24 @@ $team = random(5,8);
 
 $ans =  C($students,$team);
 
+# HINTS messages for common wrong answers.
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real(P($students, $team)) =>
+        "That is a permutation, which counts the students in the order they are picked. A team is "
+      . "the same team no matter what order its members are chosen, so use combinations.",
+    Real($students**$team) =>
+        "That allows the same student to be picked more than once and counts different orders. "
+      . "Each student can only be picked once, and order does not matter, so use combinations.",
+    Real(fact($students)/fact($team)) =>
+        "Close: in the combination formula you also need to divide by ($students - $team)!, "
+      . "not just by $team!.",
+));
+
 
 BEGIN_PGML
 A club has [$students] students and they need to create a team of [$team] to represent them at the College Club Competition. How many teams are possible?
 
-Answer: [_]{$ans}
+Answer: [_]{$ansCmp}
 END_PGML
 
 ENDDOCUMENT();

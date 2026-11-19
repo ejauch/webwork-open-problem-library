@@ -17,6 +17,7 @@ loadMacros(
     "PGstandard.pl",    # Standard macros for PG language
     "PGML.pl",          # PGML markup and Math Objects
     "contextScientificNotation.pl",
+    "answerHints.pl",
     "PGcourse.pl",      # Customization file for the course
 );
 
@@ -28,10 +29,19 @@ $team = random(8,14,2);
 
 $ans =  P($team,4);
 
+# HINTS messages for common wrong answers.
+$ansCmp = Real($ans)->cmp->withPostFilter(AnswerHints(
+    Real(C($team, 4)) =>
+        "That counts groups of 4 players where order does not matter. In a relay the running order "
+      . "matters (who runs first, second, third, and fourth), so use permutations.",
+    Real($team**4) =>
+        "A player can only be on the relay team once, so the choices go down after each runner is picked.",
+));
+
 BEGIN_PGML
 A coach wants to create a 4-person relay team from a team with [$team] players. How many relay teams are possible?
 
-Answer: [_]{$ans}
+Answer: [_]{$ansCmp}
 END_PGML
 
 ENDDOCUMENT();

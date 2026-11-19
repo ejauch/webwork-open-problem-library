@@ -5,7 +5,7 @@
 ## DBsubject('Arithmetic')
 ## DBchapter('Percents')
 ## DBsection('Applications')
-## Date('9/26/24')
+## Date('9/26/2024')
 ## Author('Erich Jauch')
 ## Institution('Westminster College (Missouri)')
 ## KEYWORDS('percentages','discount')
@@ -33,8 +33,25 @@ $disc = random(12,27,3);
 $pre = Currency($post/((100-$disc)/100));
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$preHints = [
+    [ $post*(100 + $disc)/100,
+      "Adding $disc% back to the discounted total does not undo the discount, because the "
+    . "discount was $disc% of the larger original total. Since original total * (1 - discount "
+    . "rate) = discounted total, divide the discounted total by (1 - discount rate)." ],
+    [ $post*(100 - $disc)/100,
+      "You took the discount off again. The total you were given already has the discount "
+    . "taken off, so work backward to the total before the discount." ],
+    [ $post + $disc,
+      "The discount is $disc percent, not $disc dollars." ],
+    [ $post*$disc/100,
+      "That is $disc% of the discounted total. The question asks for the total before the discount." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Divide by (1 - discount rate) and round only at '
+          . 'the end, to the nearest cent.';
+
 BEGIN_PGML
-You get a [$disc]% discount as a frequent shopper at your local game store. If your total after the discount is [$post], then your total before the discount, to the nearest cent, was [_]{DecimalPlacesCmp($pre, 2)}{5}.
+You get a [$disc]% discount as a frequent shopper at your local game store. If your total after the discount is [$post], then your total before the discount, to the nearest cent, was [_]{DecimalPlacesCmp($pre, 2, hints => $preHints, nearMiss => 0.005, nearMissMessage => $closeMsg)}{5}.
 END_PGML
 
 

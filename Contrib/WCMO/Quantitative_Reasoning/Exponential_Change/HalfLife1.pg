@@ -52,14 +52,36 @@ $ans[$i] = $amount*2**(-1*$time[$i]/$hlife);
 }
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$roundMsg = "It looks like you rounded the exponent (the number of half-lives). Keep all of its "
+          . "digits, or enter the whole calculation at once, and round only the final answer.";
+$wholeMsg = "It looks like you counted only whole half-lives. The number of half-lives (time divided "
+          . "by the half-life) does not have to be a whole number; use it exactly as the exponent.";
+$closeMsg = "Your answer is close, but not exact. Keep all of the digits of the exponent and round "
+          . "only the final answer.";
+@amountHints = ();
+foreach my $i (0 .. 2) {
+    my $e = $time[$i]/$hlife;
+    $amountHints[$i] = [
+        [ $amount*0.5**Round($e, 2), $roundMsg ],
+        [ $amount*0.5**Round($e, 1), $roundMsg ],
+        [ $amount*0.5**int($e),      $wholeMsg ],
+        [ $amount*(1 - $e/2),
+          "It looks like you treated the decay as linear. Radioactive decay is exponential: "
+        . "multiply by (1/2) once for each half-life, so the amount is (starting amount)*(1/2)^(time/half-life)." ],
+        [ $amount*0.5**(1/$e),
+          "Check the exponent. It is (time elapsed)/(half-life), not the other way around." ],
+    ];
+}
+
 BEGIN_PGML
 Radioactive [$iso] has a half-life of about [$hlife] years. If a sample in a lab is around [$amount] grams, find the amount in grams for the following situations to the nearest whole gram:
 
-- After [$time[0]] year(s) there are [_]{DecimalPlacesCmp($ans[0], 0)} grams.
+- After [$time[0]] year(s) there are [_]{DecimalPlacesCmp($ans[0], 0, hints => $amountHints[0], nearMiss => 0.01, nearMissMessage => $closeMsg)} grams.
 
-- After [$time[1]] years there are [_]{DecimalPlacesCmp($ans[1], 0)} grams.
+- After [$time[1]] years there are [_]{DecimalPlacesCmp($ans[1], 0, hints => $amountHints[1], nearMiss => 0.01, nearMissMessage => $closeMsg)} grams.
 
-- After [$time[2]] years there are [_]{DecimalPlacesCmp($ans[2], 0)} grams.
+- After [$time[2]] years there are [_]{DecimalPlacesCmp($ans[2], 0, hints => $amountHints[2], nearMiss => 0.01, nearMissMessage => $closeMsg)} grams.
 END_PGML
 
 ENDDOCUMENT();

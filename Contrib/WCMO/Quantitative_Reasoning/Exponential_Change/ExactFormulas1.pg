@@ -38,8 +38,20 @@ $time = Compute("log(2)/log(1+$rate/100)")->reduce();
 $ans[0] = $time;
 
 
+# HINTS messages for common wrong answers.
+$timeHints = [
+    [ 70/$rate,
+      "That is the rule of 70, which only approximates the doubling time. The exact doubling time is "
+    . "log(2)/log(1 + r), with the rate r written as a decimal." ],
+    [ 72/$rate,
+      "That is the rule of 72, which only approximates the doubling time. The exact doubling time is "
+    . "log(2)/log(1 + r), with the rate r written as a decimal." ],
+    [ log(2)/($rate/100),
+      "Divide log(2) by log(1 + r), not by r." ],
+];
+
 BEGIN_PGML
-A population of [$animal] is growing at a rate of [$rate]% per month. The exact doubling time would be [_]{DecimalPlacesCmp($ans[0], 2)} months (rounded to the nearest hundredth).
+A population of [$animal] is growing at a rate of [$rate]% per month. The exact doubling time would be [_]{DecimalPlacesCmp($ans[0], 2, hints => $timeHints)} months (rounded to the nearest hundredth).
 END_PGML
 
 ENDDOCUMENT();

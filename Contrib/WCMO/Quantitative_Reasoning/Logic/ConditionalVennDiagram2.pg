@@ -40,15 +40,11 @@ $par = 2;
 
 # the options for subsets and supsets (and their negations) for the Venn diagrams. It is important that these two arrays be the same size and the positions match
 
-@supset = ("lives in Missouri", "likes the mountains","likes the beach","likes the cold");
-@nsupset = ("does not live in Missouri", "does not like the mountains", "does not like the beach", "does not like the cold");
+@supset = ("likes the cold", "enjoys physical fitness", "has artistic talents", "enjoys outdoor activities", "appreciates spicy food", "loves animals", "enjoys music", "is multilingual", "is interested in technology", "values education", "is environmentally conscious", "likes adventure", "is family-oriented", "is interested in fashion", "enjoys reading", "practices mindfulness", "is health-conscious", "is interested in history");
+@nsupset = ("does not like the cold", "does not enjoy physical fitness", "does not have artistic talents", "does not enjoy outdoor activities", "does not appreciate spicy food", "does not love animals", "does not enjoy music", "is not multilingual", "is not interested in technology", "does not value education", "is not environmentally conscious", "does not like adventure", "is not family-oriented", "is not interested in fashion", "does not enjoy reading", "does not practice mindfulness", "is not health-conscious", "is not interested in history");
 
-@subset = ("lives in Fulton","lives in Colorado","lives in Miami","lives in Alaska");
-@nsubset = ("does not live in Fulton", "does not live in Colorado", "does not live in Miami", "does not live in Alaska");
-
-# the conditional statement for the first proposition based on the sub/supsets above must be the same size and position as the arrays above.
-
-@conditional = ("If a person lives in Fulton, then they live in Missouri.","If a person lives in Colorado, then they like the mountains.", "If a person lives in Miami, then they like the beach.", "If a person lives in Alaska, then they like the cold.");
+@subset = ("lives in Alaska", "practices yoga", "paints landscapes", "goes hiking", "frequently eats Indian cuisine", "volunteers at an animal shelter", "plays the guitar", "speaks Spanish", "codes in Python", "attends university lectures", "uses reusable shopping bags", "goes skydiving", "hosts family gatherings", "designs their own clothing", "reads mystery novels", "meditates daily", "follows a plant-based diet", "visits historical landmarks");
+@nsubset = ("does not live in Alaska", "does not practice yoga", "does not paint landscapes", "does not go hiking", "does not frequently eat Indian cuisine", "does not volunteer at an animal shelter", "does not play the guitar", "does not speak Spanish", "does not code in Python", "does not attend university lectures", "does not use reusable shopping bags", "does not go skydiving", "does not host family gatherings", "does not design their own clothing", "does not read mystery novels", "does not meditate daily", "does not follow a plant-based diet", "does not visit historical landmarks");
 
 # grabs the last index to then randomly select which option for the problem.
 $length = $#supset;
@@ -58,11 +54,14 @@ $l = random(0,$length,1);
 $sup = $supset[$l];
 $sub = $subset[$l];
 
+# every phrase is singular, so it reads correctly after "that person" and after a name
+$conditional = "If a person $sub, then that person $sup.";
+
 @names = ("Ashley", "Omar", "Nguyen", "Jackson");
 
 $name = $names[random(0,$#names,1)];
 
-$prop1 = $conditional[$l];
+$prop1 = $conditional;
 
 if ($par == 0) {
 $prop2 = "$name $subset[$l].";

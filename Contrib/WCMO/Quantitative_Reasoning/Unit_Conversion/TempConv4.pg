@@ -36,10 +36,22 @@ $f = Compute("$c*9/5+32");
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$cHints = [
+    [ $k - 273,
+      "Use 273.15, not 273, when converting Kelvin to Celsius." ],
+    [ -$c,
+      "Check your sign. C = K - 273.15, so a temperature below 273.15 K is negative in Celsius." ],
+    [ $k + 273.15,
+      "To go from Kelvin to Celsius, subtract 273.15." ],
+    [ $f,
+      "That is the temperature in Fahrenheit. The question asks for Celsius: C = K - 273.15." ],
+];
+
 BEGIN_PGML
 Convert [$k] K to Celsius (rounded to the nearest hundredth).
 
-Answer: [____]{DecimalPlacesCmp($c, 2)}[`{}^\circ`] C
+Answer: [____]{DecimalPlacesCmp($c, 2, hints => $cHints)}[`{}^\circ`] C
 
 END_PGML
 

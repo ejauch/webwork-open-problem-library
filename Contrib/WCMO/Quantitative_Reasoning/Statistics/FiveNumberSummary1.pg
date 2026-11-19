@@ -25,8 +25,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0;
 
-@price = ();
-
 my $i = 0;
 
 $nval = random(9,15,2); # number of values in data set less 1.
@@ -84,21 +82,28 @@ $uq = ($val[$uqindexl]+$val[$uqindexr])/2;
 $min = $val[0];
 $max = $val[$nval];
 
-
-#@shuffled_val = @val;
-
-#for (my $i = @shuffled_price - 1; $i > 0; $i--) {
-#    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
-    # Swap elements at index $i and $j
-#    my $temp = $shuffled_price[$i];
-#    $shuffled_price[$i] = $shuffled_price[$j];
-#    $shuffled_price[$j] = $temp;
-#}
-
-#$display_string = join(' ', @shuffled_price);
 $display_string = join(' | ',@val);
 
 
+
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+# Quartiles found other ways, for the hints. The data are already sorted.
+sub _hintMedian {
+    my @a = @_;
+    my $m = scalar(@a);
+    return $m % 2 ? $a[($m - 1)/2] : ($a[$m/2 - 1] + $a[$m/2])/2;
+}
+sub _hintQuartileExc {    # spreadsheet QUARTILE.EXC: position (n + 1)p
+    my ($p, @a) = @_;
+    my $h = (scalar(@a) + 1)*$p - 1;
+    my $l = int($h);
+    return $a[$l] + ($h - $l)*($a[$l + 1] - $a[$l]);
+}
+$excMsg = "That matches a spreadsheet QUARTILE function, which uses a different method. Split the "
+        . "sorted data into a lower half and an upper half, and find the median of each half.";
+
+$lqHints = [ [ _hintQuartileExc(0.25, @val), $excMsg ] ];
+$uqHints = [ [ _hintQuartileExc(0.75, @val), $excMsg ] ];
 
 BEGIN_PGML
 
@@ -106,7 +111,7 @@ Find the five-number summary for the values below.
 
 >>| [$display_string] |<<
 
-Five-number summary: [_]{DecimalPlacesCmp($min, 1)}, [_]{DecimalPlacesCmp($lq, 1)}, [_]{DecimalPlacesCmp($median, 1)},[_]{DecimalPlacesCmp($uq, 1)},[_]{DecimalPlacesCmp($max, 1)}
+Five-number summary: [_]{DecimalPlacesCmp($min, 1)}, [_]{DecimalPlacesCmp($lq, 1, hints => $lqHints, hintTolerance => 0)}, [_]{DecimalPlacesCmp($median, 1)},[_]{DecimalPlacesCmp($uq, 1, hints => $uqHints, hintTolerance => 0)},[_]{DecimalPlacesCmp($max, 1)}
 
 Round all answers to 1 decimal place.
 END_PGML

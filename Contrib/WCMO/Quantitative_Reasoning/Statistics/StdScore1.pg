@@ -69,14 +69,23 @@ foreach my $i (0...4) {
 $valprice[$i] = Currency($vals[$i]);
 }
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@zHints = ();
+foreach my $i (0 .. $#z) {
+    $zHints[$i] = [
+        [ -$z[$i], "Check the sign. A value below the mean has a negative standard score and a value "
+                 . "above the mean has a positive one: z = (value - mean)/(standard deviation)." ],
+    ];
+}
+
 BEGIN_PGML
 The sale prices of homes in a particular neighborhood are normally distributed with a mean price of [$meanprice] with a standard deviation of [$stddevprice]. Find the standard scores associated with the following prices (rounded to 2 decimal places).
 
-- The standard score for [$valprice[0]] is [`z=`][_]{DecimalPlacesCmp($z[0], 2)} ;
-- The standard score for [$valprice[1]] is [`z=`][_]{DecimalPlacesCmp($z[1], 2)} ;
-- The standard score for [$valprice[2]] is [`z=`][_]{DecimalPlacesCmp($z[2], 2)} ;
-- The standard score for [$valprice[3]] is [`z=`][_]{DecimalPlacesCmp($z[3], 2)} ;
-- The standard score for [$valprice[4]] is [`z=`][_]{DecimalPlacesCmp($z[4], 2)}.
+- The standard score for [$valprice[0]] is [`z=`][_]{DecimalPlacesCmp($z[0], 2, hints => $zHints[0])} ;
+- The standard score for [$valprice[1]] is [`z=`][_]{DecimalPlacesCmp($z[1], 2, hints => $zHints[1])} ;
+- The standard score for [$valprice[2]] is [`z=`][_]{DecimalPlacesCmp($z[2], 2, hints => $zHints[2])} ;
+- The standard score for [$valprice[3]] is [`z=`][_]{DecimalPlacesCmp($z[3], 2, hints => $zHints[3])} ;
+- The standard score for [$valprice[4]] is [`z=`][_]{DecimalPlacesCmp($z[4], 2, hints => $zHints[4])}.
 
 
 END_PGML

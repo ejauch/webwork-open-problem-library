@@ -25,8 +25,6 @@ loadMacros(
 # answers are correct and which are incorrect
 #$showPartialCorrectAnswers = 0;
 
-@price = ();
-
 my $i = 0;
 
 $nval = random(8,12,1); # number of values in data set less 1.
@@ -71,17 +69,20 @@ $s++;
 
 $std = sqrt($devsum/$nval);
 
-#@shuffled_val = @val;
+# Common wrong answers, for hint messages (n = $nval + 1 values)
+$popStd = sqrt($devsum/($nval + 1));   # divided by n instead of n - 1
+$var    = $devsum/$nval;               # forgot the square root
+$popVar = $devsum/($nval + 1);         # both
 
-#for (my $i = @shuffled_price - 1; $i > 0; $i--) {
-#    my $j = int(random(0,$i + 1,1));  # Pick a random index between 0 and $i
-    # Swap elements at index $i and $j
-#    my $temp = $shuffled_price[$i];
-#    $shuffled_price[$i] = $shuffled_price[$j];
-#    $shuffled_price[$j] = $temp;
-#}
+$sdHints = [
+    [ $popStd, "It looks like you divided by the number of data values (n). "
+             . "For the standard deviation, divide the sum of the squared deviations by n - 1, "
+             . "then take the square root." ],
+    [ $var,    "It looks like you found the variance. Remember to take the square root as the last step." ],
+    [ $popVar, "It looks like you divided by n and did not take the square root. "
+             . "Divide the sum of the squared deviations by n - 1, then take the square root." ],
+];
 
-#$display_string = join(' ', @shuffled_price);
 $display_string = join(' | ',@val);
 
 $total = $nval + 1;
@@ -98,7 +99,7 @@ A collection of [$total] kids all have packages of jelly beans and they have the
 
 The mean of this set is [_]{DecimalPlacesCmp($mean, 1)} (rounded to 1 decimal place)
 
-The standard deviation of this set is [_]{DecimalPlacesCmp($std, 2)} (rounded to two decimal places)
+The standard deviation of this set is [_]{DecimalPlacesCmp($std, 2, hints => $sdHints)} (rounded to two decimal places)
 
 END_PGML
 

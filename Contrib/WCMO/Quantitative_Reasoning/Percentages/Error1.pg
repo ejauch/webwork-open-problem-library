@@ -1,0 +1,74 @@
+## DESCRIPTION
+## Quantitative Reasoning: Absolute and relative error - labeled weight of a package
+## ENDDESCRIPTION
+
+## DBsubject('Arithmetic')
+## DBchapter('Decimals')
+## DBsection('Applications')
+## Date('9/24/24')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('absolute error','relative error','percentages')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "decimalPlaces.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+@item = ("potatoes", "carrots", "tomatoes", "oranges", "apples");
+
+$food = $item[random(0,$#item,1)];
+
+# The labeled weight is the measured (claimed) value; the actual weight is the true value.
+$label = random(6,9,1);
+
+$tenths = random(3,27,3);
+
+$diff = $tenths/10;
+
+$true = ($label*10 - $tenths)/10;
+
+# Absolute error = measured value - true value (exact to the tenth).
+$abs = $diff;
+
+# Relative error = absolute error / true value, as a percent (unrounded).
+$rel = $diff/$true * 100;
+
+
+# HINTS messages for common wrong answers.
+$absHints = [
+    [ -$diff,
+      "Absolute error is the labeled (measured) value minus the true value. The label claims more "
+    . "than the package weighs, so the error is positive." ],
+];
+$relHints = [
+    [ $diff/$label * 100,
+      "Relative error compares the error to the true value, so divide by the actual weight "
+    . "($true pounds), not the labeled weight." ],
+    [ $diff/$true,
+      "That is the relative error as a decimal. Multiply by 100 to write it as a percent." ],
+    [ -$rel,
+      "Relative error is (labeled value - true value) divided by the true value. The label claims "
+    . "more than the package weighs, so the relative error is positive." ],
+];
+$closeMsg = 'Your answer is close, but not exact. Divide the absolute error by the true weight, '
+          . 'multiply by 100, and round only at the end.';
+
+
+BEGIN_PGML
+A grocery store is selling a package of [$food] with a labeled weight of [$label] pounds, but it actually weighs [$true] pounds.
+
+The absolute error in this situation is [_]{DecimalPlacesCmp($abs, 1, hints => $absHints)}{5} pounds, and the relative error is [_]{DecimalPlacesCmp($rel, 1, hints => $relHints, nearMiss => 0.01, nearMissMessage => $closeMsg)}{5}% (rounded to the nearest tenth of a percent).
+END_PGML
+
+
+ENDDOCUMENT();

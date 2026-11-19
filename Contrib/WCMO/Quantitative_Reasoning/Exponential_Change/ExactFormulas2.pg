@@ -36,8 +36,28 @@ $time = Compute("log(1/2)/log(1-$rate/100)")->reduce();
 $ans[0] = $time;
 
 
+# HINTS messages for common wrong answers.
+$r = $rate/100;
+$timeHints = [
+    [ 70/$rate,
+      "That is the rule of 70, which only approximates the half-life. The exact half-life is "
+    . "log(1/2)/log(1 - r), with the rate r written as a decimal." ],
+    [ 72/$rate,
+      "That is the rule of 72, which only approximates the half-life. The exact half-life is "
+    . "log(1/2)/log(1 - r), with the rate r written as a decimal." ],
+    [ log(2)/$r,
+      "Divide log(1/2) by log(1 - r), not by r." ],
+    [ log(2)/log(10)/$r,
+      "Divide log(1/2) by log(1 - r), not by r." ],
+    [ log(1/2)/log(1 + $r),
+      "The element is decaying, so use log(1 - r), not log(1 + r). A half-life cannot be negative." ],
+    [ log(2)/log(1 - $r),
+      "A half-life cannot be negative. Use log(1/2) in the numerator, not log(2)." ],
+];
+
+
 BEGIN_PGML
-An unknown radioactive element is decaying at a rate of [$rate]% per hour. The exact half-life would be [_]{DecimalPlacesCmp($ans[0], 2)} hour(s) (rounded to the nearest hundredth).
+An unknown radioactive element is decaying at a rate of [$rate]% per hour. The exact half-life would be [_]{DecimalPlacesCmp($ans[0], 2, hints => $timeHints)} hour(s) (rounded to the nearest hundredth).
 END_PGML
 
 ENDDOCUMENT();

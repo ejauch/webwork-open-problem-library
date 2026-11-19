@@ -53,12 +53,21 @@ $z[$i] = ($vals[$i]-$mean)/$stddev;
 
 
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@zHints = ();
+foreach my $i (0 .. $#z) {
+    $zHints[$i] = [
+        [ -$z[$i], "Check the sign. A value below the mean has a negative standard score and a value "
+                 . "above the mean has a positive one: z = (value - mean)/(standard deviation)." ],
+    ];
+}
+
 BEGIN_PGML
 The ages of members of a club are normally distributed with a mean age of [$mean] years with a standard deviation of [$stddev] years. Find the standard scores associated with the following ages (rounded to 2 decimal places).
 
-- The standard score for [$vals[0]] years is [`z=`][_]{DecimalPlacesCmp($z[0], 2)} ;
-- The standard score for [$vals[1]] years is [`z=`][_]{DecimalPlacesCmp($z[1], 2)} ;
-- The standard score for [$vals[2]] years is [`z=`][_]{DecimalPlacesCmp($z[2], 2)} .
+- The standard score for [$vals[0]] years is [`z=`][_]{DecimalPlacesCmp($z[0], 2, hints => $zHints[0])} ;
+- The standard score for [$vals[1]] years is [`z=`][_]{DecimalPlacesCmp($z[1], 2, hints => $zHints[1])} ;
+- The standard score for [$vals[2]] years is [`z=`][_]{DecimalPlacesCmp($z[2], 2, hints => $zHints[2])} .
 
 
 END_PGML

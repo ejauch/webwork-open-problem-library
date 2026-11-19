@@ -1,0 +1,91 @@
+## DESCRIPTION
+## Quantitative Reasoning: Scientific notation - converting a small decimal number
+## ENDDESCRIPTION
+
+## DBsubject('Algebra')
+## DBchapter('Algebra of real numbers and simplifying expressions')
+## DBsection('Scientific notation')
+## Date('11/24/24')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('scientific notation','powers of ten','small numbers','decimals')
+
+
+DOCUMENT();
+
+loadMacros(
+    "PGstandard.pl",    # Standard macros for PG language
+    "PGML.pl",          # PGML markup and Math Objects
+    "contextScientificNotation.pl",
+    "answerHints.pl",
+    "PGcourse.pl",      # Customization file for the course
+);
+
+# Uncomment the following if you don't want to show which
+# answers are correct and which are incorrect
+#$showPartialCorrectAnswers = 0;
+
+Context("Numeric");
+
+# A four-digit number (its last digit is always odd, so it never ends in 0),
+# so the answer always has exactly 4 significant digits.
+$digits = random(1235,4200,16);
+
+$power = random(-12,-5,1);
+
+$abspower = abs($power);
+
+# The answer is $m x 10^$power.
+$m = $digits/1000;
+
+$a = $m*10**$power;
+
+# Build the decimal as a string (e.g. 0.00001235) so it is not displayed
+# in Perl's exponential form.
+my $i = 1;
+
+$string = "0.";
+
+while ($i<$abspower)
+{
+$string = join('',$string,"0");
+$i++;
+}
+
+$string = join('',$string,$digits);
+
+# The answer must be entered as a number between 1 and 10 with exactly
+# 3 digits after the decimal point, times a power of 10.
+Context("ScientificNotation");
+
+Context()->flags->set(
+    snDigits => 3,
+    snTrimZeros => 0,
+    snMinDigits => 3,
+    snMaxDigits => 3,
+);
+Context()->flags->set(tolType => 'digits', tolerance => 4, tolTruncation => 1);
+
+$ans = ScientificNotation($a);
+
+# HINTS messages for common wrong answers. Each one checks for a specific
+# wrong value, so the answer is still marked wrong.
+@snHints = (
+    sub { my ($c, $s) = @_; my $w = $m*10**($power-1); abs($s->value - $w) <= 1E-9*$w } =>
+        "Your power of 10 is off by one. Count how many places the decimal point moves "
+      . "to the right to put one nonzero digit in front of it.",
+    sub { my ($c, $s) = @_; my $w = $m*10**($power+1); abs($s->value - $w) <= 1E-9*$w } =>
+        "Your power of 10 is off by one. Count how many places the decimal point moves "
+      . "to the right to put one nonzero digit in front of it.",
+    sub { my ($c, $s) = @_; my $w = $m*10**(-$power); abs($s->value - $w) <= 1E-9*$w } =>
+        "The original number is less than 1, so the power of 10 should be negative, not positive.",
+);
+
+BEGIN_PGML
+Convert [$string] to scientific notation. (Keep all four significant digits.)
+
+[_]{$ans->cmp->withPostFilter(AnswerHints(@snHints))}{15}
+END_PGML
+
+
+ENDDOCUMENT();

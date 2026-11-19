@@ -55,6 +55,19 @@ foreach my $i (0..2) {
 $ans[$i] = Currency($amount * ((100 - $rate)/100)**($time[$i]/$interval));
 }
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@valueHints = ();
+foreach my $i (0 .. 2) {
+    my $t = $time[$i];
+    $valueHints[$i] = [
+        [ $amount*((100 - $rate)/100)**$t,
+          "The value drops by $rate% every $interval years, not every year, so the exponent is the "
+        . "number of $interval-year periods: $t/$interval." ],
+        [ $amount*(1 - $rate/100*$t/$interval),
+          "The value drops by $rate% of its current value each period, so the change is exponential, not linear." ],
+    ];
+}
+
 BEGIN_PGML
 The value of a laptop decreases at a rate of [$rate]% every [$interval] years. If the laptop is originally worth [$amount], answer the following (round values to the nearest cent):
 
@@ -62,11 +75,11 @@ The value of a laptop decreases at a rate of [$rate]% every [$interval] years. I
 
 - Is this exponential or linear change? [_]{$droptype}
 
-- What is the value of the laptop after [$time[0]] years? [_]{DecimalPlacesCmp($ans[0], 2)}{5}
+- What is the value of the laptop after [$time[0]] years? [_]{DecimalPlacesCmp($ans[0], 2, hints => $valueHints[0])}{5}
 
-- What is the value of the laptop after [$time[1]] years? [_]{DecimalPlacesCmp($ans[1], 2)}{5} 
+- What is the value of the laptop after [$time[1]] years? [_]{DecimalPlacesCmp($ans[1], 2, hints => $valueHints[1])}{5} 
 
-- What is the value of the laptop after [$time[2]] years? [_]{DecimalPlacesCmp($ans[2], 2)}{5}
+- What is the value of the laptop after [$time[2]] years? [_]{DecimalPlacesCmp($ans[2], 2, hints => $valueHints[2])}{5}
 END_PGML
 
 ENDDOCUMENT();

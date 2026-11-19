@@ -50,14 +50,30 @@ foreach my $i (0..2) {
 $ans[$i] = Currency($value * (2)**($time[$i]));
 }
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+@moneyHints = ();
+foreach my $i (0 .. 2) {
+    my $t = $time[$i];
+    $moneyHints[$i] = [
+        [ 2**$t,
+          "That is the number of coins. Multiply by the value of one $coin to get the amount of money." ],
+        [ $value*2**($t - 1),
+          "That is one doubling short. The coins double every day, so after $t days they have doubled $t times." ],
+        [ $value*2*$t,
+          "The number of coins doubles every day, so the growth is exponential, not linear." ],
+        [ $value*2**$t*100,
+          "That is the amount in cents. Give the answer in dollars." ],
+    ];
+}
+
 BEGIN_PGML
 Imagine you have a magic [$coin] that doubles into two coins at the start of every day. Give each answer in dollars and cents.
 
-- How much money would you have after [$time[0]] days? [_]{DecimalPlacesCmp($ans[0], 2)}{5}
+- How much money would you have after [$time[0]] days? [_]{DecimalPlacesCmp($ans[0], 2, hints => $moneyHints[0])}{5}
 
-- How much money would you have after [$time[1]] days? [_]{DecimalPlacesCmp($ans[1], 2)}{5} 
+- How much money would you have after [$time[1]] days? [_]{DecimalPlacesCmp($ans[1], 2, hints => $moneyHints[1])}{5} 
 
-- How much money would you have after [$time[2]] days? [_]{DecimalPlacesCmp($ans[2], 2)}{5}
+- How much money would you have after [$time[2]] days? [_]{DecimalPlacesCmp($ans[2], 2, hints => $moneyHints[2])}{5}
 END_PGML
 
 ENDDOCUMENT();

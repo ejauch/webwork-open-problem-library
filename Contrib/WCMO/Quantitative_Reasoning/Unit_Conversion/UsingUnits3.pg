@@ -36,11 +36,18 @@ $rate = $pay/$hours;
 
 $ans = $rate;
 
+# HINTS (added from FA24 WeBWorK answers): messages for common wrong answers.
+$rateHints = [
+    [ int($rate*100)/100, "Round to the nearest cent instead of cutting off the extra digits." ],
+    [ $pay*$hours,        "An hourly rate is dollars per hour, so divide the pay by the hours." ],
+    [ $hours/$pay,        "An hourly rate is dollars per hour, so divide the pay by the hours." ],
+];
+
 BEGIN_PGML
 
 What is your hourly rate if you earn $[$pay] for [$hours] hours of work? (Round to the nearest cent.)
 
-Hourly rate is $ [_]{DecimalPlacesCmp($ans, 2)}.
+Hourly rate is $ [_]{DecimalPlacesCmp($ans, 2, hints => $rateHints, hintTolerance => 0)}.
 END_PGML
 
 ENDDOCUMENT();

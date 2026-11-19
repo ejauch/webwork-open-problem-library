@@ -1,0 +1,185 @@
+## DESCRIPTION
+## Quantitative Reasoning: Venn diagram of a conditional argument - random argument form
+## ENDDESCRIPTION
+
+## DBsubject('Set theory and logic')
+## DBchapter('Propositional logic')
+## DBsection('Rules of inference')
+## Date('12/01/24')
+## Author('Erich Jauch')
+## Institution('Westminster College (Missouri)')
+## KEYWORDS('logic','conditional','deductive argument','validity','Venn diagrams')
+
+
+DOCUMENT();        # This should be the first executable line in the problem.
+
+loadMacros(
+  "PGstandard.pl",
+  'PGML.pl',
+  'niceTables.pl',
+  'PGtikz.pl',
+  'parserRadioButtons.pl',
+  'parserPopUp.pl',
+  "PGcourse.pl"
+);
+
+
+$showPartialCorrectAnswers = 1;
+
+$graph1 = createTikZImage();
+$graph2 = createTikZImage();
+$graph3 = createTikZImage();
+$graph4 = createTikZImage();
+$graph1->tikzLibraries("arrows.meta");
+$graph2->tikzLibraries("arrows.meta");
+$graph3->tikzLibraries("arrows.meta");
+$graph4->tikzLibraries("arrows.meta");
+
+
+# 0 = affirming the hypothesis, 1 = affirming the conclusion,
+# 2 = denying the hypothesis, 3 = denying the conclusion
+$par = random(0,3,1);
+
+# the options for subsets and supsets (and their negations) for the Venn diagrams. It is important that these two arrays be the same size and the positions match
+
+@supset = ("likes the cold", "enjoys physical fitness", "has artistic talents", "enjoys outdoor activities", "appreciates spicy food", "loves animals", "enjoys music", "is multilingual", "is interested in technology", "values education", "is environmentally conscious", "likes adventure", "is family-oriented", "is interested in fashion", "enjoys reading", "practices mindfulness", "is health-conscious", "is interested in history");
+@nsupset = ("does not like the cold", "does not enjoy physical fitness", "does not have artistic talents", "does not enjoy outdoor activities", "does not appreciate spicy food", "does not love animals", "does not enjoy music", "is not multilingual", "is not interested in technology", "does not value education", "is not environmentally conscious", "does not like adventure", "is not family-oriented", "is not interested in fashion", "does not enjoy reading", "does not practice mindfulness", "is not health-conscious", "is not interested in history");
+
+@subset = ("lives in Alaska", "practices yoga", "paints landscapes", "goes hiking", "frequently eats Indian cuisine", "volunteers at an animal shelter", "plays the guitar", "speaks Spanish", "codes in Python", "attends university lectures", "uses reusable shopping bags", "goes skydiving", "hosts family gatherings", "designs their own clothing", "reads mystery novels", "meditates daily", "follows a plant-based diet", "visits historical landmarks");
+@nsubset = ("does not live in Alaska", "does not practice yoga", "does not paint landscapes", "does not go hiking", "does not frequently eat Indian cuisine", "does not volunteer at an animal shelter", "does not play the guitar", "does not speak Spanish", "does not code in Python", "does not attend university lectures", "does not use reusable shopping bags", "does not go skydiving", "does not host family gatherings", "does not design their own clothing", "does not read mystery novels", "does not meditate daily", "does not follow a plant-based diet", "does not visit historical landmarks");
+
+# grabs the last index to then randomly select which option for the problem.
+$length = $#supset;
+
+$l = random(0,$length,1);
+
+$sup = $supset[$l];
+$sub = $subset[$l];
+
+# every phrase is singular, so it reads correctly after "that person" and after a name
+$conditional = "If a person $sub, then that person $sup.";
+
+@names = ("Aaron", "Aisha", "Hiro", "Ananya", "Diego", "Mei", "Omar", "Leila", "Chen", "Fatima", "Ibrahim", "Sakura", "Raj", "Amara", "Kwame", "Zara", "Niko", "Yara");
+
+$name = $names[random(0,$#names,1)];
+
+$prop1 = $conditional;
+
+if ($par == 0) {
+$prop2 = "$name $subset[$l].";
+$con = "$name $supset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Valid', placeholder=>"- Select One -");
+$ans = 'A';
+}
+elsif ($par == 1) {
+$prop2 = "$name $supset[$l].";
+$con = "$name $subset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Invalid', placeholder=>"- Select One -");
+$ans = 'B';
+}
+elsif ($par == 2) {
+$prop2 = "$name $nsubset[$l].";
+$con = "$name $nsupset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Invalid', placeholder=>"- Select One -");
+$ans = 'C';
+}
+else {
+$prop2 = "$name $nsupset[$l].";
+$con = "$name $nsubset[$l].";
+$dropdown1 = DropDown([ 'Valid', 'Invalid' ], 'Valid', placeholder=>"- Select One -");
+$ans = 'D';
+}
+
+$graph1->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+    \node at (-10,4) {\Huge\textbf{A}};
+\begin{scope} [fill opacity = .4]
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+\end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (0.25,-1.5) {\Huge\textbf{X}};
+END_TIKZ
+
+$graph2->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+    \node at (-10,4) {\Huge\textbf{B}};
+  \begin{scope} [fill opacity = .4]
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+  \end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (1,-1.5) {\Huge\textbf{X}};
+END_TIKZ
+
+$graph3->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+  \node at (-10,4) {\Huge\textbf{C}};
+  \begin{scope} [fill opacity = .4]
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+  \end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (3,0) {\Huge\textbf{X}};
+END_TIKZ
+$graph4->BEGIN_TIKZ
+\tikzset{>={Stealth[scale=1]}}
+  \draw[ultra thick, fill=white] (-11,5) rectangle (11,-5);
+    \node at (-10,4) {\Huge\textbf{D}};
+  \begin{scope} [fill opacity = .4]
+    \draw[fill=blue, draw = black, ultra thick] (0,0) circle (3);
+    \draw[fill=red, draw = black, ultra thick] (0,-1.5) circle(1);
+  \end{scope}
+	\draw[->,>=stealth,black] (-4,-2) -- (-0.25,-1.5);
+	\node at (-5,-2.5) {$sub};
+	\draw[->,>=stealth,black] (-4,3) -- (-0.5,1);
+	\node at (-5.75,3.5) {$sup};
+	\node at (4,0) {\Huge\textbf{X}};
+END_TIKZ
+
+$radio1 = RadioButtons(
+    [ 'A', 'B', 'C', 'D' ],
+    $ans,    # correct answer
+     separator => $SPACE x 4
+);
+
+$refreshCachedImages = 1;
+
+BEGIN_PGML
+Consider the following deductive argument:
+
+*Premise:* [$prop1]
+
+*Premise:* [$prop2]
+
+*Conclusion:* [$con]
+
+
+The Venn diagram below that matches the argument at the beginning of this problem is
+
+>>[__]{$radio1}<<
+
+[@ LayoutTable(
+  [  [ image(insertGraph($graph1), width=>300, tex_size=>1000), image(insertGraph($graph2), width=>300, tex_size=>1000) ],
+    [ image(insertGraph($graph3), width=>300, tex_size=>1000), image(insertGraph($graph4), width=>300, tex_size=>1000) ] ] ) @]*
+
+>>(_Click to see a larger image_)<<
+
+Based on the Venn diagram, the argument is [__]{$dropdown1}.
+
+END_PGML
+
+
+ENDDOCUMENT();
